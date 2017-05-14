@@ -1,5 +1,5 @@
-function addTest(a, b) {
+function startBattle(a, b) {
     return a + b;
 }
-export { addTest };
+export { startBattle };
 //# sourceMappingURL=index.js.map

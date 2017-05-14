@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;index&quot; | minesweeper</title>
+	<title>&quot;Field&quot; | minesweeper</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_index_.html">&quot;index&quot;</a>
+					<a href="_field_.html">&quot;Field&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;index&quot;</h1>
+			<h1>External module &quot;Field&quot;</h1>
 		</div>
 	</div>
 </header>
@@ -69,39 +69,127 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#log" class="tsd-kind-icon">log</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_index_.html#startbattle" class="tsd-kind-icon">start<wbr>Battle</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#getbombs" class="tsd-kind-icon">get<wbr>Bombs</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#getinitialfield" class="tsd-kind-icon">get<wbr>Initial<wbr>Field</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#isvalidconfig" class="tsd-kind-icon">is<wbr>Valid<wbr>Config</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="log" class="tsd-anchor"></a>
+					<h3>log</h3>
+					<div class="tsd-signature tsd-kind-icon">log<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;LogFile({})</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in Field.ts:5</li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="startbattle" class="tsd-anchor"></a>
-					<h3>start<wbr>Battle</h3>
+					<a name="getbombs" class="tsd-anchor"></a>
+					<h3>get<wbr>Bombs</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">start<wbr>Battle<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Bombs<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a>, fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/a271109/src/index.ts#L1">index.ts:1</a></li>
+									<li>Defined in Field.ts:7</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>a: <span class="tsd-signature-type">number</span></h5>
+									<h5>field: <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h5>
 								</li>
 								<li>
-									<h5>b: <span class="tsd-signature-type">number</span></h5>
+									<h5>fieldConfig: <a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="getinitialfield" class="tsd-anchor"></a>
+					<h3>get<wbr>Initial<wbr>Field</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Initial<wbr>Field<span class="tsd-signature-symbol">(</span>fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Field.ts:23</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fieldConfig: <a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="isvalidconfig" class="tsd-anchor"></a>
+					<h3>is<wbr>Valid<wbr>Config</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Valid<wbr>Config<span class="tsd-signature-symbol">(</span>fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in Field.ts:18</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fieldConfig: <a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -116,7 +204,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="_battle_.html">"<wbr>Battle"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="_field_.html">"<wbr>Field"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -131,15 +219,24 @@
 					<li class=" tsd-kind-external-module">
 						<a href="_position_.html">"<wbr>Position"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="_index_.html">"index"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#log" class="tsd-kind-icon">log</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_index_.html#startbattle" class="tsd-kind-icon">start<wbr>Battle</a>
+						<a href="_field_.html#getbombs" class="tsd-kind-icon">get<wbr>Bombs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#getinitialfield" class="tsd-kind-icon">get<wbr>Initial<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#isvalidconfig" class="tsd-kind-icon">is<wbr>Valid<wbr>Config</a>
 					</li>
 				</ul>
 			</nav>

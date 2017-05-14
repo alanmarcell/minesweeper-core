@@ -1,11 +1,10 @@
-import { equal } from 'ptz-assert';
-import { addTest } from './index';
+// import { equal } from 'ptz-assert';
 
-describe('minesweeper', () => {
-    describe('addTest', () => {
-        it('2 + 3 = 5', () => {
-            const sum = addTest(2, 3);
-            equal(sum, 5);
-        });
-    });
-});
+// describe('minesweeper', () => {
+//     describe('addTest', () => {
+//         it('2 + 3 = 5', () => {
+//             const sum = addTest(2, 3);
+//             equal(sum, 5);
+//         });
+//     });
+// });

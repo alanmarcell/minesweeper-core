@@ -2205,11 +2205,32 @@ ptz-assert@^1.6.3:
     assert "^1.4.1"
     ptz-log "^1.0.0"
 
+ptz-core-domain@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/ptz-core-domain/-/ptz-core-domain-1.4.0.tgz#821d02adab6faf67c7f8ca4f13e7100ef461682f"
+  dependencies:
+    ptz-log "^1.0.0"
+    ptz-validations "^1.0.0"
+    shortid "^2.2.6"
+
+ptz-log-file@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ptz-log-file/-/ptz-log-file-1.0.2.tgz#15ca4469ab5804a30f97e02f0125d7d0c68ecee2"
+  dependencies:
+    moment "^2.18.1"
+    ptz-log "^1.0.0"
+
 ptz-log@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ptz-log/-/ptz-log-1.0.1.tgz#8a91c18a4b34a70241ed9a0489b128c21c8ccc75"
   dependencies:
     moment "^2.18.1"
+
+ptz-validations@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ptz-validations/-/ptz-validations-1.1.0.tgz#f44dc87c6eeac1495d7a3e1ee11a6d5bd90c821b"
+  dependencies:
+    ptz-log "^1.0.0"
 
 punycode@^1.4.1:
   version "1.4.1"
@@ -2487,6 +2508,10 @@ shelljs@^0.7.0:
     glob "^7.0.0"
     interpret "^1.0.0"
     rechoir "^0.6.2"
+
+shortid@^2.2.6:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.8.tgz#033b117d6a2e975804f6f0969dbe7d3d0b355131"
 
 signal-exit@^2.0.0:
   version "2.1.2"

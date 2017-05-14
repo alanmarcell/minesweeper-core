@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function addTest(a, b) {
+function startBattle(a, b) {
     return a + b;
 }
-exports.addTest = addTest;
+exports.startBattle = startBattle;
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
