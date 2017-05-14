@@ -1,0 +1,1 @@
+{"version":3,"sources":["../dist-esnext/index.js"],"names":["addTest","a","b"],"mappings":";;;;;AAAA,SAASA,OAAT,CAAiBC,CAAjB,EAAoBC,CAApB,EAAuB;AACnB,WAAOD,IAAIC,CAAX;AACH;QACQF,O,GAAAA,O;AACT","file":"index.js","sourcesContent":["function addTest(a, b) {\n    return a + b;\n}\nexport { addTest };\n//# sourceMappingURL=index.js.map"]}
