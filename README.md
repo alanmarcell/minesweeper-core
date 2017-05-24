@@ -1,5 +1,6 @@
 # minesweeper
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0ee465301ea44e00a8fdd4556bd4d45b)](https://www.codacy.com/app/AlanMarcell/minesweeper?utm_source=github.com&utm_medium=referral&utm_content=AlanMarcell/minesweeper&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/alanmarcell/minesweeper.svg)](https://travis-ci.org/alanmarcell/minesweeper)
 [![NPM](https://img.shields.io/npm/v/minesweeper.svg)](https://www.npmjs.com/package/minesweeper)
 [![codecov.io](http://codecov.io/github/alanmarcell/minesweeper/coverage.svg)](http://codecov.io/github/alanmarcell/minesweeper)
