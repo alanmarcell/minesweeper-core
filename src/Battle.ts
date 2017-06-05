@@ -7,10 +7,8 @@ import { IField, IFieldConfig } from './IField';
 
 function startBattle() {
     const fieldConfig: IFieldConfig = {
-        size: {
-            x: 10,
-            y: 10
-        },
+        width: 10,
+        heigth: 10,
         bombs: 10
     };
 

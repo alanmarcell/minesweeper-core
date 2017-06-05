@@ -3,45 +3,52 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getInitialField = undefined;
-
-var _ptzLogFile = require('ptz-log-file');
-
-var log = (0, _ptzLogFile.LogFile)({});
+// import { LogFile } from 'ptz-log-file';
+// const log = LogFile({});
 function getBombs(field, fieldConfig) {
     for (var i = 0; i < fieldConfig.bombs; i++) {
-        var x = Math.floor((fieldConfig.size.x - 1) * Math.random() + 1);
-        var y = Math.floor((fieldConfig.size.y - 1) * Math.random() + 1);
-        if (field[x][y] && field[x][y].isBomb) i--;
-        field[x][y].isBomb = true;
+        var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
+        var heigth = Math.floor((fieldConfig.heigth - 1) * Math.random() + 1);
+        if (field[width][heigth] && field[width][heigth].isBomb) i--;
+        field[width][heigth].isBomb = true;
     }
     return field;
 }
 function isValidConfig(fieldConfig) {
-    var totalFields = fieldConfig.size.x * fieldConfig.size.y;
+    var totalFields = fieldConfig.width * fieldConfig.heigth;
     return totalFields > fieldConfig.bombs ? true : false;
 }
-function getInitialField(fieldConfig) {
-    try {
-        if (!isValidConfig(fieldConfig)) {
-            throw new Error('Invalid field configuration');
-            // return;
-        }
-        var initialField = [];
-        for (var i = 0; i < fieldConfig.size.x; i++) {
-            initialField[i] = [];
-            for (var j = 0; j < fieldConfig.size.y; j++) {
-                var pos = { x: i, y: j, isBomb: null };
-                initialField[i][j] = pos;
+function countNearBombs(field) {
+    var countedField = field;
+    field.map(function (col, colIndex) {
+        return col.map(function (pos, index) {
+            if (pos.isBomb) {
+                for (var i = -1; i < 2; i++) {
+                    for (var j = -1; j < 2; j++) {
+                        if (countedField[pos.x + i] && countedField[pos.x + i][pos.y + j]) countedField[pos.x + i][pos.y + j].nearBombs++;
+                    }
+                }
             }
-        }
-        var bombedField = getBombs(initialField, fieldConfig);
-        return bombedField;
-    } catch (err) {
-        log(err);
-        return err;
+        });
+    });
+    return countedField;
+}
+function getInitialField(fieldConfig) {
+    if (!isValidConfig(fieldConfig)) {
+        throw new Error('Invalid field configuration');
     }
+    var initialField = [];
+    for (var i = 0; i < fieldConfig.width; i++) {
+        initialField[i] = [];
+        for (var j = 0; j < fieldConfig.heigth; j++) {
+            var pos = { x: i, y: j, isBomb: false, nearBombs: 0 };
+            initialField[i][j] = pos;
+        }
+    }
+    var bombedField = getBombs(initialField, fieldConfig);
+    return bombedField;
 }
 exports.getInitialField = getInitialField;
+exports.countNearBombs = countNearBombs;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

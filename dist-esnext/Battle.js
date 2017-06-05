@@ -4,10 +4,8 @@ import { getInitialField } from './Field';
 // const log = LogFile({});
 function startBattle() {
     const fieldConfig = {
-        size: {
-            x: 10,
-            y: 10
-        },
+        width: 10,
+        heigth: 10,
         bombs: 10
     };
     const field = getInitialField(fieldConfig);

@@ -1,6 +1,8 @@
 'use strict';
 
-var _ptzAssert = require('ptz-assert');
+var _chai = require('chai');
+
+var a = _interopRequireWildcard(_chai);
 
 var _Field = require('./Field');
 
@@ -8,6 +10,10 @@ var field = _interopRequireWildcard(_Field);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var should = a.should();
+// import { LogFile } from 'ptz-log-file';
+
+a.default.should();
 // import { IPosition } from './IPosition';
 // const log = LogFile({});
 describe('Field', function () {
@@ -16,10 +22,10 @@ describe('Field', function () {
         var initialField;
         beforeEach(function () {
             fieldConfig = {
-                bombs: 5,
-                size: { x: 5, y: 5 }
+                bombs: 5, width: 5, heigth: 5
             };
             initialField = field.getInitialField(fieldConfig);
+            initialField.should.be.an('array');
         });
         it('bombs in the field should match fieldConfig bombs', function () {
             var bombs = 0;
@@ -28,23 +34,28 @@ describe('Field', function () {
                     return pos.isBomb ? bombs++ : bombs;
                 });
             });
-            (0, _ptzAssert.equal)(bombs, fieldConfig.bombs);
+            bombs.should.be.equal(fieldConfig.bombs);
         });
-        it('field size should match fieldConfig size', function () {
-            (0, _ptzAssert.equal)(initialField.length, fieldConfig.size.x);
-            (0, _ptzAssert.equal)(initialField[0].length, fieldConfig.size.y);
+        it('should field size match fieldConfig size', function () {
+            initialField.length.should.be.equal(fieldConfig.width);
+            initialField[0].length.should.be.equal(fieldConfig.heigth);
         });
         it('should throw an error if bombs number is bigger than fild size', function () {
-            fieldConfig = {
-                bombs: 27,
-                size: { x: 5, y: 5 }
-            };
+            try {
+                var invalidFieldConfig = {
+                    bombs: 27, width: 5, heigth: 5
+                };
+                should.not.exist(initialField = field.getInitialField(invalidFieldConfig));
+            } catch (e) {
+                e.should.be.an('error');
+            }
+        });
+        it('count near bombs', function () {
             initialField = field.getInitialField(fieldConfig);
-            (0, _ptzAssert.ok)(initialField);
+            var countedField = field.countNearBombs(initialField);
+            countedField.should.be.an('array');
         });
     });
 });
 //# sourceMappingURL=Field.test.js.map
-
-// import { LogFile } from 'ptz-log-file';
 //# sourceMappingURL=Field.test.js.map

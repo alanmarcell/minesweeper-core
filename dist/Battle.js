@@ -11,10 +11,8 @@ var _Field = require('./Field');
 // const log = LogFile({});
 function startBattle() {
     var fieldConfig = {
-        size: {
-            x: 10,
-            y: 10
-        },
+        width: 10,
+        heigth: 10,
         bombs: 10
     };
     var field = (0, _Field.getInitialField)(fieldConfig);

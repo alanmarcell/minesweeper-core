@@ -1,40 +1,47 @@
-import { LogFile } from 'ptz-log-file';
-const log = LogFile({});
+// import { LogFile } from 'ptz-log-file';
+// const log = LogFile({});
 function getBombs(field, fieldConfig) {
     for (let i = 0; i < fieldConfig.bombs; i++) {
-        const x = Math.floor((fieldConfig.size.x - 1) * Math.random() + 1);
-        const y = Math.floor((fieldConfig.size.y - 1) * Math.random() + 1);
-        if (field[x][y] && field[x][y].isBomb)
+        const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
+        const heigth = Math.floor((fieldConfig.heigth - 1) * Math.random() + 1);
+        if (field[width][heigth] && field[width][heigth].isBomb)
             i--;
-        field[x][y].isBomb = true;
+        field[width][heigth].isBomb = true;
     }
     return field;
 }
 function isValidConfig(fieldConfig) {
-    const totalFields = fieldConfig.size.x * fieldConfig.size.y;
+    const totalFields = fieldConfig.width * fieldConfig.heigth;
     return totalFields > fieldConfig.bombs ? true : false;
 }
-function getInitialField(fieldConfig) {
-    try {
-        if (!isValidConfig(fieldConfig)) {
-            throw new Error('Invalid field configuration');
-            // return;
-        }
-        const initialField = [];
-        for (let i = 0; i < fieldConfig.size.x; i++) {
-            initialField[i] = [];
-            for (let j = 0; j < fieldConfig.size.y; j++) {
-                const pos = { x: i, y: j, isBomb: null };
-                initialField[i][j] = pos;
+function countNearBombs(field) {
+    const countedField = field;
+    field.map((col, colIndex) => col.map((pos, index) => {
+        if (pos.isBomb) {
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    if (countedField[pos.x + i] && countedField[pos.x + i][pos.y + j])
+                        countedField[pos.x + i][pos.y + j].nearBombs++;
+                }
             }
         }
-        const bombedField = getBombs(initialField, fieldConfig);
-        return bombedField;
-    }
-    catch (err) {
-        log(err);
-        return err;
-    }
+    }));
+    return countedField;
 }
-export { getInitialField };
+function getInitialField(fieldConfig) {
+    if (!isValidConfig(fieldConfig)) {
+        throw new Error('Invalid field configuration');
+    }
+    const initialField = [];
+    for (let i = 0; i < fieldConfig.width; i++) {
+        initialField[i] = [];
+        for (let j = 0; j < fieldConfig.heigth; j++) {
+            const pos = { x: i, y: j, isBomb: false, nearBombs: 0 };
+            initialField[i][j] = pos;
+        }
+    }
+    const bombedField = getBombs(initialField, fieldConfig);
+    return bombedField;
+}
+export { getInitialField, countNearBombs };
 //# sourceMappingURL=Field.js.map

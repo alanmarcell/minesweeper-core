@@ -49,6 +49,8 @@
     "typescript": "^2.2.2"
   },
   "dependencies": {
+    "@types/chai": "^4.0.0",
+    "chai": "^4.0.1",
     "ptz-core-domain": "^1.4.0",
     "ptz-log": "^1.0.0",
     "ptz-log-file": "^1.0.2"
