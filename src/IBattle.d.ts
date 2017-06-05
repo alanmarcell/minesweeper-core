@@ -1,5 +1,8 @@
+import { IField } from './IField';
+
 export interface IBattle {
-    newPropTest?: string;
+    isOver: boolean;
+    field: IField;
 }
 
 export interface IBattleArgs {

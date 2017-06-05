@@ -1,14 +1,13 @@
 type isBomb = boolean;
 
-export interface IPosition {
-    x: number;
-    y: number;
+export interface IPosition extends IPositionArgs {
     isBomb: boolean;
     nearBombs: number;
-    opened: false;
+    opened: boolean;
     marked: number;
 }
 
 export interface IPositionArgs {
-    newPropTest?: string;
+    x: number;
+    y: number;
 }
