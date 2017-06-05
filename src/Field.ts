@@ -41,11 +41,46 @@ function getEmptyField(fieldConfig: IFieldConfig) {
     for (let i = 0; i < fieldConfig.width; i++) {
         initialField[i] = [];
         for (let j = 0; j < fieldConfig.heigth; j++) {
-            const pos: IPosition = { x: i, y: j, isBomb: false, nearBombs: 0 };
+            const pos: IPosition = { x: i, y: j, isBomb: false, nearBombs: 0, opened: false, marked: 0 };
             initialField[i][j] = pos;
         }
     }
     return initialField;
+}
+
+function logField(field) {
+    const countedField: IField = field;
+    let firstLine = '   |';
+    field.map((f, index) => firstLine += ' ' + (index + 1) + ' |');
+    console.log(firstLine);
+    let row: string;
+    field.map((col, colIndex) => {
+        var line = '|';
+        row = '   ';
+        col.map((pos, index) => {
+            if (index === 0 && colIndex === 0)
+                line = line;
+            if (index === 0)
+                line = ' ' + (colIndex + 1) + ' |';
+            if (countedField[pos.x][pos.y].opened) {
+                if (countedField[pos.x][pos.y].isBomb) {
+                    line += ' * ';
+                    row += '---';
+                } else {
+                    line += ' ' + countedField[pos.x][pos.y].nearBombs + ' ';
+                    row += '---';
+                }
+            } else {
+                line += '   ';
+                row += '---';
+            }
+            line += '|';
+            row += '-';
+        });
+        console.log(row);
+        console.log(line);
+    });
+    console.log(row);
 }
 
 function getInitialField(fieldConfig: IFieldConfig): IField {
@@ -60,5 +95,5 @@ function getInitialField(fieldConfig: IFieldConfig): IField {
 }
 
 export {
-    getInitialField, countNearBombs
+    getInitialField, countNearBombs, logField
 };

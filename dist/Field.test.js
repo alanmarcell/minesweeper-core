@@ -22,7 +22,7 @@ describe('Field', function () {
         var initialField;
         beforeEach(function () {
             fieldConfig = {
-                bombs: 5, width: 5, heigth: 5
+                bombs: 9, width: 9, heigth: 9
             };
             initialField = field.getInitialField(fieldConfig);
             initialField.should.be.an('array');
