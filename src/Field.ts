@@ -36,11 +36,7 @@ function countNearBombs(field: IField): IField {
     return countedField;
 }
 
-function getInitialField(fieldConfig: IFieldConfig): IField {
-
-    if (!isValidConfig(fieldConfig)) {
-        throw new Error('Invalid field configuration');
-    }
+function getEmptyField(fieldConfig: IFieldConfig) {
     const initialField = [];
     for (let i = 0; i < fieldConfig.width; i++) {
         initialField[i] = [];
@@ -49,8 +45,18 @@ function getInitialField(fieldConfig: IFieldConfig): IField {
             initialField[i][j] = pos;
         }
     }
-    const bombedField: IField = getBombs(initialField, fieldConfig);
-    return bombedField;
+    return initialField;
+}
+
+function getInitialField(fieldConfig: IFieldConfig): IField {
+
+    if (!isValidConfig(fieldConfig)) {
+        throw new Error('Invalid field configuration');
+    }
+    const emptyField = getEmptyField(fieldConfig);
+    const bombedField: IField = getBombs(emptyField, fieldConfig);
+    const countedField = countNearBombs(bombedField);
+    return countedField;
 }
 
 export {
