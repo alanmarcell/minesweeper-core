@@ -12,8 +12,7 @@ describe('Field', () => {
         var initialField: IField;
         beforeEach(() => {
             fieldConfig = {
-                bombs: 5,
-                size: { x: 5, y: 5 }
+                bombs: 5, width: 5, heigth: 5
             };
             initialField = field.getInitialField(fieldConfig);
         });
@@ -22,17 +21,24 @@ describe('Field', () => {
             initialField.map(col => col.map(pos => pos.isBomb ? bombs++ : bombs));
             equal(bombs, fieldConfig.bombs);
         });
-        it('field size should match fieldConfig size', () => {
-            equal(initialField.length, fieldConfig.size.x);
-            equal(initialField[0].length, fieldConfig.size.y);
+        it('should field size match fieldConfig size', () => {
+            equal(initialField.length, fieldConfig.width);
+            equal(initialField[0].length, fieldConfig.heigth);
         });
         it('should throw an error if bombs number is bigger than fild size', () => {
-            fieldConfig = {
-                bombs: 27,
-                size: { x: 5, y: 5 }
-            };
+            try {
+                const invalidFieldConfig = {
+                    bombs: 27, width: 5, heigth: 5
+                };
+                initialField = field.getInitialField(invalidFieldConfig);
+            } catch (e) {
+                ok(e);
+            }
+        });
+        it('count near bombs', () => {
             initialField = field.getInitialField(fieldConfig);
-            ok(initialField);
+            const countedField = field.countNearBombs(initialField);
+            ok(countedField);
         });
     });
 });

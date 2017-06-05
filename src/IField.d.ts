@@ -3,11 +3,10 @@ import { IPosition } from './IPosition';
 export type IField = IPosition[][];
 
 export interface IFieldSize {
-    x: number;
-    y: number;
+    width: number;
+    heigth: number;
 }
 
-export interface IFieldConfig {
-    size: IFieldSize;
+export interface IFieldConfig extends IFieldSize {
     bombs: number;
 }
