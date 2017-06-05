@@ -5,6 +5,8 @@ export interface IPosition {
     y: number;
     isBomb: boolean;
     nearBombs: number;
+    opened: false;
+    marked: number;
 }
 
 export interface IPositionArgs {
