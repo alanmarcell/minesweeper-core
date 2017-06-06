@@ -38,7 +38,10 @@ function getEmptyField(fieldConfig) {
     for (var i = 0; i < fieldConfig.width; i++) {
         initialField[i] = [];
         for (var j = 0; j < fieldConfig.heigth; j++) {
-            var pos = { x: i, y: j, isBomb: false, nearBombs: 0, opened: false, marked: 0 };
+            var pos = {
+                x: i, y: j, isBomb: false, nearBombs: 0,
+                opened: false, marked: 0, isValid: true
+            };
             initialField[i][j] = pos;
         }
     }
@@ -76,7 +79,7 @@ function logField(field) {
         console.log(row);
         console.log(line);
     });
-    console.log(row);
+    console.log(row + '\n');
 }
 function getInitialField(fieldConfig) {
     if (!isValidConfig(fieldConfig)) {

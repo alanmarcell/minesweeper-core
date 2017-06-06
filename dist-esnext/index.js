@@ -1,8 +1,10 @@
 import { openPosition, startBattle } from './Battle';
-var play = startBattle();
+import { logField } from './Field';
+var battle = startBattle();
 do {
-    const x = Math.floor((play.field.length - 1) * Math.random() + 1);
-    const y = Math.floor((play.field[0].length - 1) * Math.random() + 1);
-    play = openPosition(play, { x, y });
-} while (!play.isOver);
+    const x = Math.floor((battle.field.length - 1) * Math.random() + 1);
+    const y = Math.floor((battle.field[0].length - 1) * Math.random() + 1);
+    battle = openPosition(battle, { x, y });
+    logField(battle.field);
+} while (!battle.isOver);
 //# sourceMappingURL=index.js.map

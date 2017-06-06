@@ -1,11 +1,12 @@
 import { openPosition, startBattle } from './Battle';
+import { logField } from './Field';
 
-var play = startBattle();
+var battle = startBattle();
 do {
+    const x = Math.floor((battle.field.length - 1) * Math.random() + 1);
+    const y = Math.floor((battle.field[0].length - 1) * Math.random() + 1);
 
-    const x = Math.floor((play.field.length - 1) * Math.random() + 1);
-    const y = Math.floor((play.field[0].length - 1) * Math.random() + 1);
-
-    play = openPosition(play, { x, y });
+    battle = openPosition(battle, { x, y });
+    logField(battle.field);
 }
-while (!play.isOver);
+while (!battle.isOver);

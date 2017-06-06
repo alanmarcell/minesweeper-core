@@ -7,8 +7,6 @@ exports.openPosition = exports.startBattle = undefined;
 
 var _Field = require('./Field');
 
-// import { LogFile } from 'ptz-log-file';
-// const log = LogFile({});
 function startBattle() {
     var fieldConfig = {
         width: 9,
@@ -20,28 +18,37 @@ function startBattle() {
         field: field,
         isOver: false
     };
-    (0, _Field.logField)(field);
     return battle;
-} // import { IBattle, IBattleArgs } from './IBattle';
-
+}
 function gameOver(field) {
-    var countedField = field;
-    field.map(function (col, colIndex) {
-        return col.map(function (pos, index) {
-            countedField[pos.x][pos.y].opened = true;
+    var finalField = field;
+    field.map(function (col) {
+        return col.map(function (pos) {
+            return finalField[pos.x][pos.y].opened = true;
         });
     });
-    return countedField;
+    return finalField;
+}
+function positionIsInvalid(field, position) {
+    return position.x < 0 || position.x >= field.length || position.y < 0 || position.y >= field[0].length;
 }
 function openPosition(battle, position) {
+    if (positionIsInvalid(battle.field, position)) return battle;
     var pos = battle.field[position.x][position.y];
+    if (pos.opened) return battle;
     if (pos.isBomb) {
         battle.isOver = true;
         battle.field = gameOver(battle.field);
-        console.log('GAME OVER!');
+        console.log('GAME OVER!', position);
+        return battle;
     }
     pos.opened = true;
-    (0, _Field.logField)(battle.field);
+    if (pos.nearBombs === 0) for (var i = -1; i < 2; i++) {
+        for (var j = -1; j < 2; j++) {
+            if (i === 0 && j === 0) continue;
+            battle = openPosition(battle, { x: pos.x + i, y: pos.y + j });
+        }
+    }
     return battle;
 }
 exports.startBattle = startBattle;

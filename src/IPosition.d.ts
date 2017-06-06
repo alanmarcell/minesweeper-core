@@ -5,6 +5,7 @@ export interface IPosition extends IPositionArgs {
     nearBombs: number;
     opened: boolean;
     marked: number;
+    isValid: boolean;
 }
 
 export interface IPositionArgs {

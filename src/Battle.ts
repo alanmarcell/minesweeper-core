@@ -1,12 +1,9 @@
-// import { IBattle, IBattleArgs } from './IBattle';
-import { getInitialField, logField } from './Field';
+import { getInitialField } from './Field';
 import { IBattle } from './IBattle';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
-// import { LogFile } from 'ptz-log-file';
-// const log = LogFile({});
 
-function startBattle() {
+function startBattle(): IBattle {
     const fieldConfig: IFieldConfig = {
         width: 9,
         heigth: 9,
@@ -18,29 +15,45 @@ function startBattle() {
         field,
         isOver: false
     };
-    logField(field);
     return battle;
 }
 
 function gameOver(field: IField): IField {
-    const countedField: IField = field;
-    field.map((col, colIndex) => col.map((pos, index) => {
-
-        countedField[pos.x][pos.y].opened = true;
-
-    }));
-    return countedField;
+    const finalField: IField = field;
+    field.map(col => col.map(pos =>
+        finalField[pos.x][pos.y].opened = true
+    ));
+    return finalField;
 }
 
-function openPosition(battle: IBattle, position: IPositionArgs) {
+function positionIsInvalid(field: IField, position: IPositionArgs): boolean {
+    return position.x < 0 || position.x >= field.length || position.y < 0 || position.y >= field[0].length;
+}
+
+function openPosition(battle: IBattle, position: IPositionArgs): IBattle {
+    if (positionIsInvalid(battle.field, position))
+        return battle;
+
     const pos: IPosition = battle.field[position.x][position.y];
+    if (pos.opened)
+        return battle;
+
     if (pos.isBomb) {
         battle.isOver = true;
         battle.field = gameOver(battle.field);
-        console.log('GAME OVER!');
+        console.log('GAME OVER!', position);
+        return battle;
     }
+
     pos.opened = true;
-    logField(battle.field);
+    if (pos.nearBombs === 0)
+        for (let i = -1; i < 2; i++) {
+            for (let j = -1; j < 2; j++) {
+                if (i === 0 && j === 0)
+                    continue;
+                battle = openPosition(battle, { x: pos.x + i, y: pos.y + j });
+            }
+        }
     return battle;
 }
 
