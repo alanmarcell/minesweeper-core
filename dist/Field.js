@@ -3,8 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-// import { LogFile } from 'ptz-log-file';
-// const log = LogFile({});
 function getBombs(field, fieldConfig) {
     for (var i = 0; i < fieldConfig.bombs; i++) {
         var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);

@@ -1,9 +1,5 @@
-// import R from 'ramda';
 import { IField, IFieldConfig } from './IField';
 import { IPosition } from './IPosition';
-
-// import { LogFile } from 'ptz-log-file';
-// const log = LogFile({});
 
 function getBombs(field: IField, fieldConfig: IFieldConfig): IField {
     for (let i = 0; i < fieldConfig.bombs; i++) {

@@ -1,7 +1,7 @@
 # minesweeper
 
 [![Build Status](https://travis-ci.org/alanmarcell/minesweeper.svg)](https://travis-ci.org/alanmarcell/minesweeper)
-[![NPM](https://img.shields.io/npm/v/minesweeper.svg)](https://www.npmjs.com/package/minesweeper)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0ee465301ea44e00a8fdd4556bd4d45b)](https://www.codacy.com/app/AlanMarcell/minesweeper?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AlanMarcell/minesweeper&amp;utm_campaign=Badge_Grade)
 [![codecov.io](http://codecov.io/github/alanmarcell/minesweeper/coverage.svg)](http://codecov.io/github/alanmarcell/minesweeper)
 [![Dependency Status](https://gemnasium.com/alanmarcell/minesweeper.svg)](https://gemnasium.com/alanmarcell/minesweeper)
 [![bitHound Score](https://www.bithound.io/github/gotwarlost/istanbul/badges/score.svg)](https://www.bithound.io/github/alanmarcell/minesweeper)
@@ -11,21 +11,7 @@
 [pt-br](https://github.com/alanmarcell/minesweeper/blob/master/README.pt-br.md)
 [en-us](https://github.com/alanmarcell/minesweeper/blob/master/README.md)
 
-minesweeper é um módulo Polutz.
-
-
-## Como usar
-
-### Instalação
-```
-    npm install --save minesweeper
-```
-
-### Como usar
-```
-    import  from minesweeper;
-
-```
+Minesweeper foi feito com Polutz.
 
 
 ## Contribuir com o projeto

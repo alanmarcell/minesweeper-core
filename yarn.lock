@@ -40,6 +40,10 @@
   version "7.0.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.18.tgz#cd67f27d3dc0cfb746f0bdd5e086c4c5d55be173"
 
+"@types/ramda@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.0.8.tgz#78b64853cc80bdcd0f370da8acdebde8bf840ef6"
+
 "@types/shelljs@^0.7.0":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.7.1.tgz#30fe144e3bdd37c11c174445bc54190cb7992a45"

@@ -6,17 +6,17 @@
   "typings": "src/index.ts",
   "scripts": {
     "lint": "tslint ./src/**/*.ts ./src/**/*.test.ts ./src/**/*.d.ts",
-    "js": "rimraf dist-esnext && tsc && npm run babel",
+    "js": "rimraf dist-esnext && tsc && rimraf dist && babel dist-esnext -d dist --presets es2015 --source-maps",
     "babel": "rimraf dist && babel dist-esnext -d dist --presets es2015 --source-maps",
     "pretest": "npm-run-all --parallel js lint",
-    "mocha": "mocha ./dist/**/*.js --require babel-polyfill",
+    "mocha": "mocha ./dist/*.js ./dist/**/*.js --require babel-polyfill",
     "test": "nyc npm run mocha && nyc report --reporter=html --reporter=text-lcov > coverage.lcov && f() { EXIT=0; codecov --token=5492f2ed-dd60-4c4a-941c-b208c5a4c3b9 || exit $EXIT; }; f",
-    "test:cover": "npm run test && opn ./coverage/lcov-report/index.html",
-    "posttest": "npm run docs:build",
+    "test:cover": "npm run test && opn ./coverage/index.html",
     "predebug": "npm run pretest",
     "debug": "node --nolazy --debug-brk=5858 dist/index.js",
     "docs:build": "typedoc --out ./docs ./ --includeDeclarations --excludeExternals --exclude '**/*.test.ts'",
-    "docs": "npm run docs:build && opn ./docs/index.html"
+    "docs:open": "opn ./docs/index.html",
+    "docs": "npm run docs:build && npm run docs:open"
   },
   "repository": {
     "type": "git",
@@ -29,12 +29,15 @@
   },
   "homepage": "https://github.com/alanmarcell/minesweeper#readme",
   "devDependencies": {
+    "@types/chai": "^4.0.0",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.12",
+    "@types/ramda": "0.0.8",
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2017": "^6.24.1",
     "codecov": "^2.1.0",
+    "chai": "^4.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.3.0",
@@ -49,8 +52,6 @@
     "typescript": "^2.2.2"
   },
   "dependencies": {
-    "@types/chai": "^4.0.0",
-    "chai": "^4.0.1",
     "ptz-core-domain": "^1.4.0",
     "ptz-log": "^1.0.0",
     "ptz-log-file": "^1.0.2"
