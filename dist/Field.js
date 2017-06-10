@@ -12,23 +12,32 @@ function getBombs(field, fieldConfig) {
     }
     return field;
 }
+function nearPositions(pos) {
+    // tslint:disable-next-line:prefer-const
+    var arrayPos = [];
+    for (var i = -1; i < 2; i++) {
+        for (var j = -1; j < 2; j++) {
+            if (i === 0 && j === 0) continue;
+            arrayPos.push({ x: pos.x + i, y: pos.y + j });
+        }
+    }
+    return arrayPos;
+}
 function isValidConfig(fieldConfig) {
-    var totalFields = fieldConfig.width * fieldConfig.heigth;
-    return totalFields > fieldConfig.bombs ? true : false;
+    var totalPositions = fieldConfig.width * fieldConfig.heigth;
+    return totalPositions > fieldConfig.bombs ? true : false;
 }
 function countNearBombs(field) {
     var countedField = field;
-    field.map(function (col, colIndex) {
-        return col.map(function (pos, index) {
-            if (pos.isBomb) {
-                for (var i = -1; i < 2; i++) {
-                    for (var j = -1; j < 2; j++) {
-                        if (countedField[pos.x + i] && countedField[pos.x + i][pos.y + j]) countedField[pos.x + i][pos.y + j].nearBombs++;
-                    }
-                }
-            }
+    field.map(function (col) {
+        return col.map(function (pos) {
+            if (pos.isBomb) nearPositions(pos).map(function (p) {
+                if (countedField[p.x] && countedField[p.x][p.y]) countedField[p.x][p.y].nearBombs++;
+            });
         });
     });
+    console.log('countedField ----');
+    logField(countedField);
     return countedField;
 }
 function getEmptyField(fieldConfig) {
@@ -80,9 +89,7 @@ function logField(field) {
     console.log(row + '\n');
 }
 function getInitialField(fieldConfig) {
-    if (!isValidConfig(fieldConfig)) {
-        throw new Error('Invalid field configuration');
-    }
+    if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
     var emptyField = getEmptyField(fieldConfig);
     var bombedField = getBombs(emptyField, fieldConfig);
     var countedField = countNearBombs(bombedField);
@@ -91,5 +98,6 @@ function getInitialField(fieldConfig) {
 exports.getInitialField = getInitialField;
 exports.countNearBombs = countNearBombs;
 exports.logField = logField;
+exports.nearPositions = nearPositions;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

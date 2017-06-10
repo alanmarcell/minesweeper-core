@@ -1,5 +1,5 @@
 import { IField, IFieldConfig } from './IField';
-import { IPosition } from './IPosition';
+import { IPosition, IPositionArgs } from './IPosition';
 
 function getBombs(field: IField, fieldConfig: IFieldConfig): IField {
     for (let i = 0; i < fieldConfig.bombs; i++) {
@@ -12,27 +12,39 @@ function getBombs(field: IField, fieldConfig: IFieldConfig): IField {
     return field;
 }
 
-function isValidConfig(fieldConfig: IFieldConfig) {
-    const totalFields = fieldConfig.width * fieldConfig.heigth;
-    return totalFields > fieldConfig.bombs ? true : false;
+function nearPositions(pos: IPositionArgs): IPositionArgs[] {
+    // tslint:disable-next-line:prefer-const
+    let arrayPos: IPositionArgs[] = [];
+    for (let i = -1; i < 2; i++) {
+        for (let j = -1; j < 2; j++) {
+            if (i === 0 && j === 0)
+                continue;
+            arrayPos.push({ x: pos.x + i, y: pos.y + j });
+        }
+    }
+    return arrayPos;
+}
+
+function isValidConfig(fieldConfig: IFieldConfig): boolean {
+    const totalPositions = fieldConfig.width * fieldConfig.heigth;
+    return totalPositions > fieldConfig.bombs ? true : false;
 }
 
 function countNearBombs(field: IField): IField {
     const countedField: IField = field;
-    field.map((col, colIndex) => col.map((pos, index) => {
-        if (pos.isBomb) {
-            for (let i = -1; i < 2; i++) {
-                for (let j = -1; j < 2; j++) {
-                    if (countedField[pos.x + i] && countedField[pos.x + i][pos.y + j])
-                        countedField[pos.x + i][pos.y + j].nearBombs++;
-                }
-            }
-        }
+    field.map(col => col.map(pos => {
+        if (pos.isBomb)
+            nearPositions(pos).map(p => {
+                if (countedField[p.x] && countedField[p.x][p.y])
+                    countedField[p.x][p.y].nearBombs++;
+            });
     }));
+    console.log('countedField ----');
+    logField(countedField);
     return countedField;
 }
 
-function getEmptyField(fieldConfig: IFieldConfig) {
+function getEmptyField(fieldConfig: IFieldConfig): IField {
     const initialField = [];
     for (let i = 0; i < fieldConfig.width; i++) {
         initialField[i] = [];
@@ -47,7 +59,7 @@ function getEmptyField(fieldConfig: IFieldConfig) {
     return initialField;
 }
 
-function logField(field) {
+function logField(field): void {
     const countedField: IField = field;
     let firstLine = '   |';
     field.map((f, index) => firstLine += ' ' + (index + 1) + ' |');
@@ -84,9 +96,9 @@ function logField(field) {
 
 function getInitialField(fieldConfig: IFieldConfig): IField {
 
-    if (!isValidConfig(fieldConfig)) {
+    if (!isValidConfig(fieldConfig))
         throw new Error('Invalid field configuration');
-    }
+
     const emptyField = getEmptyField(fieldConfig);
     const bombedField: IField = getBombs(emptyField, fieldConfig);
     const countedField = countNearBombs(bombedField);
@@ -94,5 +106,5 @@ function getInitialField(fieldConfig: IFieldConfig): IField {
 }
 
 export {
-    getInitialField, countNearBombs, logField
+    getInitialField, countNearBombs, logField, nearPositions
 };

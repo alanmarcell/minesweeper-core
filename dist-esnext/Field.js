@@ -8,22 +8,33 @@ function getBombs(field, fieldConfig) {
     }
     return field;
 }
+function nearPositions(pos) {
+    // tslint:disable-next-line:prefer-const
+    let arrayPos = [];
+    for (let i = -1; i < 2; i++) {
+        for (let j = -1; j < 2; j++) {
+            if (i === 0 && j === 0)
+                continue;
+            arrayPos.push({ x: pos.x + i, y: pos.y + j });
+        }
+    }
+    return arrayPos;
+}
 function isValidConfig(fieldConfig) {
-    const totalFields = fieldConfig.width * fieldConfig.heigth;
-    return totalFields > fieldConfig.bombs ? true : false;
+    const totalPositions = fieldConfig.width * fieldConfig.heigth;
+    return totalPositions > fieldConfig.bombs ? true : false;
 }
 function countNearBombs(field) {
     const countedField = field;
-    field.map((col, colIndex) => col.map((pos, index) => {
-        if (pos.isBomb) {
-            for (let i = -1; i < 2; i++) {
-                for (let j = -1; j < 2; j++) {
-                    if (countedField[pos.x + i] && countedField[pos.x + i][pos.y + j])
-                        countedField[pos.x + i][pos.y + j].nearBombs++;
-                }
-            }
-        }
+    field.map(col => col.map(pos => {
+        if (pos.isBomb)
+            nearPositions(pos).map(p => {
+                if (countedField[p.x] && countedField[p.x][p.y])
+                    countedField[p.x][p.y].nearBombs++;
+            });
     }));
+    console.log('countedField ----');
+    logField(countedField);
     return countedField;
 }
 function getEmptyField(fieldConfig) {
@@ -77,13 +88,12 @@ function logField(field) {
     console.log(row + '\n');
 }
 function getInitialField(fieldConfig) {
-    if (!isValidConfig(fieldConfig)) {
+    if (!isValidConfig(fieldConfig))
         throw new Error('Invalid field configuration');
-    }
     const emptyField = getEmptyField(fieldConfig);
     const bombedField = getBombs(emptyField, fieldConfig);
     const countedField = countNearBombs(bombedField);
     return countedField;
 }
-export { getInitialField, countNearBombs, logField };
+export { getInitialField, countNearBombs, logField, nearPositions };
 //# sourceMappingURL=Field.js.map

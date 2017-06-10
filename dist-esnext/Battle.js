@@ -1,4 +1,4 @@
-import { getInitialField } from './Field';
+import { getInitialField, nearPositions } from './Field';
 function startBattle() {
     const fieldConfig = {
         width: 9,
@@ -12,36 +12,41 @@ function startBattle() {
     };
     return battle;
 }
-function gameOver(field) {
-    const finalField = field;
-    field.map(col => col.map(pos => finalField[pos.x][pos.y].opened = true));
-    return finalField;
+function openPosition(pos) {
+    pos.opened = true;
+    return pos;
+}
+function openNearPositions(battle, pos) {
+    nearPositions(pos).map(p => clickPosition(battle, p));
+    return battle;
+}
+function openAllField(field) {
+    return field.map(col => col.map(pos => openPosition(pos)));
+}
+function endBattle(battle) {
+    const finalBattle = battle;
+    finalBattle.isOver = true;
+    finalBattle.field = openAllField(finalBattle.field);
+    return finalBattle;
 }
 function positionIsInvalid(field, position) {
+    console.log('Invalid position, try again');
     return position.x < 0 || position.x >= field.length || position.y < 0 || position.y >= field[0].length;
 }
-function openPosition(battle, position) {
+function clickPosition(battle, position) {
     if (positionIsInvalid(battle.field, position))
         return battle;
-    const pos = battle.field[position.x][position.y];
+    let pos = battle.field[position.x][position.y];
     if (pos.opened)
         return battle;
     if (pos.isBomb) {
-        battle.isOver = true;
-        battle.field = gameOver(battle.field);
         console.log('GAME OVER!', position);
-        return battle;
+        return endBattle(battle);
     }
-    pos.opened = true;
+    pos = openPosition(pos);
     if (pos.nearBombs === 0)
-        for (let i = -1; i < 2; i++) {
-            for (let j = -1; j < 2; j++) {
-                if (i === 0 && j === 0)
-                    continue;
-                battle = openPosition(battle, { x: pos.x + i, y: pos.y + j });
-            }
-        }
+        battle = openNearPositions(battle, pos);
     return battle;
 }
-export { startBattle, openPosition };
+export { startBattle, clickPosition };
 //# sourceMappingURL=Battle.js.map
