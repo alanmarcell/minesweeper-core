@@ -1,56 +1,62 @@
-function getBombs(field, fieldConfig) {
+import R from 'ramda';
+/**
+ * Populate new field with bombs
+ */
+const getBombs = (field, fieldConfig) => {
     for (let i = 0; i < fieldConfig.bombs; i++) {
         const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
-        const heigth = Math.floor((fieldConfig.heigth - 1) * Math.random() + 1);
-        if (field[width][heigth] && field[width][heigth].isBomb)
+        const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
+        if (field[width][height] && field[width][height].isBomb)
             i--;
-        field[width][heigth].isBomb = true;
+        field[width][height].isBomb = true;
     }
     return field;
-}
-function nearPositions(pos) {
-    // tslint:disable-next-line:prefer-const
-    let arrayPos = [];
-    for (let i = -1; i < 2; i++) {
-        for (let j = -1; j < 2; j++) {
-            if (i === 0 && j === 0)
-                continue;
-            arrayPos.push({ x: pos.x + i, y: pos.y + j });
-        }
-    }
-    return arrayPos;
-}
+};
+/**
+ * Receives a pos and return his near positions
+ * args {IPositionArgs}
+ * returns {IPositionArgs[]}
+ */
+const nearPositions = (pos) => {
+    const range = R.range(-1, 2);
+    /**
+     * Get a 3x3 position array with the position and all the near positions then remove the position itseft
+     */
+    const arrayPos = R.remove(4, 1, range.map(i => range.map(j => {
+        return { x: pos.x + i, y: pos.y + j };
+    })));
+    return arrayPos.reduce((a, b) => a.concat(b));
+};
 function isValidConfig(fieldConfig) {
-    const totalPositions = fieldConfig.width * fieldConfig.heigth;
+    const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
 }
+const allPositions = (field) => field.reduce((a, b) => a.concat(b));
 function countNearBombs(field) {
     const countedField = field;
-    field.map(col => col.map(pos => {
+    allPositions(field).map(pos => {
         if (pos.isBomb)
             nearPositions(pos).map(p => {
                 if (countedField[p.x] && countedField[p.x][p.y])
                     countedField[p.x][p.y].nearBombs++;
             });
-    }));
-    console.log('countedField ----');
-    logField(countedField);
+    });
     return countedField;
 }
-function getEmptyField(fieldConfig) {
-    const initialField = [];
-    for (let i = 0; i < fieldConfig.width; i++) {
-        initialField[i] = [];
-        for (let j = 0; j < fieldConfig.heigth; j++) {
-            const pos = {
-                x: i, y: j, isBomb: false, nearBombs: 0,
-                opened: false, marked: 0, isValid: true
-            };
-            initialField[i][j] = pos;
-        }
-    }
-    return initialField;
-}
+const getEmptyField = (fieldConfig) => {
+    const widthRange = R.range(0, fieldConfig.width);
+    const heightRange = R.range(0, fieldConfig.height);
+    return widthRange.map(i => heightRange.map(j => newPos(i, j)));
+};
+/**
+ * Get a new position
+ */
+const newPos = (i, j) => {
+    return {
+        x: i, y: j, isBomb: false, nearBombs: 0,
+        opened: false, marked: 0, isValid: true
+    };
+};
 function logField(field) {
     const countedField = field;
     let firstLine = '   |';
@@ -92,8 +98,7 @@ function getInitialField(fieldConfig) {
         throw new Error('Invalid field configuration');
     const emptyField = getEmptyField(fieldConfig);
     const bombedField = getBombs(emptyField, fieldConfig);
-    const countedField = countNearBombs(bombedField);
-    return countedField;
+    return countNearBombs(bombedField);
 }
 export { getInitialField, countNearBombs, logField, nearPositions };
 //# sourceMappingURL=Field.js.map

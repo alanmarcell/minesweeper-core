@@ -6,7 +6,7 @@ import { IPosition, IPositionArgs } from './IPosition';
 function startBattle(): IBattle {
     const fieldConfig: IFieldConfig = {
         width: 9,
-        heigth: 9,
+        height: 9,
         bombs: 9
     };
     const field: IField = getInitialField(fieldConfig);

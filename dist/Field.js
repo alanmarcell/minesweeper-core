@@ -3,57 +3,81 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function getBombs(field, fieldConfig) {
+exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
+
+var _ramda = require('ramda');
+
+var _ramda2 = _interopRequireDefault(_ramda);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Populate new field with bombs
+ */
+var getBombs = function getBombs(field, fieldConfig) {
     for (var i = 0; i < fieldConfig.bombs; i++) {
         var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
-        var heigth = Math.floor((fieldConfig.heigth - 1) * Math.random() + 1);
-        if (field[width][heigth] && field[width][heigth].isBomb) i--;
-        field[width][heigth].isBomb = true;
+        var height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
+        if (field[width][height] && field[width][height].isBomb) i--;
+        field[width][height].isBomb = true;
     }
     return field;
-}
-function nearPositions(pos) {
-    // tslint:disable-next-line:prefer-const
-    var arrayPos = [];
-    for (var i = -1; i < 2; i++) {
-        for (var j = -1; j < 2; j++) {
-            if (i === 0 && j === 0) continue;
-            arrayPos.push({ x: pos.x + i, y: pos.y + j });
-        }
-    }
-    return arrayPos;
-}
+};
+/**
+ * Receives a pos and return his near positions
+ * args {IPositionArgs}
+ * returns {IPositionArgs[]}
+ */
+var nearPositions = function nearPositions(pos) {
+    var range = _ramda2.default.range(-1, 2);
+    /**
+     * Get a 3x3 position array with the position and all the near positions then remove the position itseft
+     */
+    var arrayPos = _ramda2.default.remove(4, 1, range.map(function (i) {
+        return range.map(function (j) {
+            return { x: pos.x + i, y: pos.y + j };
+        });
+    }));
+    return arrayPos.reduce(function (a, b) {
+        return a.concat(b);
+    });
+};
 function isValidConfig(fieldConfig) {
-    var totalPositions = fieldConfig.width * fieldConfig.heigth;
+    var totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
 }
+var allPositions = function allPositions(field) {
+    return field.reduce(function (a, b) {
+        return a.concat(b);
+    });
+};
 function countNearBombs(field) {
     var countedField = field;
-    field.map(function (col) {
-        return col.map(function (pos) {
-            if (pos.isBomb) nearPositions(pos).map(function (p) {
-                if (countedField[p.x] && countedField[p.x][p.y]) countedField[p.x][p.y].nearBombs++;
-            });
+    allPositions(field).map(function (pos) {
+        if (pos.isBomb) nearPositions(pos).map(function (p) {
+            if (countedField[p.x] && countedField[p.x][p.y]) countedField[p.x][p.y].nearBombs++;
         });
     });
-    console.log('countedField ----');
-    logField(countedField);
     return countedField;
 }
-function getEmptyField(fieldConfig) {
-    var initialField = [];
-    for (var i = 0; i < fieldConfig.width; i++) {
-        initialField[i] = [];
-        for (var j = 0; j < fieldConfig.heigth; j++) {
-            var pos = {
-                x: i, y: j, isBomb: false, nearBombs: 0,
-                opened: false, marked: 0, isValid: true
-            };
-            initialField[i][j] = pos;
-        }
-    }
-    return initialField;
-}
+var getEmptyField = function getEmptyField(fieldConfig) {
+    var widthRange = _ramda2.default.range(0, fieldConfig.width);
+    var heightRange = _ramda2.default.range(0, fieldConfig.height);
+    return widthRange.map(function (i) {
+        return heightRange.map(function (j) {
+            return newPos(i, j);
+        });
+    });
+};
+/**
+ * Get a new position
+ */
+var newPos = function newPos(i, j) {
+    return {
+        x: i, y: j, isBomb: false, nearBombs: 0,
+        opened: false, marked: 0, isValid: true
+    };
+};
 function logField(field) {
     var countedField = field;
     var firstLine = '   |';
@@ -92,8 +116,7 @@ function getInitialField(fieldConfig) {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
     var emptyField = getEmptyField(fieldConfig);
     var bombedField = getBombs(emptyField, fieldConfig);
-    var countedField = countNearBombs(bombedField);
-    return countedField;
+    return countNearBombs(bombedField);
 }
 exports.getInitialField = getInitialField;
 exports.countNearBombs = countNearBombs;

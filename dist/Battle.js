@@ -10,7 +10,7 @@ var _Field = require('./Field');
 function startBattle() {
     var fieldConfig = {
         width: 9,
-        heigth: 9,
+        height: 9,
         bombs: 9
     };
     var field = (0, _Field.getInitialField)(fieldConfig);

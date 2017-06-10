@@ -2,7 +2,7 @@ import { getInitialField, nearPositions } from './Field';
 function startBattle() {
     const fieldConfig = {
         width: 9,
-        heigth: 9,
+        height: 9,
         bombs: 9
     };
     const field = getInitialField(fieldConfig);

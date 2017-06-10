@@ -15,7 +15,7 @@ describe('Field', () => {
         var initialField: IField;
         beforeEach(() => {
             fieldConfig = {
-                bombs: 9, width: 9, heigth: 9
+                bombs: 9, width: 9, height: 9
             };
             initialField = field.getInitialField(fieldConfig);
             initialField.should.be.an('array');
@@ -27,12 +27,12 @@ describe('Field', () => {
         });
         it('should field size match fieldConfig size', () => {
             initialField.length.should.be.equal(fieldConfig.width);
-            initialField[0].length.should.be.equal(fieldConfig.heigth);
+            initialField[0].length.should.be.equal(fieldConfig.height);
         });
         it('should throw an error if bombs number is bigger than fild size', () => {
             try {
                 const invalidFieldConfig = {
-                    bombs: 27, width: 5, heigth: 5
+                    bombs: 27, width: 5, height: 5
                 };
                 should.not.exist(initialField = field.getInitialField(invalidFieldConfig));
             } catch (e) {
