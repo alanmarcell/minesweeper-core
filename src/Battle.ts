@@ -1,14 +1,10 @@
-import { getInitialField, nearPositions, openPosition } from './Field';
+import { getInitialField, nearPositions, openPosition, positionIsValid } from './Field';
 import { IBattle } from './IBattle';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
 
-function startBattle(): IBattle {
-    const fieldConfig: IFieldConfig = {
-        width: 9,
-        height: 9,
-        bombs: 9
-    };
+function startBattle(fieldConfig: IFieldConfig): IBattle {
+
     const field: IField = getInitialField(fieldConfig);
 
     const battle: IBattle = {
@@ -34,13 +30,8 @@ function endBattle(battle: IBattle): IBattle {
     return finalBattle;
 }
 
-function positionIsInvalid(field: IField, position: IPositionArgs): boolean {
-    console.log('Invalid position, try again');
-    return position.x < 0 || position.x >= field.length || position.y < 0 || position.y >= field[0].length;
-}
-
 function clickPosition(battle: IBattle, position: IPositionArgs): IBattle {
-    if (positionIsInvalid(battle.field, position))
+    if (!positionIsValid(battle.field, position))
         return battle;
 
     let pos: IPosition = battle.field[position.x][position.y];

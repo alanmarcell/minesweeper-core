@@ -1,4 +1,7 @@
 import R from 'ramda';
+const positionIsValid = (field, position) => {
+    return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
+};
 /**
  * Receives a pos and return his near positions
  * args {IPositionArgs}
@@ -10,10 +13,14 @@ const nearPositions = (pos) => {
      * Get a 3x3 position array with the position and all the near positions then remove the position itseft
      */
     const arrayPos = R.remove(4, 1, range.map(i => range.map(j => {
-        return { x: pos.x + i, y: pos.y + j };
+        const p = { x: pos.x + i, y: pos.y + j };
+        return p;
     })));
     return arrayPos.reduce((a, b) => a.concat(b));
 };
+const curriedPositionIsValid = R.curry(positionIsValid);
+const validNearPos = (field, pos) => R.filter(curriedPositionIsValid(field), nearPositions(pos));
+const curriedValidNearPos = R.curry(validNearPos);
 const openPosition = (pos) => {
     pos.opened = true;
     return pos;
@@ -27,10 +34,7 @@ function countNearBombs(field) {
     const countedField = field;
     allPositions(field).map(pos => {
         if (pos.isBomb)
-            nearPositions(pos).map(p => {
-                if (countedField[p.x] && countedField[p.x][p.y])
-                    countedField[p.x][p.y].nearBombs++;
-            });
+            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
     });
     return countedField;
 }
@@ -137,5 +141,5 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition };
+export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, curriedValidNearPos, curriedPositionIsValid, validNearPos, allPositions };
 //# sourceMappingURL=Field.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
+exports.allPositions = exports.validNearPos = exports.curriedPositionIsValid = exports.curriedValidNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
 
 var _ramda = require('ramda');
 
@@ -11,6 +11,9 @@ var _ramda2 = _interopRequireDefault(_ramda);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var positionIsValid = function positionIsValid(field, position) {
+    return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
+};
 /**
  * Receives a pos and return his near positions
  * args {IPositionArgs}
@@ -23,13 +26,19 @@ var nearPositions = function nearPositions(pos) {
      */
     var arrayPos = _ramda2.default.remove(4, 1, range.map(function (i) {
         return range.map(function (j) {
-            return { x: pos.x + i, y: pos.y + j };
+            var p = { x: pos.x + i, y: pos.y + j };
+            return p;
         });
     }));
     return arrayPos.reduce(function (a, b) {
         return a.concat(b);
     });
 };
+var curriedPositionIsValid = _ramda2.default.curry(positionIsValid);
+var validNearPos = function validNearPos(field, pos) {
+    return _ramda2.default.filter(curriedPositionIsValid(field), nearPositions(pos));
+};
+var curriedValidNearPos = _ramda2.default.curry(validNearPos);
 var openPosition = function openPosition(pos) {
     pos.opened = true;
     return pos;
@@ -46,8 +55,8 @@ var allPositions = function allPositions(field) {
 function countNearBombs(field) {
     var countedField = field;
     allPositions(field).map(function (pos) {
-        if (pos.isBomb) nearPositions(pos).map(function (p) {
-            if (countedField[p.x] && countedField[p.x][p.y]) countedField[p.x][p.y].nearBombs++;
+        if (pos.isBomb) validNearPos(field, pos).map(function (p) {
+            return countedField[p.x][p.y].nearBombs++;
         });
     });
     return countedField;
@@ -161,5 +170,10 @@ exports.logField = logField;
 exports.nearPositions = nearPositions;
 exports.newPos = newPos;
 exports.openPosition = openPosition;
+exports.positionIsValid = positionIsValid;
+exports.curriedValidNearPos = curriedValidNearPos;
+exports.curriedPositionIsValid = curriedPositionIsValid;
+exports.validNearPos = validNearPos;
+exports.allPositions = allPositions;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

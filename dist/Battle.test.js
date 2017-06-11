@@ -10,8 +10,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 describe('Battle', function () {
     describe('startBattle', function () {
+        var fieldConfig = void 0;
+        before('Set field config', function () {
+            fieldConfig = {
+                bombs: 9, width: 9, height: 9
+            };
+        });
         it('returns new battle', function () {
-            var result = battle.startBattle();
+            var result = battle.startBattle(fieldConfig);
             (0, _ptzAssert.ok)(result);
         });
     });

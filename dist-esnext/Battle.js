@@ -1,10 +1,5 @@
-import { getInitialField, nearPositions, openPosition } from './Field';
-function startBattle() {
-    const fieldConfig = {
-        width: 9,
-        height: 9,
-        bombs: 9
-    };
+import { getInitialField, nearPositions, openPosition, positionIsValid } from './Field';
+function startBattle(fieldConfig) {
     const field = getInitialField(fieldConfig);
     const battle = {
         field,
@@ -25,12 +20,8 @@ function endBattle(battle) {
     finalBattle.field = openAllField(finalBattle.field);
     return finalBattle;
 }
-function positionIsInvalid(field, position) {
-    console.log('Invalid position, try again');
-    return position.x < 0 || position.x >= field.length || position.y < 0 || position.y >= field[0].length;
-}
 function clickPosition(battle, position) {
-    if (positionIsInvalid(battle.field, position))
+    if (!positionIsValid(battle.field, position))
         return battle;
     let pos = battle.field[position.x][position.y];
     if (pos.opened)

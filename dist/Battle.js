@@ -7,12 +7,7 @@ exports.clickPosition = exports.startBattle = undefined;
 
 var _Field = require('./Field');
 
-function startBattle() {
-    var fieldConfig = {
-        width: 9,
-        height: 9,
-        bombs: 9
-    };
+function startBattle(fieldConfig) {
     var field = (0, _Field.getInitialField)(fieldConfig);
     var battle = {
         field: field,
@@ -39,12 +34,8 @@ function endBattle(battle) {
     finalBattle.field = openAllField(finalBattle.field);
     return finalBattle;
 }
-function positionIsInvalid(field, position) {
-    console.log('Invalid position, try again');
-    return position.x < 0 || position.x >= field.length || position.y < 0 || position.y >= field[0].length;
-}
 function clickPosition(battle, position) {
-    if (positionIsInvalid(battle.field, position)) return battle;
+    if (!(0, _Field.positionIsValid)(battle.field, position)) return battle;
     var pos = battle.field[position.x][position.y];
     if (pos.opened) return battle;
     if (pos.isBomb) {
