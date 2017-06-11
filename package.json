@@ -1,6 +1,6 @@
 {
-  "name": "minesweeper",
-  "version": "1.0.0",
+  "name": "minesweeper-core",
+  "version": "0.0.0",
   "description": "this is a Polutz module.",
   "main": "dist/index.js",
   "typings": "src/index.ts",
@@ -20,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alanmarcell/minesweeper.git"
+    "url": "git+https://github.com/alanmarcell/minesweeper-core.git"
   },
-  "author": "github.com/angeloocana",
+  "author": "github.com/alanmarcell",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alanmarcell/minesweeper/issues"
+    "url": "https://github.com/alanmarcell/minesweeper-core/issues"
   },
-  "homepage": "https://github.com/alanmarcell/minesweeper#readme",
+  "homepage": "https://github.com/alanmarcell/minesweeper-core#readme",
   "devDependencies": {
     "@types/chai": "^4.0.0",
     "@types/mocha": "^2.2.40",

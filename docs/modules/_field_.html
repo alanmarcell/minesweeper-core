@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;Field&quot; | minesweeper</title>
+	<title>&quot;Field&quot; | minesweeper-core</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">minesweeper</a>
+					<a href="../index.html" class="title">minesweeper-core</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -69,21 +69,81 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#curriedpositionisvalid" class="tsd-kind-icon">curried<wbr>Position<wbr>IsValid</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#curriedvalidnearpos" class="tsd-kind-icon">curried<wbr>Valid<wbr>Near<wbr>Pos</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#allpositions" class="tsd-kind-icon">all<wbr>Positions</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#countnearbombs" class="tsd-kind-icon">count<wbr>Near<wbr>Bombs</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#getbombs" class="tsd-kind-icon">get<wbr>Bombs</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#getemptyfield" class="tsd-kind-icon">get<wbr>Empty<wbr>Field</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#getinitialfield" class="tsd-kind-icon">get<wbr>Initial<wbr>Field</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#getrandompos" class="tsd-kind-icon">get<wbr>Random<wbr>Pos</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#isvalidconfig" class="tsd-kind-icon">is<wbr>Valid<wbr>Config</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#logfield" class="tsd-kind-icon">log<wbr>Field</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#nearpositions" class="tsd-kind-icon">near<wbr>Positions</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#newpos" class="tsd-kind-icon">new<wbr>Pos</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#openposition" class="tsd-kind-icon">open<wbr>Position</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#positionisvalid" class="tsd-kind-icon">position<wbr>IsValid</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_field_.html#validnearpos" class="tsd-kind-icon">valid<wbr>Near<wbr>Pos</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="curriedpositionisvalid" class="tsd-anchor"></a>
+					<h3>curried<wbr>Position<wbr>IsValid</h3>
+					<div class="tsd-signature tsd-kind-icon">curried<wbr>Position<wbr>IsValid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CurriedFunction2</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;R.curry(positionIsValid)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L27">Field.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="curriedvalidnearpos" class="tsd-anchor"></a>
+					<h3>curried<wbr>Valid<wbr>Near<wbr>Pos</h3>
+					<div class="tsd-signature tsd-kind-icon">curried<wbr>Valid<wbr>Near<wbr>Pos<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CurriedFunction2</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;R.curry(validNearPos)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L31">Field.ts:31</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="allpositions" class="tsd-anchor"></a>
+					<h3>all<wbr>Positions</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">all<wbr>Positions<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L43">Field.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>field: <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="countnearbombs" class="tsd-anchor"></a>
 					<h3>count<wbr>Near<wbr>Bombs</h3>
@@ -94,7 +154,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/dbcc5e0/src/Field.ts#L20">Field.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L45">Field.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -111,15 +171,20 @@
 					<a name="getbombs" class="tsd-anchor"></a>
 					<h3>get<wbr>Bombs</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Bombs<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a>, fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Bombs<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a>, fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/dbcc5e0/src/Field.ts#L4">Field.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L63">Field.ts:63</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Populate new field with bombs</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -129,7 +194,7 @@
 									<h5>fieldConfig: <a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -137,13 +202,13 @@
 					<a name="getemptyfield" class="tsd-anchor"></a>
 					<h3>get<wbr>Empty<wbr>Field</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Empty<wbr>Field<span class="tsd-signature-symbol">(</span>fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Empty<wbr>Field<span class="tsd-signature-symbol">(</span>fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/dbcc5e0/src/Field.ts#L35">Field.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L73">Field.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -152,7 +217,7 @@
 									<h5>fieldConfig: <a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -166,7 +231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/dbcc5e0/src/Field.ts#L85">Field.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L90">Field.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -180,6 +245,32 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="getrandompos" class="tsd-anchor"></a>
+					<h3>get<wbr>Random<wbr>Pos</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Random<wbr>Pos<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a>, fieldConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L54">Field.ts:54</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>field: <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h5>
+								</li>
+								<li>
+									<h5>fieldConfig: <a href="../interfaces/_ifield_d_.ifieldconfig.html" class="tsd-signature-type">IFieldConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="isvalidconfig" class="tsd-anchor"></a>
 					<h3>is<wbr>Valid<wbr>Config</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
@@ -189,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/dbcc5e0/src/Field.ts#L15">Field.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L38">Field.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -212,7 +303,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper/blob/dbcc5e0/src/Field.ts#L50">Field.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L100">Field.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -222,6 +313,165 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="nearpositions" class="tsd-anchor"></a>
+					<h3>near<wbr>Positions</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">near<wbr>Positions<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L14">Field.ts:14</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Receives a pos and return his near positions
+										args {IPositionArgs}
+									returns {IPositionArgs[]}</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pos: <a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="newpos" class="tsd-anchor"></a>
+					<h3>new<wbr>Pos</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">new<wbr>Pos<span class="tsd-signature-symbol">(</span>i<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, j<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L83">Field.ts:83</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a new position</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>i: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>j: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>is<wbr>Bomb<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>is<wbr>Valid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>marked<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>near<wbr>Bombs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>opened<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="openposition" class="tsd-anchor"></a>
+					<h3>open<wbr>Position</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">open<wbr>Position<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L33">Field.ts:33</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pos: <a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_iposition_d_.iposition.html" class="tsd-signature-type">IPosition</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="positionisvalid" class="tsd-anchor"></a>
+					<h3>position<wbr>IsValid</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">position<wbr>IsValid<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a>, position<span class="tsd-signature-symbol">: </span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L5">Field.ts:5</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>field: <a href="_ifield_d_.html#ifield" class="tsd-signature-type">IField</a></h5>
+								</li>
+								<li>
+									<h5>position: <a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="validnearpos" class="tsd-anchor"></a>
+					<h3>valid<wbr>Near<wbr>Pos</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">valid<wbr>Near<wbr>Pos<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/alanmarcell/minesweeper-core/blob/543a7ca/src/Field.ts#L29">Field.ts:29</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>field: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>pos: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_iposition_d_.ipositionargs.html" class="tsd-signature-type">IPositionArgs</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -255,6 +505,15 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#curriedpositionisvalid" class="tsd-kind-icon">curried<wbr>Position<wbr>IsValid</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#curriedvalidnearpos" class="tsd-kind-icon">curried<wbr>Valid<wbr>Near<wbr>Pos</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#allpositions" class="tsd-kind-icon">all<wbr>Positions</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_field_.html#countnearbombs" class="tsd-kind-icon">count<wbr>Near<wbr>Bombs</a>
 					</li>
@@ -268,10 +527,28 @@
 						<a href="_field_.html#getinitialfield" class="tsd-kind-icon">get<wbr>Initial<wbr>Field</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#getrandompos" class="tsd-kind-icon">get<wbr>Random<wbr>Pos</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_field_.html#isvalidconfig" class="tsd-kind-icon">is<wbr>Valid<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_field_.html#logfield" class="tsd-kind-icon">log<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#nearpositions" class="tsd-kind-icon">near<wbr>Positions</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#newpos" class="tsd-kind-icon">new<wbr>Pos</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#openposition" class="tsd-kind-icon">open<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#positionisvalid" class="tsd-kind-icon">position<wbr>IsValid</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_field_.html#validnearpos" class="tsd-kind-icon">valid<wbr>Near<wbr>Pos</a>
 					</li>
 				</ul>
 			</nav>
