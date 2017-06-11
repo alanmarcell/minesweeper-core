@@ -1,7 +1,7 @@
 import R from 'ramda';
-const positionIsValid = (field, position) => {
+const positionIsValid = R.curry((field, position) => {
     return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
-};
+});
 /**
  * Receives a pos and return his near positions
  * args {IPositionArgs}
@@ -18,8 +18,7 @@ const nearPositions = (pos) => {
     })));
     return arrayPos.reduce((a, b) => a.concat(b));
 };
-const curriedPositionIsValid = R.curry(positionIsValid);
-const validNearPos = (field, pos) => R.filter(curriedPositionIsValid(field), nearPositions(pos));
+const validNearPos = (field, pos) => R.filter(positionIsValid(field), nearPositions(pos));
 const curriedValidNearPos = R.curry(validNearPos);
 const openPosition = (pos) => {
     pos.opened = true;
@@ -141,5 +140,5 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, curriedValidNearPos, curriedPositionIsValid, validNearPos, allPositions };
+export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, curriedValidNearPos, validNearPos, allPositions };
 //# sourceMappingURL=Field.js.map

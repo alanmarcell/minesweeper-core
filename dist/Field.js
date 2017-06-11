@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.allPositions = exports.validNearPos = exports.curriedPositionIsValid = exports.curriedValidNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
+exports.allPositions = exports.validNearPos = exports.curriedValidNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
 
 var _ramda = require('ramda');
 
@@ -11,9 +11,9 @@ var _ramda2 = _interopRequireDefault(_ramda);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var positionIsValid = function positionIsValid(field, position) {
+var positionIsValid = _ramda2.default.curry(function (field, position) {
     return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
-};
+});
 /**
  * Receives a pos and return his near positions
  * args {IPositionArgs}
@@ -34,9 +34,8 @@ var nearPositions = function nearPositions(pos) {
         return a.concat(b);
     });
 };
-var curriedPositionIsValid = _ramda2.default.curry(positionIsValid);
 var validNearPos = function validNearPos(field, pos) {
-    return _ramda2.default.filter(curriedPositionIsValid(field), nearPositions(pos));
+    return _ramda2.default.filter(positionIsValid(field), nearPositions(pos));
 };
 var curriedValidNearPos = _ramda2.default.curry(validNearPos);
 var openPosition = function openPosition(pos) {
@@ -172,7 +171,6 @@ exports.newPos = newPos;
 exports.openPosition = openPosition;
 exports.positionIsValid = positionIsValid;
 exports.curriedValidNearPos = curriedValidNearPos;
-exports.curriedPositionIsValid = curriedPositionIsValid;
 exports.validNearPos = validNearPos;
 exports.allPositions = allPositions;
 //# sourceMappingURL=Field.js.map

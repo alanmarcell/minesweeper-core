@@ -2,9 +2,9 @@ import R from 'ramda';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
 
-const positionIsValid = (field: IField, position: IPositionArgs) => {
+const positionIsValid = R.curry((field: IField, position: IPositionArgs) => {
     return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
-};
+});
 
 /**
  * Receives a pos and return his near positions
@@ -24,9 +24,7 @@ const nearPositions = (pos: IPositionArgs) => {
     return arrayPos.reduce((a, b) => a.concat(b));
 };
 
-const curriedPositionIsValid = R.curry(positionIsValid);
-
-const validNearPos = (field, pos) => R.filter(curriedPositionIsValid(field), nearPositions(pos));
+const validNearPos = (field, pos) => R.filter(positionIsValid(field), nearPositions(pos));
 
 const curriedValidNearPos = R.curry(validNearPos);
 
@@ -171,7 +169,6 @@ export {
     openPosition,
     positionIsValid,
     curriedValidNearPos,
-    curriedPositionIsValid,
     validNearPos,
     allPositions
 };

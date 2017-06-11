@@ -79,7 +79,7 @@ describe('getInitialField', () => {
     describe('validNearPositions', () => {
         it('should return only valid near positions', () => {
             const nearPos = Field.validNearPos(initialField, validPos);
-            const validateFn = (np) => np.map(Field.curriedPositionIsValid(initialField));
+            const validateFn = (np) => np.map(Field.positionIsValid(initialField));
             const validatedpos = validateFn(nearPos);
             validatedpos.map(p => p.should.be.true);
             nearPos.should.be.an('array');

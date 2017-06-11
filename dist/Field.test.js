@@ -91,7 +91,7 @@ describe('getInitialField', function () {
         it('should return only valid near positions', function () {
             var nearPos = Field.validNearPos(initialField, validPos);
             var validateFn = function validateFn(np) {
-                return np.map(Field.curriedPositionIsValid(initialField));
+                return np.map(Field.positionIsValid(initialField));
             };
             var validatedpos = validateFn(nearPos);
             validatedpos.map(function (p) {
