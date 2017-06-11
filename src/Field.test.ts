@@ -3,6 +3,7 @@ import * as a from 'chai';
 // import { LogFile } from 'ptz-log-file';
 import * as field from './Field';
 import { IField, IFieldConfig } from './IField';
+import { IPosition } from './IPosition';
 const should = a.should();
 chai.should();
 
@@ -43,6 +44,20 @@ describe('Field', () => {
             initialField = field.getInitialField(fieldConfig);
             const countedField = field.countNearBombs(initialField);
             countedField.should.be.an('array');
+        });
+    });
+    describe('openPosition', () => {
+        it('should return a opened position', () => {
+            const closedPosition: IPosition = field.newPos(1, 1);
+            const openedPosition: IPosition = field.openPosition(closedPosition);
+            // tslint:disable-next-line:no-unused-expression
+            openedPosition.opened.should.be.true;
+        });
+        it('should return a opened position', () => {
+            const invalidPosition: IPosition = field.newPos(-1, 1);
+            const openedPosition: IPosition = field.openPosition(invalidPosition);
+            // tslint:disable-next-line:no-unused-expression
+            openedPosition.opened.should.be.true;
         });
     });
 });

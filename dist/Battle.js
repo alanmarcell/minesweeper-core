@@ -20,10 +20,6 @@ function startBattle() {
     };
     return battle;
 }
-function openPosition(pos) {
-    pos.opened = true;
-    return pos;
-}
 function openNearPositions(battle, pos) {
     (0, _Field.nearPositions)(pos).map(function (p) {
         return clickPosition(battle, p);
@@ -33,7 +29,7 @@ function openNearPositions(battle, pos) {
 function openAllField(field) {
     return field.map(function (col) {
         return col.map(function (pos) {
-            return openPosition(pos);
+            return (0, _Field.openPosition)(pos);
         });
     });
 }
@@ -55,7 +51,7 @@ function clickPosition(battle, position) {
         console.log('GAME OVER!', position);
         return endBattle(battle);
     }
-    pos = openPosition(pos);
+    pos = (0, _Field.openPosition)(pos);
     if (pos.nearBombs === 0) battle = openNearPositions(battle, pos);
     return battle;
 }

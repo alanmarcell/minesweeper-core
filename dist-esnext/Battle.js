@@ -1,4 +1,4 @@
-import { getInitialField, nearPositions } from './Field';
+import { getInitialField, nearPositions, openPosition } from './Field';
 function startBattle() {
     const fieldConfig = {
         width: 9,
@@ -11,10 +11,6 @@ function startBattle() {
         isOver: false
     };
     return battle;
-}
-function openPosition(pos) {
-    pos.opened = true;
-    return pos;
 }
 function openNearPositions(battle, pos) {
     nearPositions(pos).map(p => clickPosition(battle, p));

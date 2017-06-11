@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
+exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
 
 var _ramda = require('ramda');
 
@@ -11,18 +11,6 @@ var _ramda2 = _interopRequireDefault(_ramda);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Populate new field with bombs
- */
-var getBombs = function getBombs(field, fieldConfig) {
-    for (var i = 0; i < fieldConfig.bombs; i++) {
-        var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
-        var height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
-        if (field[width][height] && field[width][height].isBomb) i--;
-        field[width][height].isBomb = true;
-    }
-    return field;
-};
 /**
  * Receives a pos and return his near positions
  * args {IPositionArgs}
@@ -42,6 +30,10 @@ var nearPositions = function nearPositions(pos) {
         return a.concat(b);
     });
 };
+var openPosition = function openPosition(pos) {
+    pos.opened = true;
+    return pos;
+};
 function isValidConfig(fieldConfig) {
     var totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
@@ -60,6 +52,22 @@ function countNearBombs(field) {
     });
     return countedField;
 }
+var getRandomPos = function getRandomPos(field, fieldConfig) {
+    var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
+    var height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
+    return field[width][height];
+};
+/**
+ * Populate new field with bombs
+ */
+var getBombs = function getBombs(field, fieldConfig) {
+    for (var i = 0; i < fieldConfig.bombs; i++) {
+        var pos = getRandomPos(field, fieldConfig);
+        if (pos && pos.isBomb) i--;
+        pos.isBomb = true;
+    }
+    return field;
+};
 var getEmptyField = function getEmptyField(fieldConfig) {
     var widthRange = _ramda2.default.range(0, fieldConfig.width);
     var heightRange = _ramda2.default.range(0, fieldConfig.height);
@@ -78,26 +86,61 @@ var newPos = function newPos(i, j) {
         opened: false, marked: 0, isValid: true
     };
 };
+function getInitialField(fieldConfig) {
+    if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
+    var emptyField = getEmptyField(fieldConfig);
+    var bombedField = getBombs(emptyField, fieldConfig);
+    return countNearBombs(bombedField);
+}
 function logField(field) {
     var countedField = field;
-    var firstLine = '   |';
+    var indexColor = '\x1b[37m';
+    var resetColor = '\x1b[0m';
+    var firstLine = '    ';
     field.map(function (f, index) {
-        return firstLine += ' ' + (index + 1) + ' |';
+        return firstLine += ' ' + (index + 1) + '  ';
     });
-    console.log(firstLine);
+    console.log(indexColor + firstLine + resetColor);
     var row = void 0;
     field.map(function (col, colIndex) {
         var line = '|';
         row = '   ';
         col.map(function (pos, index) {
             if (index === 0 && colIndex === 0) line = line;
-            if (index === 0) line = ' ' + (colIndex + 1) + ' |';
+            if (index === 0) line = ' ' + indexColor + (colIndex + 1) + resetColor + ' |';
             if (countedField[pos.x][pos.y].opened) {
                 if (countedField[pos.x][pos.y].isBomb) {
-                    line += ' * ';
+                    line += '\x1b[31m * ' + resetColor;
                     row += '---';
                 } else {
-                    line += ' ' + countedField[pos.x][pos.y].nearBombs + ' ';
+                    var numBombs = countedField[pos.x][pos.y].nearBombs;
+                    var numBombsString = void 0;
+                    switch (numBombs) {
+                        case 1:
+                            numBombsString = '\x1b[34m' + numBombs;
+                            break;
+                        case 2:
+                            numBombsString = '\x1b[32m' + numBombs;
+                            break;
+                        case 3:
+                            numBombsString = '\x1b[33m' + numBombs;
+                            break;
+                        case 4:
+                            numBombsString = '\x1b[35m' + numBombs;
+                            break;
+                        case 5:
+                            numBombsString = '\x1b[36m' + numBombs;
+                            break;
+                        case 7:
+                            numBombsString = '\x1b[31m' + numBombs;
+                            break;
+                        case 8:
+                            numBombsString = '\x1b[37m' + numBombs;
+                            break;
+                        default:
+                            numBombsString = ' ';
+                    }
+                    line += ' ' + numBombsString + resetColor + ' ';
                     row += '---';
                 }
             } else {
@@ -112,15 +155,11 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-function getInitialField(fieldConfig) {
-    if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
-    var emptyField = getEmptyField(fieldConfig);
-    var bombedField = getBombs(emptyField, fieldConfig);
-    return countNearBombs(bombedField);
-}
 exports.getInitialField = getInitialField;
 exports.countNearBombs = countNearBombs;
 exports.logField = logField;
 exports.nearPositions = nearPositions;
+exports.newPos = newPos;
+exports.openPosition = openPosition;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

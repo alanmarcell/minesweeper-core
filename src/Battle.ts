@@ -1,4 +1,4 @@
-import { getInitialField, nearPositions } from './Field';
+import { getInitialField, nearPositions, openPosition } from './Field';
 import { IBattle } from './IBattle';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
@@ -16,11 +16,6 @@ function startBattle(): IBattle {
         isOver: false
     };
     return battle;
-}
-
-function openPosition(pos: IPosition): IPosition {
-    pos.opened = true;
-    return pos;
 }
 
 function openNearPositions(battle: IBattle, pos: IPositionArgs) {

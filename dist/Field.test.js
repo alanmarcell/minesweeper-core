@@ -56,6 +56,20 @@ describe('Field', function () {
             countedField.should.be.an('array');
         });
     });
+    describe('openPosition', function () {
+        it('should return a opened position', function () {
+            var closedPosition = field.newPos(1, 1);
+            var openedPosition = field.openPosition(closedPosition);
+            // tslint:disable-next-line:no-unused-expression
+            openedPosition.opened.should.be.true;
+        });
+        it('should return a opened position', function () {
+            var invalidPosition = field.newPos(-1, 1);
+            var openedPosition = field.openPosition(invalidPosition);
+            // tslint:disable-next-line:no-unused-expression
+            openedPosition.opened.should.be.true;
+        });
+    });
 });
 //# sourceMappingURL=Field.test.js.map
 //# sourceMappingURL=Field.test.js.map

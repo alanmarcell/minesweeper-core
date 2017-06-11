@@ -1,20 +1,6 @@
 import R from 'ramda';
 import { IField, IFieldConfig } from './IField';
-import { IPositionArgs } from './IPosition';
-
-/**
- * Populate new field with bombs
- */
-const getBombs = (field: IField, fieldConfig: IFieldConfig) => {
-    for (let i = 0; i < fieldConfig.bombs; i++) {
-        const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
-        const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
-        if (field[width][height] && field[width][height].isBomb)
-            i--;
-        field[width][height].isBomb = true;
-    }
-    return field;
-};
+import { IPosition, IPositionArgs } from './IPosition';
 
 /**
  * Receives a pos and return his near positions
@@ -31,6 +17,11 @@ const nearPositions = (pos: IPositionArgs) => {
     })));
 
     return arrayPos.reduce((a, b) => a.concat(b));
+};
+
+const openPosition = (pos: IPosition) => {
+    pos.opened = true;
+    return pos;
 };
 
 function isValidConfig(fieldConfig: IFieldConfig): boolean {
@@ -52,6 +43,25 @@ function countNearBombs(field: IField): IField {
     return countedField;
 }
 
+const getRandomPos = (field: IField, fieldConfig: IFieldConfig) => {
+    const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
+    const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
+    return field[width][height];
+};
+
+/**
+ * Populate new field with bombs
+ */
+const getBombs = (field: IField, fieldConfig: IFieldConfig) => {
+    for (let i = 0; i < fieldConfig.bombs; i++) {
+        const pos = getRandomPos(field, fieldConfig);
+        if (pos && pos.isBomb)
+            i--;
+        pos.isBomb = true;
+    }
+    return field;
+};
+
 const getEmptyField = (fieldConfig: IFieldConfig) => {
     const widthRange = R.range(0, fieldConfig.width);
     const heightRange = R.range(0, fieldConfig.height);
@@ -69,11 +79,23 @@ const newPos = (i: number, j: number) => {
     };
 };
 
+function getInitialField(fieldConfig: IFieldConfig): IField {
+
+    if (!isValidConfig(fieldConfig))
+        throw new Error('Invalid field configuration');
+
+    const emptyField = getEmptyField(fieldConfig);
+    const bombedField: IField = getBombs(emptyField, fieldConfig);
+    return countNearBombs(bombedField);
+}
+
 function logField(field): void {
     const countedField: IField = field;
-    let firstLine = '   |';
-    field.map((f, index) => firstLine += ' ' + (index + 1) + ' |');
-    console.log(firstLine);
+    const indexColor = '\x1b[37m';
+    const resetColor = '\x1b[0m';
+    let firstLine = '    ';
+    field.map((f, index) => firstLine += ' ' + (index + 1) + '  ');
+    console.log(indexColor + firstLine + resetColor);
     let row: string;
     field.map((col, colIndex) => {
         var line = '|';
@@ -82,13 +104,41 @@ function logField(field): void {
             if (index === 0 && colIndex === 0)
                 line = line;
             if (index === 0)
-                line = ' ' + (colIndex + 1) + ' |';
+                line = ' ' + indexColor + (colIndex + 1) + resetColor + ' |';
             if (countedField[pos.x][pos.y].opened) {
                 if (countedField[pos.x][pos.y].isBomb) {
-                    line += ' * ';
+                    line += '\x1b[31m * ' + resetColor;
                     row += '---';
                 } else {
-                    line += ' ' + countedField[pos.x][pos.y].nearBombs + ' ';
+                    const numBombs = countedField[pos.x][pos.y].nearBombs;
+                    let numBombsString;
+                    switch (numBombs) {
+                        case 1:
+                            numBombsString = '\x1b[34m' + numBombs;
+                            break;
+                        case 2:
+                            numBombsString = '\x1b[32m' + numBombs;
+                            break;
+                        case 3:
+                            numBombsString = '\x1b[33m' + numBombs;
+                            break;
+                        case 4:
+                            numBombsString = '\x1b[35m' + numBombs;
+                            break;
+                        case 5:
+                            numBombsString = '\x1b[36m' + numBombs;
+                            break;
+                        case 7:
+                            numBombsString = '\x1b[31m' + numBombs;
+                            break;
+                        case 8:
+                            numBombsString = '\x1b[37m' + numBombs;
+                            break;
+                        default:
+                            numBombsString = ' ';
+                    }
+
+                    line += ' ' + numBombsString + resetColor + ' ';
                     row += '---';
                 }
             } else {
@@ -104,16 +154,11 @@ function logField(field): void {
     console.log(row + '\n');
 }
 
-function getInitialField(fieldConfig: IFieldConfig): IField {
-
-    if (!isValidConfig(fieldConfig))
-        throw new Error('Invalid field configuration');
-
-    const emptyField = getEmptyField(fieldConfig);
-    const bombedField: IField = getBombs(emptyField, fieldConfig);
-    return countNearBombs(bombedField);
-}
-
 export {
-    getInitialField, countNearBombs, logField, nearPositions
+    getInitialField,
+    countNearBombs,
+    logField,
+    nearPositions,
+    newPos,
+    openPosition
 };

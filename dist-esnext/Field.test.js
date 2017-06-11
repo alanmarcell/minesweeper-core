@@ -43,5 +43,19 @@ describe('Field', () => {
             countedField.should.be.an('array');
         });
     });
+    describe('openPosition', () => {
+        it('should return a opened position', () => {
+            const closedPosition = field.newPos(1, 1);
+            const openedPosition = field.openPosition(closedPosition);
+            // tslint:disable-next-line:no-unused-expression
+            openedPosition.opened.should.be.true;
+        });
+        it('should return a opened position', () => {
+            const invalidPosition = field.newPos(-1, 1);
+            const openedPosition = field.openPosition(invalidPosition);
+            // tslint:disable-next-line:no-unused-expression
+            openedPosition.opened.should.be.true;
+        });
+    });
 });
 //# sourceMappingURL=Field.test.js.map
