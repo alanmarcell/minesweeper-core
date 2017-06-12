@@ -1,63 +1,66 @@
 import chai from 'chai';
 import * as a from 'chai';
-// import R from 'ramda';
+import R from 'ramda';
 // import { LogFile } from 'ptz-log-file';
 import * as Field from './Field';
 const should = a.should();
 chai.should();
 // import { IPosition } from './IPosition';
-// const log = LogFile({});
-describe('getInitialField', () => {
-    let fieldConfig;
-    let initialField;
-    const validPos = {
-        x: 0,
-        y: 0
-    };
-    beforeEach(() => {
-        fieldConfig = {
-            bombs: 9, width: 9, height: 9
-        };
-        initialField = Field.getInitialField(fieldConfig);
-        initialField.should.be.an('array');
-    });
-    describe('Field', () => {
-        it('bombs in the field should match fieldConfig bombs', () => {
-            var bombs = 0;
-            Field.allPositions(initialField).map(p => p.isBomb ? bombs++ : bombs);
-            bombs.should.be.equal(fieldConfig.bombs);
+// const log = LogFile({});'
+const validFieldConfig = { bombs: 9, width: 9, height: 9 };
+const invalidFieldConfig = { bombs: 27, width: 5, height: 5 };
+const validPos = { x: 0, y: 0 };
+const invalidPos = { x: -1, y: -1 };
+const initialField = Field.getInitialField(validFieldConfig);
+const emptyField = Field.getEmptyField(validFieldConfig);
+console.log(emptyField);
+describe('Field', () => {
+    describe('getEmptyField', () => {
+        emptyField.should.be.an('array');
+        it.skip('should have no bombs', () => {
+            let bombs = 0;
+            // console.log(emptyField);
+            Field.allPositions(emptyField).map(p => p.isBomb ? bombs++ : bombs);
+            bombs.should.be.equal(0);
         });
         it('should field size match fieldConfig size', () => {
-            initialField.length.should.be.equal(fieldConfig.width);
-            initialField[0].length.should.be.equal(fieldConfig.height);
+            emptyField.length.should.be.equal(validFieldConfig.width);
+            emptyField[0].length.should.be.equal(validFieldConfig.height);
+        });
+    });
+    describe('getBombedField', () => {
+        console.log(emptyField);
+        const bombedField = Field.getBombedField(emptyField, validFieldConfig);
+        console.log('after ----', emptyField);
+        bombedField.should.be.an('array');
+        it('should match bombs in the field with fieldConfig bombs', () => {
+            let bombs = 0;
+            Field.allPositions(bombedField).map(p => p.isBomb ? bombs++ : bombs);
+            bombs.should.be.equal(validFieldConfig.bombs);
         });
         it('should throw an error if bombs number is bigger than fild size', () => {
             try {
-                const invalidFieldConfig = {
-                    bombs: 27, width: 5, height: 5
-                };
-                should.not.exist(initialField = Field.getInitialField(invalidFieldConfig));
+                const invalidField = Field.getInitialField(invalidFieldConfig);
+                should.not.exist(invalidField);
             }
             catch (e) {
                 e.should.be.an('error');
             }
         });
-        it('count near bombs', () => {
-            initialField = Field.getInitialField(fieldConfig);
-            const countedField = Field.countNearBombs(initialField);
-            countedField.should.be.an('array');
-        });
+    });
+    it('count near bombs', () => {
+        const countedField = Field.countNearBombs(initialField);
+        const flattenField = R.flatten(countedField);
+        const isBombeb = (pos) => pos.isBomb;
+        const bombedPos = R.find(isBombeb, flattenField);
+        const nearBombebPos = (pos) => Field.validNearPos(initialField, pos);
+        nearBombebPos(bombedPos).map(p => countedField[p.x][p.y].nearBombs.should.be.above(0));
+        countedField.should.be.an('array');
     });
     describe('openPosition', () => {
         it('should return a opened position', () => {
             const closedPosition = Field.newPos(1, 1);
             const openedPosition = Field.openPosition(closedPosition);
-            // tslint:disable-next-line:no-unused-expression
-            openedPosition.opened.should.be.true;
-        });
-        it('should return a opened position', () => {
-            const invalidPosition = Field.newPos(-1, 1);
-            const openedPosition = Field.openPosition(invalidPosition);
             // tslint:disable-next-line:no-unused-expression
             openedPosition.opened.should.be.true;
         });
@@ -68,12 +71,16 @@ describe('getInitialField', () => {
             nearPos.should.be.an('array');
         });
     });
-    describe.skip('positionIsValid', () => {
+    describe('positionIsValid', () => {
         it('should return true if position is valid', () => {
-            Field.positionIsValid(initialField, validPos);
+            const isValid = Field.positionIsValid(initialField, validPos);
+            // tslint:disable-next-line:no-unused-expression
+            isValid.should.be.true;
         });
-        it('should return false if position is valid', () => {
-            //
+        it('should return false if position is invalid', () => {
+            const isValid = Field.positionIsValid(initialField, invalidPos);
+            // tslint:disable-next-line:no-unused-expression
+            isValid.should.be.false;
         });
     });
     describe('validNearPositions', () => {

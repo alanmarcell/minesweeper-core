@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.allPositions = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getInitialField = undefined;
+exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
 
 var _ramda = require('ramda');
 
@@ -33,46 +33,50 @@ var nearPositions = function nearPositions(pos) {
 var validNearPos = _ramda2.default.curry(function (field, pos) {
     return _ramda2.default.filter(positionIsValid(field), nearPositions(pos));
 });
-// TODO immutable
 var openPosition = function openPosition(pos) {
-    pos.opened = true;
-    return pos;
+    var openedPos = pos;
+    openedPos.opened = true;
+    return openedPos;
 };
-function isValidConfig(fieldConfig) {
+var isValidConfig = function isValidConfig(fieldConfig) {
     var totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
-}
+};
 var allPositions = function allPositions(field) {
     return field.reduce(function (a, b) {
         return a.concat(b);
     });
 };
-function countNearBombs(field) {
+var countNearBombs = function countNearBombs(field) {
     var countedField = field;
     allPositions(field).map(function (pos) {
         if (pos.isBomb) validNearPos(field, pos).map(function (p) {
             return countedField[p.x][p.y].nearBombs++;
-        }); // TODO immutable
-    });
+        });
+    }); // TODO immutable
     return countedField;
-}
+};
 // TODO use ptz-math and help with any math method you need
 var getRandomPos = function getRandomPos(field, fieldConfig) {
     var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
     var height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
     return field[width][height];
 };
+var bombPos = function bombPos(field, config) {
+    var pos = getRandomPos(field, config);
+    if (pos.isBomb) {
+        return bombPos(field, config);
+    }
+    pos.isBomb = true;
+    return field;
+};
 /**
  * Populate new field with bombs
  */
-var getBombs = function getBombs(field, fieldConfig) {
-    // TODO no for
-    for (var i = 0; i < fieldConfig.bombs; i++) {
-        var pos = getRandomPos(field, fieldConfig);
-        if (pos && pos.isBomb) i--;
-        pos.isBomb = true;
-    }
-    return field;
+var getBombedField = function getBombedField(field, config) {
+    return _ramda2.default.last(_ramda2.default.range(0, config.bombs).map(function () {
+        return bombPos(field, config);
+    }));
 };
 var getEmptyField = function getEmptyField(fieldConfig) {
     var widthRange = _ramda2.default.range(0, fieldConfig.width);
@@ -92,12 +96,12 @@ var newPos = function newPos(i, j) {
         opened: false, marked: 0, isValid: true
     };
 };
-function getInitialField(fieldConfig) {
+var getInitialField = function getInitialField(fieldConfig) {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
     var emptyField = getEmptyField(fieldConfig);
-    var bombedField = getBombs(emptyField, fieldConfig);
+    var bombedField = getBombedField(emptyField, fieldConfig);
     return countNearBombs(bombedField);
-}
+};
 // TODO break in small functions
 function logField(field) {
     var countedField = field;
@@ -145,7 +149,7 @@ function logField(field) {
                             numBombsString = '\x1b[37m' + numBombs;
                             break;
                         default:
-                            numBombsString = ' ';
+                            numBombsString = '\x1b[37m' + numBombs;
                     }
                     line += ' ' + numBombsString + resetColor + ' ';
                     row += '---';
@@ -162,7 +166,10 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
+exports.allPositions = allPositions;
 exports.getInitialField = getInitialField;
+exports.getEmptyField = getEmptyField;
+exports.getBombedField = getBombedField;
 exports.countNearBombs = countNearBombs;
 exports.logField = logField;
 exports.nearPositions = nearPositions;
@@ -170,6 +177,5 @@ exports.newPos = newPos;
 exports.openPosition = openPosition;
 exports.positionIsValid = positionIsValid;
 exports.validNearPos = validNearPos;
-exports.allPositions = allPositions;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

@@ -17,43 +17,42 @@ const nearPositions = (pos) => {
     }))));
 };
 const validNearPos = R.curry((field, pos) => R.filter(positionIsValid(field), nearPositions(pos)));
-// TODO immutable
 const openPosition = (pos) => {
-    pos.opened = true;
-    return pos;
+    const openedPos = pos;
+    openedPos.opened = true;
+    return openedPos;
 };
-function isValidConfig(fieldConfig) {
+const isValidConfig = (fieldConfig) => {
     const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
-}
+};
 const allPositions = (field) => field.reduce((a, b) => a.concat(b));
-function countNearBombs(field) {
+const countNearBombs = (field) => {
     const countedField = field;
     allPositions(field).map(pos => {
         if (pos.isBomb)
-            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++); // TODO immutable
-    });
+            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+    }); // TODO immutable
     return countedField;
-}
+};
 // TODO use ptz-math and help with any math method you need
 const getRandomPos = (field, fieldConfig) => {
     const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
     const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
     return field[width][height];
 };
+const bombPos = (field, config) => {
+    const pos = getRandomPos(field, config);
+    if (pos.isBomb) {
+        return bombPos(field, config);
+    }
+    pos.isBomb = true;
+    return field;
+};
 /**
  * Populate new field with bombs
  */
-const getBombs = (field, fieldConfig) => {
-    // TODO no for
-    for (let i = 0; i < fieldConfig.bombs; i++) {
-        const pos = getRandomPos(field, fieldConfig);
-        if (pos && pos.isBomb)
-            i--;
-        pos.isBomb = true;
-    }
-    return field;
-};
+const getBombedField = (field, config) => R.last(R.range(0, config.bombs).map(() => bombPos(field, config)));
 const getEmptyField = (fieldConfig) => {
     const widthRange = R.range(0, fieldConfig.width);
     const heightRange = R.range(0, fieldConfig.height);
@@ -68,13 +67,13 @@ const newPos = (i, j) => {
         opened: false, marked: 0, isValid: true
     };
 };
-function getInitialField(fieldConfig) {
+const getInitialField = (fieldConfig) => {
     if (!isValidConfig(fieldConfig))
         throw new Error('Invalid field configuration');
     const emptyField = getEmptyField(fieldConfig);
-    const bombedField = getBombs(emptyField, fieldConfig);
+    const bombedField = getBombedField(emptyField, fieldConfig);
     return countNearBombs(bombedField);
-}
+};
 // TODO break in small functions
 function logField(field) {
     const countedField = field;
@@ -123,7 +122,7 @@ function logField(field) {
                             numBombsString = '\x1b[37m' + numBombs;
                             break;
                         default:
-                            numBombsString = ' ';
+                            numBombsString = '\x1b[37m' + numBombs;
                     }
                     line += ' ' + numBombsString + resetColor + ' ';
                     row += '---';
@@ -141,5 +140,5 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, validNearPos, allPositions };
+export { allPositions, getInitialField, getEmptyField, getBombedField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, validNearPos };
 //# sourceMappingURL=Field.js.map

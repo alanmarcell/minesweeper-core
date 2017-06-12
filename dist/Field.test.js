@@ -4,71 +4,87 @@ var _chai = require('chai');
 
 var a = _interopRequireWildcard(_chai);
 
+var _ramda = require('ramda');
+
+var _ramda2 = _interopRequireDefault(_ramda);
+
 var _Field = require('./Field');
 
 var Field = _interopRequireWildcard(_Field);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var should = a.should();
-// import R from 'ramda';
 // import { LogFile } from 'ptz-log-file';
 
 a.default.should();
 // import { IPosition } from './IPosition';
-// const log = LogFile({});
-describe('getInitialField', function () {
-    var fieldConfig = void 0;
-    var initialField = void 0;
-    var validPos = {
-        x: 0,
-        y: 0
-    };
-    beforeEach(function () {
-        fieldConfig = {
-            bombs: 9, width: 9, height: 9
-        };
-        initialField = Field.getInitialField(fieldConfig);
-        initialField.should.be.an('array');
-    });
-    describe('Field', function () {
-        it('bombs in the field should match fieldConfig bombs', function () {
+// const log = LogFile({});'
+var validFieldConfig = { bombs: 9, width: 9, height: 9 };
+var invalidFieldConfig = { bombs: 27, width: 5, height: 5 };
+var validPos = { x: 0, y: 0 };
+var invalidPos = { x: -1, y: -1 };
+var initialField = Field.getInitialField(validFieldConfig);
+var emptyField = Field.getEmptyField(validFieldConfig);
+console.log(emptyField);
+describe('Field', function () {
+    describe('getEmptyField', function () {
+        emptyField.should.be.an('array');
+        it.skip('should have no bombs', function () {
             var bombs = 0;
-            Field.allPositions(initialField).map(function (p) {
+            // console.log(emptyField);
+            Field.allPositions(emptyField).map(function (p) {
                 return p.isBomb ? bombs++ : bombs;
             });
-            bombs.should.be.equal(fieldConfig.bombs);
+            bombs.should.be.equal(0);
         });
         it('should field size match fieldConfig size', function () {
-            initialField.length.should.be.equal(fieldConfig.width);
-            initialField[0].length.should.be.equal(fieldConfig.height);
+            emptyField.length.should.be.equal(validFieldConfig.width);
+            emptyField[0].length.should.be.equal(validFieldConfig.height);
+        });
+    });
+    describe('getBombedField', function () {
+        console.log(emptyField);
+        var bombedField = Field.getBombedField(emptyField, validFieldConfig);
+        console.log('after ----', emptyField);
+        bombedField.should.be.an('array');
+        it('should match bombs in the field with fieldConfig bombs', function () {
+            var bombs = 0;
+            Field.allPositions(bombedField).map(function (p) {
+                return p.isBomb ? bombs++ : bombs;
+            });
+            bombs.should.be.equal(validFieldConfig.bombs);
         });
         it('should throw an error if bombs number is bigger than fild size', function () {
             try {
-                var invalidFieldConfig = {
-                    bombs: 27, width: 5, height: 5
-                };
-                should.not.exist(initialField = Field.getInitialField(invalidFieldConfig));
+                var invalidField = Field.getInitialField(invalidFieldConfig);
+                should.not.exist(invalidField);
             } catch (e) {
                 e.should.be.an('error');
             }
         });
-        it('count near bombs', function () {
-            initialField = Field.getInitialField(fieldConfig);
-            var countedField = Field.countNearBombs(initialField);
-            countedField.should.be.an('array');
+    });
+    it('count near bombs', function () {
+        var countedField = Field.countNearBombs(initialField);
+        var flattenField = _ramda2.default.flatten(countedField);
+        var isBombeb = function isBombeb(pos) {
+            return pos.isBomb;
+        };
+        var bombedPos = _ramda2.default.find(isBombeb, flattenField);
+        var nearBombebPos = function nearBombebPos(pos) {
+            return Field.validNearPos(initialField, pos);
+        };
+        nearBombebPos(bombedPos).map(function (p) {
+            return countedField[p.x][p.y].nearBombs.should.be.above(0);
         });
+        countedField.should.be.an('array');
     });
     describe('openPosition', function () {
         it('should return a opened position', function () {
             var closedPosition = Field.newPos(1, 1);
             var openedPosition = Field.openPosition(closedPosition);
-            // tslint:disable-next-line:no-unused-expression
-            openedPosition.opened.should.be.true;
-        });
-        it('should return a opened position', function () {
-            var invalidPosition = Field.newPos(-1, 1);
-            var openedPosition = Field.openPosition(invalidPosition);
             // tslint:disable-next-line:no-unused-expression
             openedPosition.opened.should.be.true;
         });
@@ -79,12 +95,16 @@ describe('getInitialField', function () {
             nearPos.should.be.an('array');
         });
     });
-    describe.skip('positionIsValid', function () {
+    describe('positionIsValid', function () {
         it('should return true if position is valid', function () {
-            Field.positionIsValid(initialField, validPos);
+            var isValid = Field.positionIsValid(initialField, validPos);
+            // tslint:disable-next-line:no-unused-expression
+            isValid.should.be.true;
         });
-        it('should return false if position is valid', function () {
-            //
+        it('should return false if position is invalid', function () {
+            var isValid = Field.positionIsValid(initialField, invalidPos);
+            // tslint:disable-next-line:no-unused-expression
+            isValid.should.be.false;
         });
     });
     describe('validNearPositions', function () {
