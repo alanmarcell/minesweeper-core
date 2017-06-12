@@ -2,6 +2,7 @@ import R from 'ramda';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
 
+// TODO rename position to p
 const positionIsValid = R.curry((field: IField, position: IPositionArgs) => {
     return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
 });
@@ -26,8 +27,10 @@ const nearPositions = (pos: IPositionArgs) => {
 
 const validNearPos = (field, pos) => R.filter(positionIsValid(field), nearPositions(pos));
 
+// TODO remove curried version
 const curriedValidNearPos = R.curry(validNearPos);
 
+// TODO immutable
 const openPosition = (pos: IPosition) => {
     pos.opened = true;
     return pos;
@@ -44,11 +47,12 @@ function countNearBombs(field: IField): IField {
     const countedField: IField = field;
     allPositions(field).map(pos => {
         if (pos.isBomb)
-            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++); // TODO immutable
     });
     return countedField;
 }
 
+// TODO use ptz-math and help with any math method you need
 const getRandomPos = (field: IField, fieldConfig: IFieldConfig) => {
     const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
     const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
@@ -59,6 +63,7 @@ const getRandomPos = (field: IField, fieldConfig: IFieldConfig) => {
  * Populate new field with bombs
  */
 const getBombs = (field: IField, fieldConfig: IFieldConfig) => {
+    // TODO no for
     for (let i = 0; i < fieldConfig.bombs; i++) {
         const pos = getRandomPos(field, fieldConfig);
         if (pos && pos.isBomb)
@@ -95,6 +100,7 @@ function getInitialField(fieldConfig: IFieldConfig): IField {
     return countNearBombs(bombedField);
 }
 
+// TODO break in small functions
 function logField(field): void {
     const countedField: IField = field;
     const indexColor = '\x1b[37m';
