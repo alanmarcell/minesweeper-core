@@ -33,7 +33,18 @@ const clickPosition = (battle: IBattle, position: IPositionArgs) => {
     return battle;
 };
 
+const markPosition = (battle: IBattle, position: IPositionArgs) => {
+    if (!positionIsValid(battle.field, position)) return battle;
+
+    const pos: IPosition = battle.field[position.x][position.y];
+    if (pos.opened) return battle;
+    if (pos.isBomb) return endBattle(battle);
+
+    pos.marked++;
+    return battle;
+};
+
 export {
     startBattle,
-    clickPosition
+    clickPosition, markPosition
 };

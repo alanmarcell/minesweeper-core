@@ -30,6 +30,13 @@ const openPosition = (pos: IPosition) => {
     return openedPos;
 };
 
+const markPosition = (pos: IPosition) => {
+    const markedPos = updatePos(pos);
+    if (markedPos.marked === 2) markedPos.marked = 0;
+    else markedPos.marked++;
+    return markedPos;
+};
+
 const isValidConfig = (fieldConfig: IFieldConfig) => {
     const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
@@ -77,12 +84,14 @@ const getEmptyField = (fieldConfig: IFieldConfig) => {
 /**
  * Get a new position
  */
-const newPos = (i: number, j: number) => {
+const newPos = (x: number, y: number) => {
     return {
-        x: i, y: j, isBomb: false, nearBombs: 0,
+        x, y, isBomb: false, nearBombs: 0,
         opened: false, marked: 0, isValid: true
     };
 };
+
+const updatePos = (pos: IPosition) => R.clone(pos);
 
 const getInitialField = (fieldConfig: IFieldConfig) => {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
@@ -166,9 +175,11 @@ export {
     getBombedField,
     countNearBombs,
     logField,
+    markPosition,
     nearPositions,
     newPos,
     openPosition,
     positionIsValid,
-    validNearPos
+    validNearPos,
+    updatePos
 };

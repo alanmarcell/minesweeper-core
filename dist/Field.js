@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.logField = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
+exports.updatePos = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.markPosition = exports.logField = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
 
 var _ramda = require('ramda');
 
@@ -37,6 +37,11 @@ var openPosition = function openPosition(pos) {
     var openedPos = pos;
     openedPos.opened = true;
     return openedPos;
+};
+var markPosition = function markPosition(pos) {
+    var markedPos = updatePos(pos);
+    if (markedPos.marked === 2) markedPos.marked = 0;else markedPos.marked++;
+    return markedPos;
 };
 var isValidConfig = function isValidConfig(fieldConfig) {
     var totalPositions = fieldConfig.width * fieldConfig.height;
@@ -90,11 +95,14 @@ var getEmptyField = function getEmptyField(fieldConfig) {
 /**
  * Get a new position
  */
-var newPos = function newPos(i, j) {
+var newPos = function newPos(x, y) {
     return {
-        x: i, y: j, isBomb: false, nearBombs: 0,
+        x: x, y: y, isBomb: false, nearBombs: 0,
         opened: false, marked: 0, isValid: true
     };
+};
+var updatePos = function updatePos(pos) {
+    return _ramda2.default.clone(pos);
 };
 var getInitialField = function getInitialField(fieldConfig) {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
@@ -172,10 +180,12 @@ exports.getEmptyField = getEmptyField;
 exports.getBombedField = getBombedField;
 exports.countNearBombs = countNearBombs;
 exports.logField = logField;
+exports.markPosition = markPosition;
 exports.nearPositions = nearPositions;
 exports.newPos = newPos;
 exports.openPosition = openPosition;
 exports.positionIsValid = positionIsValid;
 exports.validNearPos = validNearPos;
+exports.updatePos = updatePos;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

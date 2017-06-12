@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.clickPosition = exports.startBattle = undefined;
+exports.markPosition = exports.clickPosition = exports.startBattle = undefined;
 
 var _ramda = require('ramda');
 
@@ -43,7 +43,16 @@ var clickPosition = function clickPosition(battle, position) {
     if (openedPos.nearBombs === 0) return openNearPositions(battle, openedPos);
     return battle;
 };
+var markPosition = function markPosition(battle, position) {
+    if (!(0, _Field.positionIsValid)(battle.field, position)) return battle;
+    var pos = battle.field[position.x][position.y];
+    if (pos.opened) return battle;
+    if (pos.isBomb) return endBattle(battle);
+    pos.marked++;
+    return battle;
+};
 exports.startBattle = startBattle;
 exports.clickPosition = clickPosition;
+exports.markPosition = markPosition;
 //# sourceMappingURL=Battle.js.map
 //# sourceMappingURL=Battle.js.map

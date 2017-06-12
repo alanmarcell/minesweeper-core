@@ -24,5 +24,16 @@ const clickPosition = (battle, position) => {
         return openNearPositions(battle, openedPos);
     return battle;
 };
-export { startBattle, clickPosition };
+const markPosition = (battle, position) => {
+    if (!positionIsValid(battle.field, position))
+        return battle;
+    const pos = battle.field[position.x][position.y];
+    if (pos.opened)
+        return battle;
+    if (pos.isBomb)
+        return endBattle(battle);
+    pos.marked++;
+    return battle;
+};
+export { startBattle, clickPosition, markPosition };
 //# sourceMappingURL=Battle.js.map

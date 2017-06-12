@@ -22,6 +22,14 @@ const openPosition = (pos) => {
     openedPos.opened = true;
     return openedPos;
 };
+const markPosition = (pos) => {
+    const markedPos = updatePos(pos);
+    if (markedPos.marked === 2)
+        markedPos.marked = 0;
+    else
+        markedPos.marked++;
+    return markedPos;
+};
 const isValidConfig = (fieldConfig) => {
     const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
@@ -61,12 +69,13 @@ const getEmptyField = (fieldConfig) => {
 /**
  * Get a new position
  */
-const newPos = (i, j) => {
+const newPos = (x, y) => {
     return {
-        x: i, y: j, isBomb: false, nearBombs: 0,
+        x, y, isBomb: false, nearBombs: 0,
         opened: false, marked: 0, isValid: true
     };
 };
+const updatePos = (pos) => R.clone(pos);
 const getInitialField = (fieldConfig) => {
     if (!isValidConfig(fieldConfig))
         throw new Error('Invalid field configuration');
@@ -140,5 +149,5 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-export { allPositions, getInitialField, getEmptyField, getBombedField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, validNearPos };
+export { allPositions, getInitialField, getEmptyField, getBombedField, countNearBombs, logField, markPosition, nearPositions, newPos, openPosition, positionIsValid, validNearPos, updatePos };
 //# sourceMappingURL=Field.js.map
