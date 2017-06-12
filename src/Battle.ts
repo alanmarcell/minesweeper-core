@@ -4,17 +4,9 @@ import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
 
 function startBattle(fieldConfig: IFieldConfig): IBattle {
-
     const field: IField = getInitialField(fieldConfig);
-
-    // TODO delete variable
-    const battle: IBattle = {
-        field,
-        isOver: false
-    };
-    return battle;
+    return { field, isOver: false };
 }
-
 function openNearPositions(battle: IBattle, pos: IPositionArgs) {
     // TODO impure
     nearPositions(pos).map(p => clickPosition(battle, p));
@@ -33,22 +25,14 @@ function endBattle(battle: IBattle): IBattle {
 }
 
 function clickPosition(battle: IBattle, position: IPositionArgs): IBattle {
-    if (!positionIsValid(battle.field, position))
-        return battle;
+    if (!positionIsValid(battle.field, position)) return battle;
 
-    // TODO use const
-    let pos: IPosition = battle.field[position.x][position.y];
-    if (pos.opened)
-        return battle;
+    const pos: IPosition = battle.field[position.x][position.y];
+    if (pos.opened) return battle;
+    if (pos.isBomb) return endBattle(battle);
 
-    if (pos.isBomb) {
-        console.log('GAME OVER!', position);
-        return endBattle(battle);
-    }
-
-    pos = openPosition(pos);
-    if (pos.nearBombs === 0)
-        battle = openNearPositions(battle, pos); // TODO return directly with inline if
+    const openedPos = openPosition(pos);
+    if (openedPos.nearBombs === 0) return openNearPositions(battle, openedPos);
     return battle;
 }
 

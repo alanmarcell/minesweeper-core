@@ -9,13 +9,10 @@ var _Field = require('./Field');
 
 function startBattle(fieldConfig) {
     var field = (0, _Field.getInitialField)(fieldConfig);
-    var battle = {
-        field: field,
-        isOver: false
-    };
-    return battle;
+    return { field: field, isOver: false };
 }
 function openNearPositions(battle, pos) {
+    // TODO impure
     (0, _Field.nearPositions)(pos).map(function (p) {
         return clickPosition(battle, p);
     });
@@ -38,12 +35,9 @@ function clickPosition(battle, position) {
     if (!(0, _Field.positionIsValid)(battle.field, position)) return battle;
     var pos = battle.field[position.x][position.y];
     if (pos.opened) return battle;
-    if (pos.isBomb) {
-        console.log('GAME OVER!', position);
-        return endBattle(battle);
-    }
-    pos = (0, _Field.openPosition)(pos);
-    if (pos.nearBombs === 0) battle = openNearPositions(battle, pos);
+    if (pos.isBomb) return endBattle(battle);
+    var openedPos = (0, _Field.openPosition)(pos);
+    if (openedPos.nearBombs === 0) return openNearPositions(battle, openedPos);
     return battle;
 }
 exports.startBattle = startBattle;

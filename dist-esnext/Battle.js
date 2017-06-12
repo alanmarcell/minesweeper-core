@@ -1,13 +1,10 @@
 import { getInitialField, nearPositions, openPosition, positionIsValid } from './Field';
 function startBattle(fieldConfig) {
     const field = getInitialField(fieldConfig);
-    const battle = {
-        field,
-        isOver: false
-    };
-    return battle;
+    return { field, isOver: false };
 }
 function openNearPositions(battle, pos) {
+    // TODO impure
     nearPositions(pos).map(p => clickPosition(battle, p));
     return battle;
 }
@@ -23,16 +20,14 @@ function endBattle(battle) {
 function clickPosition(battle, position) {
     if (!positionIsValid(battle.field, position))
         return battle;
-    let pos = battle.field[position.x][position.y];
+    const pos = battle.field[position.x][position.y];
     if (pos.opened)
         return battle;
-    if (pos.isBomb) {
-        console.log('GAME OVER!', position);
+    if (pos.isBomb)
         return endBattle(battle);
-    }
-    pos = openPosition(pos);
-    if (pos.nearBombs === 0)
-        battle = openNearPositions(battle, pos);
+    const openedPos = openPosition(pos);
+    if (openedPos.nearBombs === 0)
+        return openNearPositions(battle, openedPos);
     return battle;
 }
 export { startBattle, clickPosition };

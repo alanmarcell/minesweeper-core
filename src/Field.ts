@@ -2,9 +2,8 @@ import R from 'ramda';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
 
-// TODO rename position to p
-const positionIsValid = R.curry((field: IField, position: IPositionArgs) => {
-    return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
+const positionIsValid = R.curry((field: IField, p: IPositionArgs) => {
+    return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 
 /**
@@ -17,18 +16,13 @@ const nearPositions = (pos: IPositionArgs) => {
     /**
      * Get a 3x3 position array with the position and all the near positions then remove the position itseft
      */
-    const arrayPos = R.remove(4, 1, range.map(i => range.map(j => {
-        const p: IPositionArgs = { x: pos.x + i, y: pos.y + j };
-        return p;
-    })));
-
-    return arrayPos.reduce((a, b) => a.concat(b));
+    return R.flatten(R.remove(4, 1, range.map(i => range.map(j => {
+        return { x: pos.x + i, y: pos.y + j };
+    }))));
 };
 
-const validNearPos = (field, pos) => R.filter(positionIsValid(field), nearPositions(pos));
-
-// TODO remove curried version
-const curriedValidNearPos = R.curry(validNearPos);
+const validNearPos = R.curry((field: IField, pos: IPositionArgs) =>
+    R.filter(positionIsValid(field), nearPositions(pos)));
 
 // TODO immutable
 const openPosition = (pos: IPosition) => {
@@ -174,7 +168,6 @@ export {
     newPos,
     openPosition,
     positionIsValid,
-    curriedValidNearPos,
     validNearPos,
     allPositions
 };

@@ -1,6 +1,6 @@
 import R from 'ramda';
-const positionIsValid = R.curry((field, position) => {
-    return position.x >= 0 && position.x < field.length && position.y >= 0 && position.y < field[0].length;
+const positionIsValid = R.curry((field, p) => {
+    return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
  * Receives a pos and return his near positions
@@ -12,14 +12,12 @@ const nearPositions = (pos) => {
     /**
      * Get a 3x3 position array with the position and all the near positions then remove the position itseft
      */
-    const arrayPos = R.remove(4, 1, range.map(i => range.map(j => {
-        const p = { x: pos.x + i, y: pos.y + j };
-        return p;
-    })));
-    return arrayPos.reduce((a, b) => a.concat(b));
+    return R.flatten(R.remove(4, 1, range.map(i => range.map(j => {
+        return { x: pos.x + i, y: pos.y + j };
+    }))));
 };
-const validNearPos = (field, pos) => R.filter(positionIsValid(field), nearPositions(pos));
-const curriedValidNearPos = R.curry(validNearPos);
+const validNearPos = R.curry((field, pos) => R.filter(positionIsValid(field), nearPositions(pos)));
+// TODO immutable
 const openPosition = (pos) => {
     pos.opened = true;
     return pos;
@@ -33,10 +31,11 @@ function countNearBombs(field) {
     const countedField = field;
     allPositions(field).map(pos => {
         if (pos.isBomb)
-            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+            validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++); // TODO immutable
     });
     return countedField;
 }
+// TODO use ptz-math and help with any math method you need
 const getRandomPos = (field, fieldConfig) => {
     const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
     const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
@@ -46,6 +45,7 @@ const getRandomPos = (field, fieldConfig) => {
  * Populate new field with bombs
  */
 const getBombs = (field, fieldConfig) => {
+    // TODO no for
     for (let i = 0; i < fieldConfig.bombs; i++) {
         const pos = getRandomPos(field, fieldConfig);
         if (pos && pos.isBomb)
@@ -75,6 +75,7 @@ function getInitialField(fieldConfig) {
     const bombedField = getBombs(emptyField, fieldConfig);
     return countNearBombs(bombedField);
 }
+// TODO break in small functions
 function logField(field) {
     const countedField = field;
     const indexColor = '\x1b[37m';
@@ -140,5 +141,5 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, curriedValidNearPos, validNearPos, allPositions };
+export { getInitialField, countNearBombs, logField, nearPositions, newPos, openPosition, positionIsValid, validNearPos, allPositions };
 //# sourceMappingURL=Field.js.map
