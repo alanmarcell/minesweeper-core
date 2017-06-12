@@ -1,30 +1,27 @@
+import R from 'ramda';
 import { getInitialField, nearPositions, openPosition, positionIsValid } from './Field';
 import { IBattle } from './IBattle';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
 
-function startBattle(fieldConfig: IFieldConfig): IBattle {
+const startBattle = (fieldConfig: IFieldConfig) => {
     const field: IField = getInitialField(fieldConfig);
     return { field, isOver: false };
-}
-function openNearPositions(battle: IBattle, pos: IPositionArgs) {
-    // TODO impure
-    nearPositions(pos).map(p => clickPosition(battle, p));
+};
+
+const openNearPositions = (battle: IBattle, pos: IPositionArgs) =>
+    R.last(nearPositions(pos).map(p => clickPosition(battle, p)));
+
+const openAllField = (field: IField) =>
+    field.map(col => col.map(pos => openPosition(pos)));
+
+function endBattle(battle: IBattle): IBattle {
+    battle.isOver = true;
+    battle.field = openAllField(battle.field);
     return battle;
 }
 
-function openAllField(field: IField): IField {
-    return field.map(col => col.map(pos => openPosition(pos)));
-}
-
-function endBattle(battle: IBattle): IBattle {
-    const finalBattle: IBattle = battle;
-    finalBattle.isOver = true;
-    finalBattle.field = openAllField(finalBattle.field);
-    return finalBattle;
-}
-
-function clickPosition(battle: IBattle, position: IPositionArgs): IBattle {
+const clickPosition = (battle: IBattle, position: IPositionArgs) => {
     if (!positionIsValid(battle.field, position)) return battle;
 
     const pos: IPosition = battle.field[position.x][position.y];
@@ -34,7 +31,7 @@ function clickPosition(battle: IBattle, position: IPositionArgs): IBattle {
     const openedPos = openPosition(pos);
     if (openedPos.nearBombs === 0) return openNearPositions(battle, openedPos);
     return battle;
-}
+};
 
 export {
     startBattle,

@@ -34,7 +34,6 @@ describe('Field', function () {
         emptyField.should.be.an('array');
         it.skip('should have no bombs', function () {
             var bombs = 0;
-            // console.log(emptyField);
             Field.allPositions(emptyField).map(function (p) {
                 return p.isBomb ? bombs++ : bombs;
             });
@@ -46,9 +45,7 @@ describe('Field', function () {
         });
     });
     describe('getBombedField', function () {
-        console.log(emptyField);
         var bombedField = Field.getBombedField(emptyField, validFieldConfig);
-        console.log('after ----', emptyField);
         bombedField.should.be.an('array');
         it('should match bombs in the field with fieldConfig bombs', function () {
             var bombs = 0;
