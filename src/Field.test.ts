@@ -17,8 +17,6 @@ const invalidPos: IPositionArgs = { x: -1, y: -1 };
 const initialField: IField = Field.getInitialField(validFieldConfig);
 const emptyField: IField = Field.getEmptyField(validFieldConfig);
 
-console.log(emptyField);
-
 describe('Field', () => {
     describe('getEmptyField', () => {
         emptyField.should.be.an('array');
@@ -49,14 +47,16 @@ describe('Field', () => {
             }
         });
     });
-    it('count near bombs', () => {
-        const countedField = Field.countNearBombs(initialField);
-        const flattenField = R.flatten(countedField);
-        const isBombeb = (pos: IPosition) => pos.isBomb;
-        const bombedPos = R.find(isBombeb, flattenField);
-        const nearBombebPos = (pos: IPosition) => Field.validNearPos(initialField, pos);
-        nearBombebPos(bombedPos).map(p => countedField[p.x][p.y].nearBombs.should.be.above(0));
-        countedField.should.be.an('array');
+    describe('countNearBombs', () => {
+        it('should increase near bombs', () => {
+            const countedField = Field.countNearBombs(initialField);
+            const flattenField = R.flatten(countedField);
+            const isBombeb = (pos: IPosition) => pos.isBomb;
+            const bombedPos = R.find(isBombeb, flattenField);
+            const nearBombebPos = (pos: IPosition) => Field.validNearPos(initialField, pos);
+            nearBombebPos(bombedPos).map(p => countedField[p.x][p.y].nearBombs.should.be.above(0));
+            countedField.should.be.an('array');
+        });
     });
     describe('openPosition', () => {
         it('should return a opened position', () => {

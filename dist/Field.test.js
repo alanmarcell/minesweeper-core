@@ -28,7 +28,6 @@ var validPos = { x: 0, y: 0 };
 var invalidPos = { x: -1, y: -1 };
 var initialField = Field.getInitialField(validFieldConfig);
 var emptyField = Field.getEmptyField(validFieldConfig);
-console.log(emptyField);
 describe('Field', function () {
     describe('getEmptyField', function () {
         emptyField.should.be.an('array');
@@ -63,20 +62,22 @@ describe('Field', function () {
             }
         });
     });
-    it('count near bombs', function () {
-        var countedField = Field.countNearBombs(initialField);
-        var flattenField = _ramda2.default.flatten(countedField);
-        var isBombeb = function isBombeb(pos) {
-            return pos.isBomb;
-        };
-        var bombedPos = _ramda2.default.find(isBombeb, flattenField);
-        var nearBombebPos = function nearBombebPos(pos) {
-            return Field.validNearPos(initialField, pos);
-        };
-        nearBombebPos(bombedPos).map(function (p) {
-            return countedField[p.x][p.y].nearBombs.should.be.above(0);
+    describe('countNearBombs', function () {
+        it('should increase near bombs', function () {
+            var countedField = Field.countNearBombs(initialField);
+            var flattenField = _ramda2.default.flatten(countedField);
+            var isBombeb = function isBombeb(pos) {
+                return pos.isBomb;
+            };
+            var bombedPos = _ramda2.default.find(isBombeb, flattenField);
+            var nearBombebPos = function nearBombebPos(pos) {
+                return Field.validNearPos(initialField, pos);
+            };
+            nearBombebPos(bombedPos).map(function (p) {
+                return countedField[p.x][p.y].nearBombs.should.be.above(0);
+            });
+            countedField.should.be.an('array');
         });
-        countedField.should.be.an('array');
     });
     describe('openPosition', function () {
         it('should return a opened position', function () {
