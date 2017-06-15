@@ -6,7 +6,7 @@ const positionIsValid = R.curry((field, p) => {
     return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
- * Receives a pos and return his near positions
+ * Receives a position and return his near positions
  * args {IPositionArgs}
  * returns {IPositionArgs[]}
  */
@@ -20,11 +20,11 @@ const nearPositions = (pos) => {
     }))));
 };
 const validNearPos = R.curry((field, pos) => R.filter(positionIsValid(field), nearPositions(pos)));
-const openPosition = (pos) => {
-    const openedPos = pos;
-    openedPos.opened = true;
-    return openedPos;
-};
+/**
+ * Set position.opened to true
+ * @param pos position
+ */
+const openPosition = (pos) => R.assoc('opened', true, pos);
 const markPosition = (pos) => {
     const markedPos = updatePos(pos);
     if (markedPos.marked === 2)

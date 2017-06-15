@@ -18,7 +18,7 @@ var positionIsValid = _ramda2.default.curry(function (field, p) {
     return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
- * Receives a pos and return his near positions
+ * Receives a position and return his near positions
  * args {IPositionArgs}
  * returns {IPositionArgs[]}
  */
@@ -36,10 +36,12 @@ var nearPositions = function nearPositions(pos) {
 var validNearPos = _ramda2.default.curry(function (field, pos) {
     return _ramda2.default.filter(positionIsValid(field), nearPositions(pos));
 });
+/**
+ * Set position.opened to true
+ * @param pos position
+ */
 var openPosition = function openPosition(pos) {
-    var openedPos = pos;
-    openedPos.opened = true;
-    return openedPos;
+    return _ramda2.default.assoc('opened', true, pos);
 };
 var markPosition = function markPosition(pos) {
     var markedPos = updatePos(pos);

@@ -77,11 +77,12 @@ before('set test args', function () {
             });
         });
         describe('openPosition', function () {
-            it('should return a opened position', function () {
+            it('should return an immutable opened position', function () {
                 var closedPosition = Field.newPos(1, 1);
                 var marked1Position = Field.openPosition(closedPosition);
                 // tslint:disable-next-line:no-unused-expression
                 marked1Position.opened.should.be.true;
+                closedPosition.should.not.be.equal(marked1Position);
             });
         });
         describe('nearPositions', function () {
