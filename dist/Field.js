@@ -11,6 +11,9 @@ var _ramda2 = _interopRequireDefault(_ramda);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Checks if field has position.
+ */
 var positionIsValid = _ramda2.default.curry(function (field, p) {
     return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
