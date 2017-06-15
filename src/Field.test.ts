@@ -18,9 +18,9 @@ before('set test args', () => {
     describe('Field', () => {
         describe('getEmptyField', () => {
             emptyField.should.be.an('array');
-            it.skip('should have no bombs', () => {
-                let bombs = 0;
-                Field.allPositions(emptyField).map(p => p.isBomb ? bombs++ : bombs);
+            it('should have no bombs', () => {
+                const bombs = Field.allPositions(emptyField)
+                    .reduce((accBombs, p) => p.isBomb ? accBombs++ : accBombs, 0);
                 bombs.should.be.equal(0);
             });
             it('should field size match fieldConfig size', () => {

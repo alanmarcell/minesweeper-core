@@ -28,11 +28,10 @@ before('set test args', function () {
     describe('Field', function () {
         describe('getEmptyField', function () {
             emptyField.should.be.an('array');
-            it.skip('should have no bombs', function () {
-                var bombs = 0;
-                Field.allPositions(emptyField).map(function (p) {
-                    return p.isBomb ? bombs++ : bombs;
-                });
+            it('should have no bombs', function () {
+                var bombs = Field.allPositions(emptyField).reduce(function (accBombs, p) {
+                    return p.isBomb ? accBombs++ : accBombs;
+                }, 0);
                 bombs.should.be.equal(0);
             });
             it('should field size match fieldConfig size', function () {
