@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updatePos = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.markPosition = exports.logField = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
+exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.markPosition = exports.logField = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
 
 var _ramda = require('ramda');
 
@@ -40,13 +40,12 @@ var validNearPos = _ramda2.default.curry(function (field, pos) {
  * Set position.opened to true
  * @param pos position
  */
+// TODO: rewrite, it needs to update the field not only the position.
 var openPosition = function openPosition(pos) {
     return _ramda2.default.assoc('opened', true, pos);
 };
 var markPosition = function markPosition(pos) {
-    var markedPos = updatePos(pos);
-    if (markedPos.marked === 2) markedPos.marked = 0;else markedPos.marked++;
-    return markedPos;
+    return _ramda2.default.assoc('marked', pos.marked === 2 ? 0 : pos.marked + 1, pos);
 };
 var isValidConfig = function isValidConfig(fieldConfig) {
     var totalPositions = fieldConfig.width * fieldConfig.height;
@@ -105,9 +104,6 @@ var newPos = function newPos(x, y) {
         x: x, y: y, isBomb: false, nearBombs: 0,
         opened: false, marked: 0, isValid: true
     };
-};
-var updatePos = function updatePos(pos) {
-    return _ramda2.default.clone(pos);
 };
 var getInitialField = function getInitialField(fieldConfig) {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
@@ -191,6 +187,5 @@ exports.newPos = newPos;
 exports.openPosition = openPosition;
 exports.positionIsValid = positionIsValid;
 exports.validNearPos = validNearPos;
-exports.updatePos = updatePos;
 //# sourceMappingURL=Field.js.map
 //# sourceMappingURL=Field.js.map

@@ -11,6 +11,7 @@ function endBattle(battle) {
     battle.field = openAllField(battle.field);
     return battle;
 }
+// TODO: rewrite
 const clickPosition = (battle, position) => {
     if (!positionIsValid(battle.field, position))
         return battle;
