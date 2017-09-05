@@ -6,7 +6,7 @@
   "typings": "src/index.ts",
   "scripts": {
     "lint": "tslint ./src/**/*.ts ./src/**/*.test.ts ./src/**/*.d.ts",
-    "js": "rimraf dist-esnext && tsc && rimraf dist && babel dist-esnext -d dist --presets es2017 --source-maps",
+    "js": "rimraf dist-esnext && tsc && npm run babel",
     "babel": "rimraf dist && babel dist-esnext -d dist --presets es2015 --source-maps",
     "pretest": "npm-run-all --parallel js lint",
     "mocha": "mocha ./dist/*.js ./dist/**/*.js --require babel-polyfill",
