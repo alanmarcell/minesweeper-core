@@ -34,6 +34,7 @@ function endBattle(battle) {
     battle.field = openAllField(battle.field);
     return battle;
 }
+// TODO: rewrite
 var clickPosition = function clickPosition(battle, position) {
     if (!(0, _Field.positionIsValid)(battle.field, position)) return battle;
     var pos = battle.field[position.x][position.y];

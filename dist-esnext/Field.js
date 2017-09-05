@@ -6,7 +6,7 @@ const positionIsValid = R.curry((field, p) => {
     return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
- * Receives a pos and return his near positions
+ * Receives a position and return his near positions
  * args {IPositionArgs}
  * returns {IPositionArgs[]}
  */
@@ -20,19 +20,13 @@ const nearPositions = (pos) => {
     }))));
 };
 const validNearPos = R.curry((field, pos) => R.filter(positionIsValid(field), nearPositions(pos)));
-const openPosition = (pos) => {
-    const openedPos = pos;
-    openedPos.opened = true;
-    return openedPos;
-};
-const markPosition = (pos) => {
-    const markedPos = updatePos(pos);
-    if (markedPos.marked === 2)
-        markedPos.marked = 0;
-    else
-        markedPos.marked++;
-    return markedPos;
-};
+/**
+ * Set position.opened to true
+ * @param pos position
+ */
+// TODO: rewrite, it needs to update the field not only the position.
+const openPosition = (pos) => R.assoc('opened', true, pos);
+const markPosition = (pos) => R.assoc('marked', (pos.marked === 2 ? 0 : pos.marked + 1), pos);
 const isValidConfig = (fieldConfig) => {
     const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
@@ -78,7 +72,6 @@ const newPos = (x, y) => {
         opened: false, marked: 0, isValid: true
     };
 };
-const updatePos = (pos) => R.clone(pos);
 const getInitialField = (fieldConfig) => {
     if (!isValidConfig(fieldConfig))
         throw new Error('Invalid field configuration');
@@ -152,5 +145,5 @@ function logField(field) {
     });
     console.log(row + '\n');
 }
-export { allPositions, getInitialField, getEmptyField, getBombedField, countNearBombs, logField, markPosition, nearPositions, newPos, openPosition, positionIsValid, validNearPos, updatePos };
+export { allPositions, getInitialField, getEmptyField, getBombedField, countNearBombs, logField, markPosition, nearPositions, newPos, openPosition, positionIsValid, validNearPos };
 //# sourceMappingURL=Field.js.map

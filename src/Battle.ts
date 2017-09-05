@@ -21,6 +21,7 @@ function endBattle(battle: IBattle): IBattle {
     return battle;
 }
 
+// TODO: rewrite
 const clickPosition = (battle: IBattle, position: IPositionArgs) => {
     if (!positionIsValid(battle.field, position)) return battle;
 

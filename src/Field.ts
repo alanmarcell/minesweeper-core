@@ -10,7 +10,7 @@ const positionIsValid = R.curry((field: IField, p: IPositionArgs) => {
 });
 
 /**
- * Receives a pos and return his near positions
+ * Receives a position and return his near positions
  * args {IPositionArgs}
  * returns {IPositionArgs[]}
  */
@@ -27,18 +27,15 @@ const nearPositions = (pos: IPositionArgs) => {
 const validNearPos = R.curry((field: IField, pos: IPositionArgs) =>
     R.filter(positionIsValid(field), nearPositions(pos)));
 
-const openPosition = (pos: IPosition) => {
-    const openedPos = pos;
-    openedPos.opened = true;
-    return openedPos;
-};
+/**
+ * Set position.opened to true
+ * @param pos position
+ */
+// TODO: rewrite, it needs to update the field not only the position.
+const openPosition = (pos: IPosition) => R.assoc('opened', true, pos);
 
-const markPosition = (pos: IPosition) => {
-    const markedPos = updatePos(pos);
-    if (markedPos.marked === 2) markedPos.marked = 0;
-    else markedPos.marked++;
-    return markedPos;
-};
+const markPosition = (pos: IPosition) =>
+    R.assoc('marked', (pos.marked === 2 ? 0 : pos.marked + 1), pos);
 
 const isValidConfig = (fieldConfig: IFieldConfig) => {
     const totalPositions = fieldConfig.width * fieldConfig.height;
@@ -93,8 +90,6 @@ const newPos = (x: number, y: number) => {
         opened: false, marked: 0, isValid: true
     };
 };
-
-const updatePos = (pos: IPosition) => R.clone(pos);
 
 const getInitialField = (fieldConfig: IFieldConfig) => {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
@@ -183,6 +178,5 @@ export {
     newPos,
     openPosition,
     positionIsValid,
-    validNearPos,
-    updatePos
+    validNearPos
 };

@@ -14,9 +14,9 @@ before('set test args', () => {
     describe('Field', () => {
         describe('getEmptyField', () => {
             emptyField.should.be.an('array');
-            it.skip('should have no bombs', () => {
-                let bombs = 0;
-                Field.allPositions(emptyField).map(p => p.isBomb ? bombs++ : bombs);
+            it('should have no bombs', () => {
+                const bombs = Field.allPositions(emptyField)
+                    .reduce((accBombs, p) => p.isBomb ? accBombs++ : accBombs, 0);
                 bombs.should.be.equal(0);
             });
             it('should field size match fieldConfig size', () => {
@@ -54,11 +54,12 @@ before('set test args', () => {
             });
         });
         describe('openPosition', () => {
-            it('should return a opened position', () => {
+            it('should return an immutable opened position', () => {
                 const closedPosition = Field.newPos(1, 1);
                 const marked1Position = Field.openPosition(closedPosition);
                 // tslint:disable-next-line:no-unused-expression
                 marked1Position.opened.should.be.true;
+                closedPosition.should.not.be.equal(marked1Position);
             });
         });
         describe('nearPositions', () => {
