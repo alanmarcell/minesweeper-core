@@ -46,5 +46,6 @@ const markPosition = (battle: IBattle, position: IPositionArgs) => {
 
 export {
     startBattle,
-    clickPosition, markPosition
+    clickPosition,
+    markPosition
 };

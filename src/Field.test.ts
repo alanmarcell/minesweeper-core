@@ -18,7 +18,7 @@ before('set test args', () => {
     describe('Field', () => {
         describe('getEmptyField', () => {
             emptyField.should.be.an('array');
-            it.skip('should have no bombs', () => {
+            it('should have no bombs', () => {
                 let bombs = 0;
                 Field.allPositions(emptyField).map(p => p.isBomb ? bombs++ : bombs);
                 bombs.should.be.equal(0);

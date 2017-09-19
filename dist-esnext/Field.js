@@ -63,7 +63,10 @@ const bombPos = (field, config) => {
 /**
  * Populate new field with bombs
  */
-const getBombedField = (field, config) => R.last(R.range(0, config.bombs).map(() => bombPos(field, config)));
+const getBombedField = (field, config) => {
+    const fieldToBomb = R.clone(field);
+    return R.last(R.range(0, config.bombs).map(() => bombPos(fieldToBomb, config)));
+};
 const getEmptyField = (fieldConfig) => {
     const widthRange = R.range(0, fieldConfig.width);
     const heightRange = R.range(0, fieldConfig.height);

@@ -74,8 +74,10 @@ const bombPos = (field: IField, config: IFieldConfig) => {
 /**
  * Populate new field with bombs
  */
-const getBombedField = (field: IField, config: IFieldConfig) =>
-    R.last(R.range(0, config.bombs).map(() => bombPos(field, config)));
+const getBombedField = (field: IField, config: IFieldConfig) => {
+    const fieldToBomb = R.clone(field);
+    return R.last(R.range(0, config.bombs).map(() => bombPos(fieldToBomb, config)));
+};
 
 const getEmptyField = (fieldConfig: IFieldConfig) => {
     const widthRange = R.range(0, fieldConfig.width);
@@ -100,6 +102,7 @@ const getInitialField = (fieldConfig: IFieldConfig) => {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
 
     const emptyField: IField = getEmptyField(fieldConfig);
+
     const bombedField: IField = getBombedField(emptyField, fieldConfig);
 
     return countNearBombs(bombedField);

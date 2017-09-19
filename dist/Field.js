@@ -82,8 +82,9 @@ var bombPos = function bombPos(field, config) {
  * Populate new field with bombs
  */
 var getBombedField = function getBombedField(field, config) {
+    var fieldToBomb = _ramda2.default.clone(field);
     return _ramda2.default.last(_ramda2.default.range(0, config.bombs).map(function () {
-        return bombPos(field, config);
+        return bombPos(fieldToBomb, config);
     }));
 };
 var getEmptyField = function getEmptyField(fieldConfig) {
