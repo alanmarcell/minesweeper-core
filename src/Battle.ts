@@ -27,8 +27,8 @@ function endBattle(battle: IBattle, win: boolean): IBattle {
 }
 
 const clickPosition = (battle: IBattle, position: IPositionArgs, autoOpen?: boolean): IBattle => {
+    battle.message = null;
     if (!positionIsValid(battle.field, position)) return battle;
-
     const pos: IPosition = battle.field[position.x][position.y];
     if (pos.opened) {
         if (!autoOpen) battle.message = 'Position Already open, try again';
