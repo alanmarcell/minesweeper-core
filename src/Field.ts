@@ -29,6 +29,7 @@ const validNearPos = R.curry((field: IField, pos: IPositionArgs): IPositionArgs[
 
 const openPosition = (pos: IPosition): IPosition => {
     const openedPos = pos;
+    if (openedPos.marked !== 0) return openedPos;
     openedPos.opened = true;
     return openedPos;
 };

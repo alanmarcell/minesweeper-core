@@ -77,6 +77,28 @@ describe('Battle', () => {
 
             openedFirst.should.be.not.equal(openedSecond);
         });
+        it('shold open if position is not marked', () => {
+            const newBattle: IBattle = battle.startBattle(fieldConfig);
+
+            const valid: IPositionArgs = { x: 1, y: 1 };
+            const clicked: IBattle = battle.clickPosition(newBattle, valid);
+
+            clicked.field[valid.x][valid.y].opened.should.be.equal(true);
+            clicked.field[valid.x][valid.y].marked.should.be.equal(0);
+            ok(clicked);
+        });
+        it('shold not open if position is marked', () => {
+            const newBattle: IBattle = battle.startBattle(fieldConfig);
+
+            const valid: IPositionArgs = { x: 1, y: 1 };
+            const marked: IBattle = battle.battleMarkPosition(newBattle, valid);
+
+            const clicked: IBattle = battle.clickPosition(marked, valid);
+
+            clicked.field[valid.x][valid.y].opened.should.be.equal(false);
+            clicked.field[valid.x][valid.y].marked.should.be.equal(1);
+            ok(clicked);
+        });
     });
     describe('markPosition', () => {
         let fieldConfig: IFieldConfig;
@@ -85,7 +107,7 @@ describe('Battle', () => {
                 bombs: 9, width: 9, height: 9
             };
         });
-        it('should mark pos', () => {
+        it('should mark pos if not open', () => {
             const newBattle: IBattle = battle.startBattle(fieldConfig);
 
             const valid: IPositionArgs = { x: 1, y: 1 };
@@ -93,6 +115,17 @@ describe('Battle', () => {
 
             result.field[valid.x][valid.y].marked.should.be.equal(1);
             ok(result);
+        });
+        it('should not mark pos if open', () => {
+            const newBattle: IBattle = battle.startBattle(fieldConfig);
+
+            const valid: IPositionArgs = { x: 1, y: 1 };
+            const clicked: IBattle = battle.clickPosition(newBattle, valid);
+            const marked: IBattle = battle.battleMarkPosition(clicked, valid);
+
+            marked.field[valid.x][valid.y].opened.should.be.equal(true);
+            marked.field[valid.x][valid.y].marked.should.be.equal(0);
+            ok(marked);
         });
     });
 });

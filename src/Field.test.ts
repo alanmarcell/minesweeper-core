@@ -57,11 +57,19 @@ before('set test args', () => {
             });
         });
         describe('openPosition', () => {
-            it('should return a opened position', () => {
+            it('should return a opened position if not marked', () => {
                 const closedPosition: IPosition = Field.newPos(1, 1);
-                const marked1Position: IPosition = Field.openPosition(closedPosition);
+                const clickedPosition: IPosition = Field.openPosition(closedPosition);
                 // tslint:disable-next-line:no-unused-expression
-                marked1Position.opened.should.be.true;
+                clickedPosition.opened.should.be.true;
+            });
+            it('should return a not opened position if marked', () => {
+                const closedPosition: IPosition = Field.newPos(1, 1);
+                const marked1Position: IPosition = Field.markPosition(closedPosition);
+
+                const clickedPosition: IPosition = Field.markPosition(marked1Position);
+                // tslint:disable-next-line:no-unused-expression
+                clickedPosition.opened.should.be.not.true;
             });
         });
         describe('nearPositions', () => {

@@ -12,8 +12,7 @@ const startBattle = (fieldConfig: IFieldConfig): IBattle => {
 const openNearPositions = (battle: IBattle, pos: IPositionArgs) =>
     R.last(nearPositions(pos).map(p => clickPosition(battle, p, true)));
 
-const openAllField = (field: IField) =>
-    field.map(col => col.map(pos => openPosition(pos)));
+const openAllField = (field: IField) => field.map(col => col.map(pos => openPosition(pos)));
 
 const winBattle = (battle) => endBattle(battle, true);
 
@@ -30,6 +29,9 @@ const clickPosition = (battle: IBattle, position: IPositionArgs, autoOpen?: bool
     battle.message = null;
     if (!positionIsValid(battle.field, position)) return battle;
     const pos: IPosition = battle.field[position.x][position.y];
+
+    if (pos.marked !== 0) return battle;
+
     if (pos.opened) {
         if (!autoOpen) battle.message = 'Position Already open, try again';
         return battle;
