@@ -3,6 +3,10 @@ logs
 *.log
 npm-debug.log*
 
+# Dist
+dist
+dist-esnext
+
 # Runtime data
 pids
 *.pid

@@ -6,7 +6,7 @@ import { IPosition, IPositionArgs } from './IPosition';
 
 const startBattle = (fieldConfig: IFieldConfig): IBattle => {
     const field: IField = getInitialField(fieldConfig);
-    return { field, isOver: false };
+    return { field, isOver: false, marks: 0, bombsMarked: 0, winner: null };
 };
 
 const openNearPositions = (battle: IBattle, pos: IPositionArgs) =>
@@ -15,8 +15,13 @@ const openNearPositions = (battle: IBattle, pos: IPositionArgs) =>
 const openAllField = (field: IField) =>
     field.map(col => col.map(pos => openPosition(pos)));
 
-function endBattle(battle: IBattle): IBattle {
+const winBattle = (battle) => endBattle(battle, true);
+
+const loseBattle = (battle) => endBattle(battle, false);
+
+function endBattle(battle: IBattle, win: boolean): IBattle {
     battle.isOver = true;
+    battle.winner = win;
     battle.field = openAllField(battle.field);
     return battle;
 }
@@ -26,30 +31,61 @@ const clickPosition = (battle: IBattle, position: IPositionArgs, autoOpen?: bool
 
     const pos: IPosition = battle.field[position.x][position.y];
     if (pos.opened) {
-        if (!autoOpen) console.log('Position Already open, try again');
+        if (!autoOpen) battle.message = 'Position Already open, try again';
         return battle;
     }
-    if (pos.isBomb) return endBattle(battle);
+    if (pos.isBomb) return loseBattle(battle);
 
     const openedPos = openPosition(pos);
     if (openedPos.nearBombs === 0) return openNearPositions(battle, openedPos);
+
+    return checkOpenedPositions(battle);
+};
+
+const checkOpenedPositions = (battle: IBattle): IBattle => {
+    let openedPos = 0;
+    let numBombs = 0;
+    const totalPos = battle.field.length * battle.field[0].length;
+    battle.field.map(col => col.map(pos => {
+        if (pos.opened) openedPos++;
+        if (pos.isBomb) numBombs++;
+    }));
+    if (openedPos === totalPos - numBombs) {
+
+        return winBattle(battle);
+    }
+    return battle;
+};
+
+const checkMarkedPositions = (battle: IBattle): IBattle => {
+    let correctMarked = 0, incorrectMarked = 0, numBombs = 0;
+    battle.field.map(col => col.map(pos => {
+        if (pos.isBomb) numBombs++;
+
+        if (pos.marked && pos.isBomb) correctMarked++;
+
+        if (pos.marked && !pos.isBomb) incorrectMarked++;
+    }));
+    if (correctMarked === numBombs && incorrectMarked === 0) {
+        return winBattle(battle);
+    }
+
     return battle;
 };
 
 const battleMarkPosition = (battle: IBattle, position: IPositionArgs): IBattle => {
-    console.log('MARKPOS BATTLE');
+
     if (!positionIsValid(battle.field, position)) return battle;
 
-    let pos: IPosition = battle.field[position.x][position.y];
+    const pos: IPosition = battle.field[position.x][position.y];
     if (pos.opened) return battle;
-    if (pos.isBomb) return endBattle(battle);
+    // if (pos.isBomb) {
 
-    // pos.marked++;
-    console.log('BEFORE POS', pos);
-    pos = markPosition(pos);
+    //     return endBattle(battle);
+    // }
+    battle.field[position.x][position.y] = markPosition(pos);
 
-    console.log('AFTER POS', pos);
-    return battle;
+    return checkMarkedPositions(battle);
 };
 
 export {

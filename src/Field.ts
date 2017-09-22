@@ -34,13 +34,9 @@ const openPosition = (pos: IPosition): IPosition => {
 };
 
 const markPosition = (pos: IPosition): IPosition => {
-    console.log('MARKPOS FIELD');
-    console.log('MARKED FIELD POS', pos);
     const markedPos = updatePos(pos);
     if (markedPos.marked === 2) markedPos.marked = 0;
     else markedPos.marked++;
-
-    console.log('MARKED FIELD POS', markedPos);
     return markedPos;
 };
 

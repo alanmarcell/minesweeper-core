@@ -85,13 +85,13 @@ describe('Battle', () => {
                 bombs: 9, width: 9, height: 9
             };
         });
-        it('returns new battle', () => {
+        it('should mark pos', () => {
             const newBattle: IBattle = battle.startBattle(fieldConfig);
 
             const valid: IPositionArgs = { x: 1, y: 1 };
-            console.log(newBattle.field[valid.x][valid.y]);
             const result: IBattle = battle.battleMarkPosition(newBattle, valid);
-            console.log(result.field[valid.x][valid.y]);
+
+            result.field[valid.x][valid.y].marked.should.be.equal(1);
             ok(result);
         });
     });
