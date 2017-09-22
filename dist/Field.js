@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Checks if field has position.
  */
-var positionIsValid = _ramda2.default.curry(function (field, p) {
+const positionIsValid = _ramda2.default.curry((field, p) => {
     return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
@@ -22,57 +22,47 @@ var positionIsValid = _ramda2.default.curry(function (field, p) {
  * args {IPositionArgs}
  * returns {IPositionArgs[]}
  */
-var nearPositions = function nearPositions(pos) {
-    var range = _ramda2.default.range(-1, 2);
+const nearPositions = pos => {
+    const range = _ramda2.default.range(-1, 2);
     /**
      * Get a 3x3 position array with the position and all the near positions then remove the position itseft
      */
-    return _ramda2.default.flatten(_ramda2.default.remove(4, 1, range.map(function (i) {
-        return range.map(function (j) {
-            return { x: pos.x + i, y: pos.y + j };
-        });
-    })));
+    return _ramda2.default.flatten(_ramda2.default.remove(4, 1, range.map(i => range.map(j => {
+        return { x: pos.x + i, y: pos.y + j };
+    }))));
 };
-var validNearPos = _ramda2.default.curry(function (field, pos) {
-    return _ramda2.default.filter(positionIsValid(field), nearPositions(pos));
-});
-var openPosition = function openPosition(pos) {
-    var openedPos = pos;
+const validNearPos = _ramda2.default.curry((field, pos) => _ramda2.default.filter(positionIsValid(field), nearPositions(pos)));
+const openPosition = pos => {
+    const openedPos = pos;
     if (openedPos.marked !== 0) return openedPos;
     openedPos.opened = true;
     return openedPos;
 };
-var markPosition = function markPosition(pos) {
-    var markedPos = updatePos(pos);
+const markPosition = pos => {
+    const markedPos = updatePos(pos);
     if (markedPos.marked === 2) markedPos.marked = 0;else markedPos.marked++;
     return markedPos;
 };
-var isValidConfig = function isValidConfig(fieldConfig) {
-    var totalPositions = fieldConfig.width * fieldConfig.height;
+const isValidConfig = fieldConfig => {
+    const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
 };
-var allPositions = function allPositions(field) {
-    return field.reduce(function (a, b) {
-        return a.concat(b);
-    });
-};
-var countNearBombs = function countNearBombs(field) {
-    var countedField = field;
-    allPositions(field).map(function (pos) {
-        if (pos.isBomb) validNearPos(field, pos).map(function (p) {
-            return countedField[p.x][p.y].nearBombs++;
-        });
+const allPositions = field => field.reduce((a, b) => a.concat(b));
+const countNearBombs = field => {
+    const countedField = field;
+    allPositions(field).map(pos => {
+        if (pos.isBomb) validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
     }); // TODO immutable
     return countedField;
 };
 // TODO use ptz-math and help with any math method you need
-var getRandomPos = function getRandomPos(field, fieldConfig) {
-    var width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
-    var height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
+const getRandomPos = (field, fieldConfig) => {
+    const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
+    const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
     return field[width][height];
 };
-var bombPos = function bombPos(field, config) {
-    var pos = getRandomPos(field, config);
+const bombPos = (field, config) => {
+    const pos = getRandomPos(field, config);
     if (pos.isBomb) {
         return bombPos(field, config);
     }
@@ -82,37 +72,29 @@ var bombPos = function bombPos(field, config) {
 /**
  * Populate new field with bombs
  */
-var getBombedField = function getBombedField(field, config) {
-    var fieldToBomb = _ramda2.default.clone(field);
-    return _ramda2.default.last(_ramda2.default.range(0, config.bombs).map(function () {
-        return bombPos(fieldToBomb, config);
-    }));
+const getBombedField = (field, config) => {
+    const fieldToBomb = _ramda2.default.clone(field);
+    return _ramda2.default.last(_ramda2.default.range(0, config.bombs).map(() => bombPos(fieldToBomb, config)));
 };
-var getEmptyField = function getEmptyField(fieldConfig) {
-    var widthRange = _ramda2.default.range(0, fieldConfig.width);
-    var heightRange = _ramda2.default.range(0, fieldConfig.height);
-    return widthRange.map(function (i) {
-        return heightRange.map(function (j) {
-            return newPos(i, j);
-        });
-    });
+const getEmptyField = fieldConfig => {
+    const widthRange = _ramda2.default.range(0, fieldConfig.width);
+    const heightRange = _ramda2.default.range(0, fieldConfig.height);
+    return widthRange.map(i => heightRange.map(j => newPos(i, j)));
 };
 /**
  * Get a new position
  */
-var newPos = function newPos(x, y) {
+const newPos = (x, y) => {
     return {
-        x: x, y: y, isBomb: false, nearBombs: 0,
+        x, y, isBomb: false, nearBombs: 0,
         opened: false, marked: 0, isValid: true
     };
 };
-var updatePos = function updatePos(pos) {
-    return _ramda2.default.clone(pos);
-};
-var getInitialField = function getInitialField(fieldConfig) {
+const updatePos = pos => _ramda2.default.clone(pos);
+const getInitialField = fieldConfig => {
     if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
-    var emptyField = getEmptyField(fieldConfig);
-    var bombedField = getBombedField(emptyField, fieldConfig);
+    const emptyField = getEmptyField(fieldConfig);
+    const bombedField = getBombedField(emptyField, fieldConfig);
     return countNearBombs(bombedField);
 };
 exports.allPositions = allPositions;

@@ -10,7 +10,7 @@ Object.keys(_Battle).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
-    get: function get() {
+    get: function () {
       return _Battle[key];
     }
   });
@@ -22,7 +22,7 @@ Object.keys(_Field).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
-    get: function get() {
+    get: function () {
       return _Field[key];
     }
   });
