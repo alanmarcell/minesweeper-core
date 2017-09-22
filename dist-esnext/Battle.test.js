@@ -71,7 +71,11 @@ describe('Battle', () => {
             };
         });
         it('returns new battle', () => {
-            const result = battle.startBattle(fieldConfig);
+            const newBattle = battle.startBattle(fieldConfig);
+            const valid = { x: 1, y: 1 };
+            console.log(newBattle.field[valid.x][valid.y]);
+            const result = battle.battleMarkPosition(newBattle, valid);
+            console.log(result.field[valid.x][valid.y]);
             ok(result);
         });
     });

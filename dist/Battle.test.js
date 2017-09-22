@@ -99,7 +99,11 @@ describe('Battle', function () {
             };
         });
         it('returns new battle', function () {
-            var result = battle.startBattle(fieldConfig);
+            var newBattle = battle.startBattle(fieldConfig);
+            var valid = { x: 1, y: 1 };
+            console.log(newBattle.field[valid.x][valid.y]);
+            var result = battle.battleMarkPosition(newBattle, valid);
+            console.log(result.field[valid.x][valid.y]);
             (0, _ptzAssert.ok)(result);
         });
     });

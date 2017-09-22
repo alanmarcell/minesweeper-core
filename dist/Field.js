@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updatePos = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.markPosition = exports.logField = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
+exports.updatePos = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.markPosition = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
 
 var _ramda = require('ramda');
 
@@ -42,8 +42,11 @@ var openPosition = function openPosition(pos) {
     return openedPos;
 };
 var markPosition = function markPosition(pos) {
+    console.log('MARKPOS FIELD');
+    console.log('MARKED FIELD POS', pos);
     var markedPos = updatePos(pos);
     if (markedPos.marked === 2) markedPos.marked = 0;else markedPos.marked++;
+    console.log('MARKED FIELD POS', markedPos);
     return markedPos;
 };
 var isValidConfig = function isValidConfig(fieldConfig) {
@@ -114,76 +117,11 @@ var getInitialField = function getInitialField(fieldConfig) {
     var bombedField = getBombedField(emptyField, fieldConfig);
     return countNearBombs(bombedField);
 };
-// TODO break in small functions
-function logField(field) {
-    var countedField = field;
-    var indexColor = '\x1b[37m';
-    var resetColor = '\x1b[0m';
-    var firstLine = '    ';
-    field.map(function (f, index) {
-        return firstLine += ' ' + (index + 1) + '  ';
-    });
-    console.log(indexColor + firstLine + resetColor);
-    var row = void 0;
-    field.map(function (col, colIndex) {
-        var line = '|';
-        row = '   ';
-        col.map(function (pos, index) {
-            if (index === 0 && colIndex === 0) line = line;
-            if (index === 0) line = ' ' + indexColor + (colIndex + 1) + resetColor + ' |';
-            if (countedField[pos.x][pos.y].opened) {
-                if (countedField[pos.x][pos.y].isBomb) {
-                    line += '\x1b[31m * ' + resetColor;
-                    row += '---';
-                } else {
-                    var numBombs = countedField[pos.x][pos.y].nearBombs;
-                    var numBombsString = void 0;
-                    switch (numBombs) {
-                        case 1:
-                            numBombsString = '\x1b[34m' + numBombs;
-                            break;
-                        case 2:
-                            numBombsString = '\x1b[32m' + numBombs;
-                            break;
-                        case 3:
-                            numBombsString = '\x1b[33m' + numBombs;
-                            break;
-                        case 4:
-                            numBombsString = '\x1b[35m' + numBombs;
-                            break;
-                        case 5:
-                            numBombsString = '\x1b[36m' + numBombs;
-                            break;
-                        case 7:
-                            numBombsString = '\x1b[31m' + numBombs;
-                            break;
-                        case 8:
-                            numBombsString = '\x1b[37m' + numBombs;
-                            break;
-                        default:
-                            numBombsString = '\x1b[37m' + numBombs;
-                    }
-                    line += ' ' + numBombsString + resetColor + ' ';
-                    row += '---';
-                }
-            } else {
-                line += '   ';
-                row += '---';
-            }
-            line += '|';
-            row += '-';
-        });
-        console.log(row);
-        console.log(line);
-    });
-    console.log(row + '\n');
-}
 exports.allPositions = allPositions;
 exports.getInitialField = getInitialField;
 exports.getEmptyField = getEmptyField;
 exports.getBombedField = getBombedField;
 exports.countNearBombs = countNearBombs;
-exports.logField = logField;
 exports.markPosition = markPosition;
 exports.nearPositions = nearPositions;
 exports.newPos = newPos;
