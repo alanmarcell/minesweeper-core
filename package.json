@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/chai": "^4.0.4",
     "@types/mocha": "^2.2.43",
-    "@types/node": "^8.0.28",
+    "@types/node": "^8.0.31",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.2",
@@ -44,14 +44,14 @@
     "opn-cli": "^3.1.0",
     "ptz-assert": "^1.6.8",
     "rimraf": "^2.6.2",
-    "sinon": "^3.3.0",
+    "sinon": "^4.0.0",
     "tslint": "^5.7.0",
     "typedoc": "^0.8.0",
-    "typescript": "^2.5.2"
+    "typescript": "^2.5.3"
   },
   "dependencies": {
     "ptz-core-domain": "^2.1.2",
-    "ptz-log": "^1.1.0",
+    "ptz-log": "^1.2.2",
     "ramda": "^0.24.1"
   }
 }
