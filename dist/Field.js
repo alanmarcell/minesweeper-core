@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Checks if field has position.
  */
 const positionIsValid = _ramda2.default.curry((field, p) => {
-    return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
+    return p && p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
  * Receives a pos and return his near positions
