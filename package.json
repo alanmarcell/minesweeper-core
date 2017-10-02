@@ -7,9 +7,12 @@
   "scripts": {
     "lint": "tslint ./src/**/*.ts ./src/**/*.test.ts ./src/**/*.d.ts",
     "js": "rimraf dist-esnext && tsc && npm run babel",
+    "tsc:w":"rimraf dist-esnext && tsc -w --skipLibCheck",
     "babel": "rimraf dist && babel dist-esnext -d dist --source-maps",
+    "babel:w": " rimraf dist && babel -w dist-esnext -d dist --source-maps",
     "pretest": "npm-run-all --parallel js lint",
     "mocha": "mocha ./dist/*.js ./dist/**/*.js --require babel-polyfill",
+    "mocha:w": "mocha -w ./dist/*.js ./dist/**/*.js --require babel-polyfill",
     "test": "nyc npm run mocha && nyc report --reporter=html --reporter=text-lcov > coverage.lcov && f() { EXIT=0; codecov --token=5492f2ed-dd60-4c4a-941c-b208c5a4c3b9 || exit $EXIT; }; f",
     "test:cover": "npm run test && opn ./coverage/index.html",
     "predebug": "npm run pretest",
