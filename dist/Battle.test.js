@@ -43,7 +43,7 @@ describe('Battle', () => {
             let opened = 0;
             const invalidPos = { x: -1, y: -1 };
             const result = battle.clickPosition(newBattle, invalidPos);
-            Field.allPositions(result.field).map(p => p.opened ? opened++ : opened);
+            Field.allPositions(result.field.positions).map(p => p.opened ? opened++ : opened);
             opened.should.be.equal(0);
         });
         it('shold open if position is valid ', () => {
@@ -51,7 +51,7 @@ describe('Battle', () => {
             let opened = 0;
             const valid = { x: 1, y: 1 };
             const result = battle.clickPosition(newBattle, valid);
-            Field.allPositions(result.field).map(p => p.opened ? opened++ : opened);
+            Field.allPositions(result.field.positions).map(p => p.opened ? opened++ : opened);
             opened.should.not.be.equal(0);
         });
         it('shold not open if position is open', () => {
@@ -61,8 +61,8 @@ describe('Battle', () => {
             const valid = { x: 1, y: 1 };
             const result = battle.clickPosition(newBattle, valid);
             const result2 = battle.clickPosition(result, valid);
-            Field.allPositions(result.field).map(p => p.opened ? openedFirst++ : openedFirst);
-            Field.allPositions(result2.field).map(p => p.opened ? openedSecond++ : openedSecond);
+            Field.allPositions(result.field.positions).map(p => p.opened ? openedFirst++ : openedFirst);
+            Field.allPositions(result2.field.positions).map(p => p.opened ? openedSecond++ : openedSecond);
             openedFirst.should.be.equal(openedSecond);
         });
         it('shold open if position is not open', () => {
@@ -72,10 +72,10 @@ describe('Battle', () => {
             const valid = { x: 1, y: 1 };
             const result = battle.clickPosition(newBattle, valid);
             let valid2;
-            valid2 = _ramda2.default.find(_ramda2.default.propEq('opened', false), Field.allPositions(result.field));
-            Field.allPositions(result.field).map(p => p.opened ? openedFirst++ : openedFirst);
+            valid2 = _ramda2.default.find(_ramda2.default.propEq('opened', false), Field.allPositions(result.field.positions));
+            Field.allPositions(result.field.positions).map(p => p.opened ? openedFirst++ : openedFirst);
             const result2 = battle.clickPosition(result, valid2);
-            Field.allPositions(result2.field).map(p => p.opened ? openedSecond++ : openedSecond);
+            Field.allPositions(result2.field.positions).map(p => p.opened ? openedSecond++ : openedSecond);
             openedFirst.should.be.not.equal(openedSecond);
         });
         it('shold open if position is not marked', () => {

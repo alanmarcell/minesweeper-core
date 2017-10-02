@@ -25,17 +25,20 @@ before('set test args', () => {
     const invalidPos = { x: -1, y: -1 };
     const initialField = Field.getInitialField(validFieldConfig);
     const emptyField = Field.getEmptyField(validFieldConfig);
+    const emptyPositions = emptyField.positions;
+    console.log('emptyPositions', emptyPositions);
     describe('Field', () => {
-        describe('getEmptyField', () => {
-            emptyField.should.be.an('array');
+        describe.only('getEmptyField', () => {
+            // emptyField.should.be.an('array');
+            // emptyPositions.should.be.an('array');
             it('should have no bombs', () => {
                 let bombs = 0;
-                Field.allPositions(emptyField).map(p => p.isBomb ? bombs++ : bombs);
+                Field.allPositions(emptyPositions).map(p => p.isBomb ? bombs++ : bombs);
                 bombs.should.be.equal(0);
             });
             it('should field size match fieldConfig size', () => {
-                emptyField.length.should.be.equal(validFieldConfig.width);
-                emptyField[0].length.should.be.equal(validFieldConfig.height);
+                emptyPositions.length.should.be.equal(validFieldConfig.width);
+                emptyPositions[0].length.should.be.equal(validFieldConfig.height);
             });
         });
         describe('getBombedField', () => {
@@ -43,7 +46,7 @@ before('set test args', () => {
             bombedField.should.be.an('array');
             it('should match bombs in the field with fieldConfig bombs', () => {
                 let bombs = 0;
-                Field.allPositions(bombedField).map(p => p.isBomb ? bombs++ : bombs);
+                Field.allPositions(emptyPositions).map(p => p.isBomb ? bombs++ : bombs);
                 bombs.should.be.equal(validFieldConfig.bombs);
             });
             it('should throw an error if bombs number is bigger than fild size', () => {
@@ -58,10 +61,10 @@ before('set test args', () => {
         describe('countNearBombs', () => {
             it('should increase near bombs', () => {
                 const countedField = Field.countNearBombs(initialField);
-                const flattenField = _ramda2.default.flatten(countedField);
+                const flattenField = _ramda2.default.flatten(countedField.positions);
                 const isBombeb = pos => pos.isBomb;
                 const bombedPos = _ramda2.default.find(isBombeb, flattenField);
-                const nearBombebPos = pos => Field.validNearPos(initialField, pos);
+                const nearBombebPos = pos => Field.validNearPos(initialField.positions, pos);
                 nearBombebPos(bombedPos).map(p => countedField[p.x][p.y].nearBombs.should.be.above(0));
                 countedField.should.be.an('array');
             });
@@ -89,20 +92,20 @@ before('set test args', () => {
         });
         describe('positionIsValid', () => {
             it('should return true if position is valid', () => {
-                const isValid = Field.positionIsValid(initialField, validPos);
+                const isValid = Field.positionIsValid(initialField.positions, validPos);
                 // tslint:disable-next-line:no-unused-expression
                 isValid.should.be.true;
             });
             it('should return false if position is invalid', () => {
-                const isValid = Field.positionIsValid(initialField, invalidPos);
+                const isValid = Field.positionIsValid(initialField.positions, invalidPos);
                 // tslint:disable-next-line:no-unused-expression
                 isValid.should.be.false;
             });
         });
         describe('validNearPositions', () => {
             it('should return only valid near positions', () => {
-                const nearPos = Field.validNearPos(initialField, validPos);
-                const validateFn = np => np.map(Field.positionIsValid(initialField));
+                const nearPos = Field.validNearPos(initialField.positions, validPos);
+                const validateFn = np => np.map(Field.positionIsValid(initialField.positions));
                 const validatedpos = validateFn(nearPos);
                 validatedpos.map(p => p.should.be.true);
                 nearPos.should.be.an('array');

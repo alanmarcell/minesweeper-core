@@ -33,7 +33,7 @@ describe('Battle', () => {
             let opened = 0;
             const invalidPos: IPositionArgs = { x: -1, y: -1 };
             const result: IBattle = battle.clickPosition(newBattle, invalidPos);
-            Field.allPositions(result.field).map(p => p.opened ? opened++ : opened);
+            Field.allPositions(result.field.positions).map(p => p.opened ? opened++ : opened);
 
             opened.should.be.equal(0);
         });
@@ -43,7 +43,7 @@ describe('Battle', () => {
             let opened = 0;
             const valid: IPositionArgs = { x: 1, y: 1 };
             const result: IBattle = battle.clickPosition(newBattle, valid);
-            Field.allPositions(result.field).map(p => p.opened ? opened++ : opened);
+            Field.allPositions(result.field.positions).map(p => p.opened ? opened++ : opened);
 
             opened.should.not.be.equal(0);
         });
@@ -56,8 +56,8 @@ describe('Battle', () => {
             const result: IBattle = battle.clickPosition(newBattle, valid);
 
             const result2: IBattle = battle.clickPosition(result, valid);
-            Field.allPositions(result.field).map(p => p.opened ? openedFirst++ : openedFirst);
-            Field.allPositions(result2.field).map(p => p.opened ? openedSecond++ : openedSecond);
+            Field.allPositions(result.field.positions).map(p => p.opened ? openedFirst++ : openedFirst);
+            Field.allPositions(result2.field.positions).map(p => p.opened ? openedSecond++ : openedSecond);
 
             openedFirst.should.be.equal(openedSecond);
         });
@@ -69,11 +69,11 @@ describe('Battle', () => {
             const valid: IPositionArgs = { x: 1, y: 1 };
             const result: IBattle = battle.clickPosition(newBattle, valid);
             let valid2;
-            valid2 = R.find(R.propEq('opened', false), Field.allPositions(result.field));
-            Field.allPositions(result.field).map(p => p.opened ? openedFirst++ : openedFirst);
+            valid2 = R.find(R.propEq('opened', false), Field.allPositions(result.field.positions));
+            Field.allPositions(result.field.positions).map(p => p.opened ? openedFirst++ : openedFirst);
 
             const result2: IBattle = battle.clickPosition(result, valid2);
-            Field.allPositions(result2.field).map(p => p.opened ? openedSecond++ : openedSecond);
+            Field.allPositions(result2.field.positions).map(p => p.opened ? openedSecond++ : openedSecond);
 
             openedFirst.should.be.not.equal(openedSecond);
         });

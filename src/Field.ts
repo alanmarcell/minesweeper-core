@@ -1,13 +1,16 @@
 import R from 'ramda';
 import { IField, IFieldConfig } from './IField';
-import { IPosition, IPositionArgs } from './IPosition';
+import { IPosition, IPositionArgs, IPositions } from './IPosition';
+import { allPositions } from './Position';
 
 /**
  * Checks if field has position.
  */
-const positionIsValid = R.curry((field: IField, p: IPositionArgs) => {
-    return p && p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
-});
+const positionIsValid = R.curry((positions: IPositions, p: IPositionArgs) =>
+    p && p.x >= 0
+    && p.x < positions.length
+    && p.y >= 0
+    && p.y < positions[0].length);
 
 /**
  * Receives a pos and return his near positions
@@ -24,20 +27,21 @@ const nearPositions = (pos: IPositionArgs): IPositionArgs[] => {
     }))));
 };
 
-const validNearPos = R.curry((field: IField, pos: IPositionArgs): IPositionArgs[] =>
-    R.filter(positionIsValid(field), nearPositions(pos)));
+const validNearPos = R.curry((position: IPositions, pos: IPositionArgs): IPositionArgs[] =>
+    R.filter(positionIsValid(position), nearPositions(pos)));
 
-const openPosition = (pos: IPosition): IPosition => {
-    const openedPos = pos;
+const openPosition = (oldPosition: IPosition): IPosition => {
+    const openedPos = updatePos(oldPosition);
     if (openedPos.marked !== 0) return openedPos;
     openedPos.opened = true;
     return openedPos;
 };
 
-const markPosition = (pos: IPosition): IPosition => {
-    const markedPos = updatePos(pos);
-    if (markedPos.marked === 2) markedPos.marked = 0;
-    else markedPos.marked++;
+const markPosition = (oldPosition: IPosition): IPosition => {
+    const markedPos = updatePos(oldPosition);
+    markedPos.marked === 2
+        ? markedPos.marked = 0
+        : markedPos.marked++;
     return markedPos;
 };
 
@@ -46,25 +50,24 @@ const isValidConfig = (fieldConfig: IFieldConfig): boolean => {
     return totalPositions > fieldConfig.bombs ? true : false;
 };
 
-const allPositions = (field: IField): IPosition[] => field.reduce((a, b) => a.concat(b));
-
-const countNearBombs = (field: IField): IPosition[][] => {
+const countNearBombs = (field: IField): IField => {
     const countedField: IField = field;
-    allPositions(field).map(pos => {
-        if (pos.isBomb) validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+    allPositions(field.positions).map(pos => {
+        if (pos.isBomb)
+            validNearPos(field.positions, pos).map(p => countedField.positions[p.x][p.y].nearBombs++);
     }); // TODO immutable
     return countedField;
 };
 
 // TODO use ptz-math and help with any math method you need
-const getRandomPos = (field: IField, fieldConfig: IFieldConfig) => {
+const getRandomPos = (positions: IPositions, fieldConfig: IFieldConfig) => {
     const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
     const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
-    return field[width][height];
+    return positions[width][height];
 };
 
 const bombPos = (field: IField, config: IFieldConfig): IField => {
-    const pos = getRandomPos(field, config);
+    const pos = getRandomPos(field.positions, config);
     if (pos.isBomb) {
         return bombPos(field, config);
     }
@@ -84,7 +87,10 @@ const getEmptyField = (fieldConfig: IFieldConfig) => {
     const widthRange = R.range(0, fieldConfig.width);
     const heightRange = R.range(0, fieldConfig.height);
 
-    return widthRange.map(i => heightRange.map(j => newPos(i, j)));
+    return {
+        positions: widthRange.map(i => heightRange.map(j => newPos(i, j))),
+        fieldConfig
+    };
 };
 
 /**

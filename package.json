@@ -52,6 +52,7 @@
   "dependencies": {
     "ptz-core-domain": "^2.1.2",
     "ptz-log": "^1.2.2",
-    "ramda": "^0.24.1"
+    "ramda": "^0.24.1",
+    "redux": "^3.7.2"
   }
 }

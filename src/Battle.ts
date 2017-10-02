@@ -12,23 +12,26 @@ const startBattle = (fieldConfig: IFieldConfig): IBattle => {
 const openNearPositions = (battle: IBattle, pos: IPositionArgs) =>
     R.last(nearPositions(pos).map(p => clickPosition(battle, p, true)));
 
-const openAllField = (field: IField) => field.map(col => col.map(pos => openPosition(pos)));
+const openAllField = (field: IField) => field.positions.map(col => col.map(pos => openPosition(pos)));
 
 const winBattle = (battle) => endBattle(battle, true);
 
 const loseBattle = (battle) => endBattle(battle, false);
 
-function endBattle(battle: IBattle, win: boolean): IBattle {
+function endBattle(oldBattle: IBattle, win: boolean): IBattle {
+    const battle = R.clone(oldBattle);
     battle.isOver = true;
     battle.winner = win;
-    battle.field = openAllField(battle.field);
+    battle.field.positions = openAllField(battle.field);
     return battle;
 }
 
-const clickPosition = (battle: IBattle, position: IPositionArgs, autoOpen?: boolean): IBattle => {
+const clickPosition = (oldBattle: IBattle, position: IPositionArgs, autoOpen?: boolean): IBattle => {
+    const battle = R.clone(oldBattle);
     battle.message = null;
-    if (!positionIsValid(battle.field, position)) return battle;
-    const pos: IPosition = battle.field[position.x][position.y];
+
+    if (!positionIsValid(battle.field.positions, position)) return battle;
+    const pos: IPosition = battle.field.positions[position.x][position.y];
 
     if (pos.marked !== 0) return battle;
 
@@ -47,8 +50,8 @@ const clickPosition = (battle: IBattle, position: IPositionArgs, autoOpen?: bool
 const checkOpenedPositions = (battle: IBattle): IBattle => {
     let openedPos = 0;
     let numBombs = 0;
-    const totalPos = battle.field.length * battle.field[0].length;
-    battle.field.map(col => col.map(pos => {
+    const totalPos = battle.field.positions.length * battle.field.positions[0].length;
+    battle.field.positions.map(col => col.map(pos => {
         if (pos.opened) openedPos++;
         if (pos.isBomb) numBombs++;
     }));
@@ -61,7 +64,7 @@ const checkOpenedPositions = (battle: IBattle): IBattle => {
 
 const checkMarkedPositions = (battle: IBattle): IBattle => {
     let correctMarked = 0, incorrectMarked = 0, numBombs = 0;
-    battle.field.map(col => col.map(pos => {
+    battle.field.positions.map(col => col.map(pos => {
         if (pos.isBomb) numBombs++;
 
         if (pos.marked && pos.isBomb) correctMarked++;
@@ -77,15 +80,15 @@ const checkMarkedPositions = (battle: IBattle): IBattle => {
 
 const battleMarkPosition = (battle: IBattle, position: IPositionArgs): IBattle => {
 
-    if (!positionIsValid(battle.field, position)) return battle;
+    if (!positionIsValid(battle.field.positions, position)) return battle;
 
-    const pos: IPosition = battle.field[position.x][position.y];
+    const pos: IPosition = battle.field.positions[position.x][position.y];
     if (pos.opened) return battle;
     // if (pos.isBomb) {
 
     //     return endBattle(battle);
     // }
-    battle.field[position.x][position.y] = markPosition(pos);
+    battle.field.positions[position.x][position.y] = markPosition(pos);
 
     return checkMarkedPositions(battle);
 };
@@ -93,5 +96,7 @@ const battleMarkPosition = (battle: IBattle, position: IPositionArgs): IBattle =
 export {
     startBattle,
     clickPosition,
-    battleMarkPosition
+    battleMarkPosition,
+    endBattle,
+    openNearPositions
 };

@@ -9,14 +9,14 @@ var _ramda = require('ramda');
 
 var _ramda2 = _interopRequireDefault(_ramda);
 
+var _Position = require('./Position');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Checks if field has position.
  */
-const positionIsValid = _ramda2.default.curry((field, p) => {
-    return p && p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
-});
+const positionIsValid = _ramda2.default.curry((positions, p) => p && p.x >= 0 && p.x < positions.length && p.y >= 0 && p.y < positions[0].length);
 /**
  * Receives a pos and return his near positions
  * args {IPositionArgs}
@@ -31,38 +31,37 @@ const nearPositions = pos => {
         return { x: pos.x + i, y: pos.y + j };
     }))));
 };
-const validNearPos = _ramda2.default.curry((field, pos) => _ramda2.default.filter(positionIsValid(field), nearPositions(pos)));
-const openPosition = pos => {
-    const openedPos = pos;
+const validNearPos = _ramda2.default.curry((position, pos) => _ramda2.default.filter(positionIsValid(position), nearPositions(pos)));
+const openPosition = oldPosition => {
+    const openedPos = updatePos(oldPosition);
     if (openedPos.marked !== 0) return openedPos;
     openedPos.opened = true;
     return openedPos;
 };
-const markPosition = pos => {
-    const markedPos = updatePos(pos);
-    if (markedPos.marked === 2) markedPos.marked = 0;else markedPos.marked++;
+const markPosition = oldPosition => {
+    const markedPos = updatePos(oldPosition);
+    markedPos.marked === 2 ? markedPos.marked = 0 : markedPos.marked++;
     return markedPos;
 };
 const isValidConfig = fieldConfig => {
     const totalPositions = fieldConfig.width * fieldConfig.height;
     return totalPositions > fieldConfig.bombs ? true : false;
 };
-const allPositions = field => field.reduce((a, b) => a.concat(b));
 const countNearBombs = field => {
     const countedField = field;
-    allPositions(field).map(pos => {
-        if (pos.isBomb) validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+    (0, _Position.allPositions)(field.positions).map(pos => {
+        if (pos.isBomb) validNearPos(field.positions, pos).map(p => countedField.positions[p.x][p.y].nearBombs++);
     }); // TODO immutable
     return countedField;
 };
 // TODO use ptz-math and help with any math method you need
-const getRandomPos = (field, fieldConfig) => {
+const getRandomPos = (positions, fieldConfig) => {
     const width = Math.floor((fieldConfig.width - 1) * Math.random() + 1);
     const height = Math.floor((fieldConfig.height - 1) * Math.random() + 1);
-    return field[width][height];
+    return positions[width][height];
 };
 const bombPos = (field, config) => {
-    const pos = getRandomPos(field, config);
+    const pos = getRandomPos(field.positions, config);
     if (pos.isBomb) {
         return bombPos(field, config);
     }
@@ -79,7 +78,10 @@ const getBombedField = (field, config) => {
 const getEmptyField = fieldConfig => {
     const widthRange = _ramda2.default.range(0, fieldConfig.width);
     const heightRange = _ramda2.default.range(0, fieldConfig.height);
-    return widthRange.map(i => heightRange.map(j => newPos(i, j)));
+    return {
+        positions: widthRange.map(i => heightRange.map(j => newPos(i, j))),
+        fieldConfig
+    };
 };
 /**
  * Get a new position
@@ -97,7 +99,7 @@ const getInitialField = fieldConfig => {
     const bombedField = getBombedField(emptyField, fieldConfig);
     return countNearBombs(bombedField);
 };
-exports.allPositions = allPositions;
+exports.allPositions = _Position.allPositions;
 exports.getInitialField = getInitialField;
 exports.getEmptyField = getEmptyField;
 exports.getBombedField = getBombedField;

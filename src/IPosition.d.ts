@@ -1,5 +1,7 @@
 type isBomb = boolean;
 
+export type IPositions = IPosition[][];
+
 export interface IPosition extends IPositionArgs {
     isBomb: boolean;
     nearBombs: number;

@@ -1,6 +1,9 @@
-import { IPosition } from './IPosition';
+import { IPositions } from './IPosition';
 
-export type IField = IPosition[][];
+export interface IField {
+    positions: IPositions;
+    fieldConfig: IFieldConfig;
+}
 
 export interface IFieldSize {
     width: number;
