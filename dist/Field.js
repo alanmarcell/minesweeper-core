@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updatePos = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.newPos = exports.nearPositions = exports.markPosition = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
+exports.updatePos = exports.validNearPos = exports.positionIsValid = exports.openPosition = exports.getRandomPos = exports.newPos = exports.nearPositions = exports.markPosition = exports.countNearBombs = exports.getBombedField = exports.getEmptyField = exports.getInitialField = exports.allPositions = undefined;
 
 var _ramda = require('ramda');
 
@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Checks if field has position.
  */
 const positionIsValid = _ramda2.default.curry((field, p) => {
-    return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
+    return p && p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 /**
  * Receives a pos and return his near positions
@@ -27,13 +27,13 @@ const nearPositions = pos => {
     /**
      * Get a 3x3 position array with the position and all the near positions then remove the position itseft
      */
-    return _ramda2.default.flatten(_ramda2.default.remove(4, 1, range.map(i => range.map(j => {
+    return _ramda2.default.remove(4, 1, _ramda2.default.flatten(range.map(i => range.map(j => {
         return { x: pos.x + i, y: pos.y + j };
     }))));
 };
 const validNearPos = _ramda2.default.curry((field, pos) => _ramda2.default.filter(positionIsValid(field), nearPositions(pos)));
 const openPosition = pos => {
-    const openedPos = pos;
+    const openedPos = _ramda2.default.clone(pos);
     if (openedPos.marked !== 0) return openedPos;
     openedPos.opened = true;
     return openedPos;
@@ -49,9 +49,9 @@ const isValidConfig = fieldConfig => {
 };
 const allPositions = field => field.reduce((a, b) => a.concat(b));
 const countNearBombs = field => {
-    const countedField = field;
+    const countedField = _ramda2.default.clone(field);
     allPositions(field).map(pos => {
-        if (pos.isBomb) validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+        if (pos.isBomb) validNearPos(countedField, pos).map(p => countedField[p.x][p.y].nearBombs++);
     }); // TODO immutable
     return countedField;
 };
@@ -105,6 +105,7 @@ exports.countNearBombs = countNearBombs;
 exports.markPosition = markPosition;
 exports.nearPositions = nearPositions;
 exports.newPos = newPos;
+exports.getRandomPos = getRandomPos;
 exports.openPosition = openPosition;
 exports.positionIsValid = positionIsValid;
 exports.validNearPos = validNearPos;

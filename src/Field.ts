@@ -6,7 +6,7 @@ import { IPosition, IPositionArgs } from './IPosition';
  * Checks if field has position.
  */
 const positionIsValid = R.curry((field: IField, p: IPositionArgs) => {
-    return p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
+    return p && p.x >= 0 && p.x < field.length && p.y >= 0 && p.y < field[0].length;
 });
 
 /**
@@ -19,7 +19,7 @@ const nearPositions = (pos: IPositionArgs): IPositionArgs[] => {
     /**
      * Get a 3x3 position array with the position and all the near positions then remove the position itseft
      */
-    return R.flatten(R.remove(4, 1, range.map(i => range.map(j => {
+    return R.remove(4, 1, R.flatten(range.map(i => range.map(j => {
         return { x: pos.x + i, y: pos.y + j };
     }))));
 };
@@ -28,7 +28,7 @@ const validNearPos = R.curry((field: IField, pos: IPositionArgs): IPositionArgs[
     R.filter(positionIsValid(field), nearPositions(pos)));
 
 const openPosition = (pos: IPosition): IPosition => {
-    const openedPos = pos;
+    const openedPos = R.clone(pos);
     if (openedPos.marked !== 0) return openedPos;
     openedPos.opened = true;
     return openedPos;
@@ -49,9 +49,9 @@ const isValidConfig = (fieldConfig: IFieldConfig): boolean => {
 const allPositions = (field: IField): IPosition[] => field.reduce((a, b) => a.concat(b));
 
 const countNearBombs = (field: IField): IPosition[][] => {
-    const countedField: IField = field;
+    const countedField: IField = R.clone(field);
     allPositions(field).map(pos => {
-        if (pos.isBomb) validNearPos(field, pos).map(p => countedField[p.x][p.y].nearBombs++);
+        if (pos.isBomb) validNearPos(countedField, pos).map(p => countedField[p.x][p.y].nearBombs++);
     }); // TODO immutable
     return countedField;
 };
@@ -100,7 +100,8 @@ const newPos = (x: number, y: number) => {
 const updatePos = (pos: IPosition) => R.clone(pos);
 
 const getInitialField = (fieldConfig: IFieldConfig) => {
-    if (!isValidConfig(fieldConfig)) throw new Error('Invalid field configuration');
+    if (!isValidConfig(fieldConfig))
+        throw new Error('Invalid field configuration');
 
     const emptyField: IField = getEmptyField(fieldConfig);
 
@@ -118,6 +119,7 @@ export {
     markPosition,
     nearPositions,
     newPos,
+    getRandomPos,
     openPosition,
     positionIsValid,
     validNearPos,

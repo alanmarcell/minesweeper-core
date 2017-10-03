@@ -26,16 +26,17 @@ describe('Battle', () => {
             const newBattle = battle.startBattle(fieldConfig);
             let opened = 0;
             const invalidPos = { x: -1, y: -1 };
-            const result = battle.clickPosition(newBattle, invalidPos);
-            Field.allPositions(result.field).map(p => p.opened ? opened++ : opened);
+            const resultBattle = battle.clickPosition(newBattle, invalidPos);
+            Field.allPositions(resultBattle.field).map(p => p.opened ? opened++ : opened);
             opened.should.be.equal(0);
         });
         it('shold open if position is valid ', () => {
             const newBattle = battle.startBattle(fieldConfig);
             let opened = 0;
             const valid = { x: 1, y: 1 };
-            const result = battle.clickPosition(newBattle, valid);
-            Field.allPositions(result.field).map(p => p.opened ? opened++ : opened);
+            const resultBattle = battle.clickPosition(newBattle, valid);
+            Field.allPositions(resultBattle.field).map(p => p.opened ? opened++ : opened);
+            // resultBattle.should.not.be.equal(newBattle);
             opened.should.not.be.equal(0);
         });
         it('shold not open if position is open', () => {
@@ -102,6 +103,27 @@ describe('Battle', () => {
             marked.field[valid.x][valid.y].opened.should.be.equal(true);
             marked.field[valid.x][valid.y].marked.should.be.equal(0);
             ok(marked);
+        });
+    });
+    describe('openNearPositions', () => {
+        let fieldConfig;
+        before('Set field config', () => {
+            console.log('Set field config');
+            fieldConfig = {
+                bombs: 3, width: 3, height: 3
+            };
+        });
+        it('should openNearPositions', () => {
+            const newBattle = battle.startBattle(fieldConfig);
+            const valid = { x: 2, y: 2 };
+            const result = battle.openNearPositions(newBattle, valid);
+            const nearPositions = Field.validNearPos(result.field, valid);
+            let opened = 0;
+            nearPositions.map(p => {
+                if (result.field[p.x][p.y].opened)
+                    opened++;
+            });
+            opened.should.be.equal(nearPositions.length);
         });
     });
 });

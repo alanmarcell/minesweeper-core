@@ -1,8 +1,9 @@
 import R from 'ramda';
-import { getInitialField, markPosition, nearPositions, openPosition, positionIsValid } from './Field';
+import { getInitialField, markPosition, openPosition, positionIsValid, validNearPos } from './Field';
 import { IBattle } from './IBattle';
 import { IField, IFieldConfig } from './IField';
 import { IPosition, IPositionArgs } from './IPosition';
+// import { log } from './index';
 
 const startBattle = (fieldConfig: IFieldConfig): IBattle => {
     const field: IField = getInitialField(fieldConfig);
@@ -10,7 +11,7 @@ const startBattle = (fieldConfig: IFieldConfig): IBattle => {
 };
 
 const openNearPositions = (battle: IBattle, pos: IPositionArgs) =>
-    R.last(nearPositions(pos).map(p => clickPosition(battle, p, true)));
+    R.last(validNearPos(battle.field, pos).map(p => clickPosition(battle, p, true)));
 
 const openAllField = (field: IField) => field.map(col => col.map(pos => openPosition(pos)));
 
@@ -18,28 +19,51 @@ const winBattle = (battle) => endBattle(battle, true);
 
 const loseBattle = (battle) => endBattle(battle, false);
 
-function endBattle(battle: IBattle, win: boolean): IBattle {
+function endBattle(oldBattle: IBattle, win: boolean): IBattle {
+    const battle = R.clone(oldBattle);
     battle.isOver = true;
     battle.winner = win;
     battle.field = openAllField(battle.field);
     return battle;
 }
 
-const clickPosition = (battle: IBattle, position: IPositionArgs, autoOpen?: boolean): IBattle => {
-    battle.message = null;
+const battleMarkPosition = (oldBattle: IBattle, position: IPositionArgs): IBattle => {
+    const battle = R.clone(oldBattle);
     if (!positionIsValid(battle.field, position)) return battle;
+
+    const pos: IPosition = battle.field[position.x][position.y];
+    if (pos.opened) return battle;
+    // if (pos.isBomb) {
+
+    //     return endBattle(battle);
+    // }
+    battle.field[position.x][position.y] = markPosition(pos);
+
+    return checkMarkedPositions(battle);
+};
+
+const clickPosition = (oldBattle: IBattle, position: IPositionArgs, autoOpen?: boolean): IBattle => {
+    const battle = R.clone(oldBattle);
+    battle.message = null;
+    // log(!positionIsValid(battle.field, position));
+    if (!positionIsValid(battle.field, position)) {
+        console.log('POSITION IS INVALID');
+        return battle;
+    }
     const pos: IPosition = battle.field[position.x][position.y];
 
     if (pos.marked !== 0) return battle;
 
     if (pos.opened) {
-        if (!autoOpen) battle.message = 'Position Already open, try again';
+        if (!autoOpen) battle.message = 'Position Al ready open, try again';
         return battle;
     }
     if (pos.isBomb) return loseBattle(battle);
 
     const openedPos = openPosition(pos);
-    if (openedPos.nearBombs === 0) return openNearPositions(battle, openedPos);
+    battle.field[position.x][position.y] = openedPos;
+    if (openedPos.nearBombs && openedPos.nearBombs === 0)
+        return openNearPositions(battle, openedPos);
 
     return checkOpenedPositions(battle);
 };
@@ -75,23 +99,9 @@ const checkMarkedPositions = (battle: IBattle): IBattle => {
     return battle;
 };
 
-const battleMarkPosition = (battle: IBattle, position: IPositionArgs): IBattle => {
-
-    if (!positionIsValid(battle.field, position)) return battle;
-
-    const pos: IPosition = battle.field[position.x][position.y];
-    if (pos.opened) return battle;
-    // if (pos.isBomb) {
-
-    //     return endBattle(battle);
-    // }
-    battle.field[position.x][position.y] = markPosition(pos);
-
-    return checkMarkedPositions(battle);
-};
-
 export {
     startBattle,
     clickPosition,
-    battleMarkPosition
+    battleMarkPosition,
+    openNearPositions
 };

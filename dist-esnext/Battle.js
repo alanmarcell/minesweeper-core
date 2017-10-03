@@ -1,35 +1,55 @@
 import R from 'ramda';
-import { getInitialField, markPosition, nearPositions, openPosition, positionIsValid } from './Field';
+import { getInitialField, markPosition, openPosition, positionIsValid, validNearPos } from './Field';
+// import { log } from './index';
 const startBattle = (fieldConfig) => {
     const field = getInitialField(fieldConfig);
     return { field, isOver: false, marks: 0, bombsMarked: 0, winner: null };
 };
-const openNearPositions = (battle, pos) => R.last(nearPositions(pos).map(p => clickPosition(battle, p, true)));
+const openNearPositions = (battle, pos) => R.last(validNearPos(battle.field, pos).map(p => clickPosition(battle, p, true)));
 const openAllField = (field) => field.map(col => col.map(pos => openPosition(pos)));
 const winBattle = (battle) => endBattle(battle, true);
 const loseBattle = (battle) => endBattle(battle, false);
-function endBattle(battle, win) {
+function endBattle(oldBattle, win) {
+    const battle = R.clone(oldBattle);
     battle.isOver = true;
     battle.winner = win;
     battle.field = openAllField(battle.field);
     return battle;
 }
-const clickPosition = (battle, position, autoOpen) => {
-    battle.message = null;
+const battleMarkPosition = (oldBattle, position) => {
+    const battle = R.clone(oldBattle);
     if (!positionIsValid(battle.field, position))
         return battle;
+    const pos = battle.field[position.x][position.y];
+    if (pos.opened)
+        return battle;
+    // if (pos.isBomb) {
+    //     return endBattle(battle);
+    // }
+    battle.field[position.x][position.y] = markPosition(pos);
+    return checkMarkedPositions(battle);
+};
+const clickPosition = (oldBattle, position, autoOpen) => {
+    const battle = R.clone(oldBattle);
+    battle.message = null;
+    // log(!positionIsValid(battle.field, position));
+    if (!positionIsValid(battle.field, position)) {
+        console.log('POSITION IS INVALID');
+        return battle;
+    }
     const pos = battle.field[position.x][position.y];
     if (pos.marked !== 0)
         return battle;
     if (pos.opened) {
         if (!autoOpen)
-            battle.message = 'Position Already open, try again';
+            battle.message = 'Position Al ready open, try again';
         return battle;
     }
     if (pos.isBomb)
         return loseBattle(battle);
     const openedPos = openPosition(pos);
-    if (openedPos.nearBombs === 0)
+    battle.field[position.x][position.y] = openedPos;
+    if (openedPos.nearBombs && openedPos.nearBombs === 0)
         return openNearPositions(battle, openedPos);
     return checkOpenedPositions(battle);
 };
@@ -63,17 +83,5 @@ const checkMarkedPositions = (battle) => {
     }
     return battle;
 };
-const battleMarkPosition = (battle, position) => {
-    if (!positionIsValid(battle.field, position))
-        return battle;
-    const pos = battle.field[position.x][position.y];
-    if (pos.opened)
-        return battle;
-    // if (pos.isBomb) {
-    //     return endBattle(battle);
-    // }
-    battle.field[position.x][position.y] = markPosition(pos);
-    return checkMarkedPositions(battle);
-};
-export { startBattle, clickPosition, battleMarkPosition };
+export { startBattle, clickPosition, battleMarkPosition, openNearPositions };
 //# sourceMappingURL=Battle.js.map

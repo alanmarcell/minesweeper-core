@@ -38,6 +38,10 @@
   version "2.0.29"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-2.0.29.tgz#5002e14f75e2d71e564281df0431c8c1b4a2a36a"
 
+"@types/mkdirp@^0.3.29":
+  version "0.3.29"
+  resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-0.3.29.tgz#7f2ad7ec55f914482fc9b1ec4bb1ae6028d46066"
+
 "@types/mocha@^2.2.43":
   version "2.2.43"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.43.tgz#03c54589c43ad048cbcbfd63999b55d0424eec27"
@@ -2595,6 +2599,15 @@ ptz-fp@^1.0.1, ptz-fp@^1.2.0:
     "@types/ramda" "0.0.10"
     ptz-log "^1.0.0"
     ramda "^0.24.0"
+
+ptz-log-file@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/ptz-log-file/-/ptz-log-file-1.0.5.tgz#d7d093bfba08c27d380e523aa10d35e6e827e9c6"
+  dependencies:
+    "@types/mkdirp" "^0.3.29"
+    mkdirp "^0.5.1"
+    moment "^2.18.1"
+    ptz-log "^1.0.0"
 
 ptz-log@^1.0.0, ptz-log@^1.1.0:
   version "1.1.0"

@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "tslint ./src/**/*.ts ./src/**/*.test.ts ./src/**/*.d.ts",
     "js": "rimraf dist-esnext && tsc && npm run babel",
-    "tsc:w":"rimraf dist-esnext && tsc -w --skipLibCheck",
+    "tsc:w": "rimraf dist-esnext && tsc -w --skipLibCheck",
     "babel": "rimraf dist && babel dist-esnext -d dist --source-maps",
     "babel:w": " rimraf dist && babel -w dist-esnext -d dist --source-maps",
     "pretest": "npm-run-all --parallel js lint",
@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "ptz-core-domain": "^2.1.2",
-    "ptz-log": "^1.1.0",
+    "ptz-log-file": "^1.0.5",
     "ramda": "^0.24.1"
   }
 }

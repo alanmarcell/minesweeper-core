@@ -2,7 +2,7 @@
 
 var _chai = require('chai');
 
-var a = _interopRequireWildcard(_chai);
+var c = _interopRequireWildcard(_chai);
 
 var _ramda = require('ramda');
 
@@ -16,8 +16,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-const should = a.should();
-a.default.should();
+const should = c.should();
+c.default.should();
+const shouldBeImuttable = (a, b) => a.should.not.be.equal(b);
 before('set test args', () => {
     const validFieldConfig = { bombs: 9, width: 9, height: 9 };
     const invalidFieldConfig = { bombs: 27, width: 5, height: 5 };
@@ -40,7 +41,10 @@ before('set test args', () => {
         });
         describe('getBombedField', () => {
             const bombedField = Field.getBombedField(emptyField, validFieldConfig);
-            bombedField.should.be.an('array');
+            it('should be immutable', () => {
+                bombedField.should.be.an('array');
+                shouldBeImuttable(bombedField, emptyField);
+            });
             it('should match bombs in the field with fieldConfig bombs', () => {
                 let bombs = 0;
                 Field.allPositions(bombedField).map(p => p.isBomb ? bombs++ : bombs);
@@ -56,9 +60,12 @@ before('set test args', () => {
             });
         });
         describe('countNearBombs', () => {
+            const countedField = Field.countNearBombs(initialField);
+            const flattenField = _ramda2.default.flatten(countedField);
+            it('should be immutable', () => {
+                shouldBeImuttable(countedField, initialField);
+            });
             it('should increase near bombs', () => {
-                const countedField = Field.countNearBombs(initialField);
-                const flattenField = _ramda2.default.flatten(countedField);
                 const isBombeb = pos => pos.isBomb;
                 const bombedPos = _ramda2.default.find(isBombeb, flattenField);
                 const nearBombebPos = pos => Field.validNearPos(initialField, pos);
@@ -67,6 +74,11 @@ before('set test args', () => {
             });
         });
         describe('openPosition', () => {
+            it('should be immutable', () => {
+                const closedPosition = Field.newPos(1, 1);
+                const clickedPosition = Field.openPosition(closedPosition);
+                shouldBeImuttable(closedPosition, clickedPosition);
+            });
             it('should return a opened position if not marked', () => {
                 const closedPosition = Field.newPos(1, 1);
                 const clickedPosition = Field.openPosition(closedPosition);
@@ -75,8 +87,8 @@ before('set test args', () => {
             });
             it('should return a not opened position if marked', () => {
                 const closedPosition = Field.newPos(1, 1);
-                const marked1Position = Field.markPosition(closedPosition);
-                const clickedPosition = Field.markPosition(marked1Position);
+                const markedPosition = Field.markPosition(closedPosition);
+                const clickedPosition = Field.openPosition(markedPosition);
                 // tslint:disable-next-line:no-unused-expression
                 clickedPosition.opened.should.be.not.true;
             });
@@ -84,6 +96,7 @@ before('set test args', () => {
         describe('nearPositions', () => {
             it('should return near positions', () => {
                 const nearPos = Field.nearPositions(validPos);
+                nearPos.length.should.be.equal(8);
                 nearPos.should.be.an('array');
             });
         });
@@ -109,8 +122,11 @@ before('set test args', () => {
             });
         });
         describe('markPosition', () => {
-            const closedPosition = Field.newPos(-1, 1);
+            const closedPosition = Field.newPos(1, 1);
             const marked1Position = Field.markPosition(closedPosition);
+            it('should be immutable', () => {
+                shouldBeImuttable(closedPosition, marked1Position);
+            });
             it('should return a marked as 1 position', () => {
                 marked1Position.marked.should.be.equal(1);
             });
@@ -121,6 +137,13 @@ before('set test args', () => {
             const marked3Position = Field.markPosition(marked2Position);
             it('should return a unmarked position', () => {
                 marked3Position.marked.should.be.equal(0);
+            });
+        });
+        describe('getRandomPos', () => {
+            it('should return a valid position', () => {
+                const randomPos = Field.getRandomPos(initialField, validFieldConfig);
+                // tslint:disable-next-line:no-unused-expression
+                Field.positionIsValid(initialField, randomPos).should.be.true;
             });
         });
     });
